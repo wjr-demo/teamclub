@@ -8,6 +8,7 @@ import plugins.freemarker.Freemarker.view
  */
 object HtmlController extends Controller {
   def index = Action {
+    //aaaa
     Ok(view("teamclub/htmltest.ftl"))
   }
 }
