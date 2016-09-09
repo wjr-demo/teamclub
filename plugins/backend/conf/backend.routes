@@ -1,0 +1,4 @@
+GET		/login			controllers.backend.IndexAction.login
+POST	/loginInvoke	controllers.backend.IndexAction.loginInvoke
+
+GET     /index          controllers.backend.IndexAction.index

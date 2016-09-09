@@ -1,0 +1,19 @@
+#page-wrapper table input[type=button] {
+    margin-right: 10px;
+}
+#page-wrapper table tr td {
+    vertical-align: middle;
+}
+
+.modal[isbindmv] .modal-header {
+    cursor: move;
+}
+
+.modal-dialog {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+}

@@ -1,0 +1,7 @@
+GET			/testHtml			controllers.teamclub.HtmlController.index
+
+POST		/verManager/list		controllers.teamclub.VersionManagerAction.list
+
+POST		/verManager/modify		controllers.teamclub.VersionManagerAction.modify
+
+POST		/verManager/testForm	controllers.teamclub.VersionManagerAction.testForm
