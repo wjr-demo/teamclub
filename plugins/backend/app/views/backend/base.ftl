@@ -12,6 +12,7 @@
 
 		<!-- Bootstrap Core CSS -->
 		<link href="/assets/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        <link href="/assets/bower_components/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
 
 		<!-- MetisMenu CSS -->
 		<link href="/assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">

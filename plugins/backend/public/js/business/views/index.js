@@ -1,12 +1,59 @@
 /**
- * Created by Administrator on 2016/7/3.
+ * Created by wjr on 16-9-8.
  */
-define(['backbone', 'component', 'js/business/views/dash'], function(Backbone, Component, Dash){
-    var view = Backbone.View.extend({
+define(['backbone', 'component'], function(Backbone, Component){
+    var prefix = '/teamclub';
+    var ModifyView = Backbone.View.extend({
+        initialize: function(d, parent) {
+            this.d = this.d || {};
+            this.parent = parent;
+            this.tabs = parent.tabs;
+            this.component = new Component(this);
+            this.render();
+        },
+        render: function(){
+            this.form = this.component.geneForm(this.formParams(), this.d);
+            this.component
+                .appendPanel('HAHA', this.form.form())
+                .build();
+        },
+        submit: function() {
+            var self = this;
+            var json = this.form.serializeJson();
+            $.postJSON( prefix + '/verManager/modify', json, function(d){
+                if(d['status'] == 0 ){
+                    self.parent.reload();
+                    self.tabs.closeCurTab();
+                    SC.Alert('', '保存成功');
+                }else {
+                    SC.Alert('', d['message'])
+                }
+
+                return false;
+            });
+        },
+        formParams : function() {
+            var self = this;
+            var formParams = {
+                fields:[{
+                    title: 'Git版本',
+                    name: 'commitVersion'
+                },{
+                    title: '保存路径',
+                    name: 'filePath'
+                }],
+                btns: [{
+                    title: '提交',
+                    class: 'btn-primary',
+                    callback: $.proxy(self.submit, self)
+                }]
+            };
+            return formParams;
+        },
+    });
+
+    var index = Backbone.View.extend({
         initialize: function(){
-            this.tabs = undefined;
-            this.table = undefined;
-            this.tabs = undefined;
             this.compoment = new Component(this);
             this.render();
         },
@@ -20,33 +67,15 @@ define(['backbone', 'component', 'js/business/views/dash'], function(Backbone, C
             this.compoment
                 .appendNative(this.tabs.full())
                 .build();
-
         },
         reload: function(){
             this.table.reload();
         },
-        modify: function(d, e){
-            var title = d == undefined ? '新增' : '修改';
-            this.tabs.addTab({
-                title: title,
-                content: new Dash(d, this).$el.children()
-            })
-        },
-        delete: function(d, e){
-            var self = this;
-            $.postJSON('/backend/bank/delete', d, function(d){
-                self.reload();
-                return false;
-            })
-        },
-        searParams : function() {
+        searParams: function() {
             var searParams = {
                 filters:[{
-                    title: '名称',
-                    name: 'name'
-                },{
-                    title: '地址',
-                    name: 'address'
+                    title: 'Git版本',
+                    name: 'commitVersion'
                 }],
                 btns: [{
                     title: '查询',
@@ -59,25 +88,26 @@ define(['backbone', 'component', 'js/business/views/dash'], function(Backbone, C
             };
             return searParams;
         },
+        modify: function(d, e){
+            var title = d == undefined ? '新增' : '修改';
+            this.tabs.addTab({
+                title: title,
+                content: new ModifyView(d, this).$el.children()
+            })
+        },
         tableParams : function(){
             var self = this;
             var tableParams = {
                 "ajax": {
-                    url: '/backend/bank/list',
+                    url: prefix + '/verManager/list',
                     type: 'POST'
                 },
                 columns: [{
-                    title: "编号",
-                    data: "no"
+                    title: "GIT版本",
+                    data: "commitVersion"
                 },{
-                    title: "名称",
-                    data: "name"
-                },{
-                    title: "地区码",
-                    data: "areacode",
-                    render: function(d, type, full){
-                        return "<span style='color:red;'>" + d + "</span>";
-                    }
+                    title: "保存路径",
+                    data: "filePath"
                 },{
                     title: '操作',
                     data: null,
@@ -95,5 +125,5 @@ define(['backbone', 'component', 'js/business/views/dash'], function(Backbone, C
             return tableParams;
         }
     });
-    return view;
+    return index;
 });

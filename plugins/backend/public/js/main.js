@@ -13,7 +13,9 @@
             'text': 'bower_components/text/text',
             'underscore': 'bower_components/underscore/underscore',
             'common': 'js/libs/common',
-            'component': 'js/libs/component'
+            'component': 'js/libs/component',
+            'fileinput': 'bower_components/bootstrap-fileinput/js/fileinput',
+            'zh':'bower_components/bootstrap-fileinput/js/locales/zh'
         },
         shim: {
             'bootstrap': ['jquery'],
@@ -21,11 +23,12 @@
             'sbAdmin': ['jquery', 'metisMenu'],
             'backbone': ['jquery', 'underscore'],
             'dataTables.bootstrap': ['datatables'],
-            'dataTables.responsive': ['datatables']
+            'dataTables.responsive': ['datatables'],
+            'zh': ['fileinput']
         }
     });
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap', 'metisMenu', 'js/business/app',
-        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component'], function(a, b, c, d, e, f, App) {
+        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh'], function(a, b, c, d, e, f, App) {
         if(window.location.href.indexOf("login") !== -1) {
             return false;
         }

@@ -1,8 +1,17 @@
 /**
  * Created by wjr on 16-7-6.
  */
-define(['jquery','underscore','common'], function($, _) {
+define(['jquery','underscore','common', 'zh'], function($, _) {
     var Form = Backbone.Base.extend({
+        formEle: _.template('<div class="form-group">\
+            <div class="input-group">\
+                <span class="input-group-addon"></span>\
+                <input class="form-control">\
+            </div>\
+        </div>'),
+        btnEle: _.template('<div class="form-group>\
+            <input type="button" />\
+        </div>'),
         initialize: function (params, initD) {
             var self = this;
             this.initD = initD;
@@ -25,12 +34,12 @@ define(['jquery','underscore','common'], function($, _) {
         },
         geneBtn: function(totalRow, i, title, id, cls, param){
             if(totalRow == 1){
-                clazz = 'col-md-2 col-md-offset-5'
+                clazz = 'col-md-2 col-md-offset-3'
             }else{
                 if(i % 2 == 0 ) {
-                    var clazz = 'col-md-2 col-md-offset-4'
+                    var clazz = 'col-md-2 col-md-offset-2'
                 }else {
-                    var clazz = 'col-md-2'
+                    var clazz = 'col-md-2 col-md-offset-3'
                 }
             }
             var $formgroup = $('<div class="form-group ' + clazz + '">');
@@ -49,21 +58,15 @@ define(['jquery','underscore','common'], function($, _) {
         },
         geneSingle: function(i, title, type, name){
             if(i % 2 == 0 ) {
-                var clazz = 'col-md-6'
+                var clazz = 'col-md-5'
             }else {
-                var clazz = 'col-md-6'
+                var clazz = 'col-md-5 col-md-offset-2'
             }
-            var $formgroup = $('<div class="form-group ' + clazz + '">');
-            var $formG = $('<div class="input-group"></div>');
-            $formgroup.append($formG);
-            var $inputgroupaddon = $('<span class="input-group-addon"></span>');
-            $inputgroupaddon.text(title);
-            var $input = $('<input class="form-control">');
-            $input.attr('type', type);
-            $input.attr('name', name);
-            $formG.append($inputgroupaddon);
-            $formG.append($input);
-            return $formgroup;
+            var $formEle = $(this.formEle());
+            $formEle.addClass(clazz);
+            $formEle.find('.input-group-addon').text(title);
+            $formEle.find('.form-control').attr('type', type).attr('name', name)
+            return $formEle;
         },
         form: function(){
             var $tmp = $('<div class="row col-md-12">');
