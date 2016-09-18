@@ -18,19 +18,23 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
             this.$row = $('<form role="form">');
             var i = 0 ;
             var btnIndex = 0 ;
+            var $tmp = $('<div class="row">')
             _.each(params.fields, function(param){
                 var title = param.title || '无题';
                 var type = param.type || 'text';
                 var name = param.name ;
-                self.$row.append((self.geneSingle(i++, title, type, name)));
+                $tmp.append((self.geneSingle(i++, title, type, name)));
             });
+            self.$row.append($tmp)
             var total = params.btns.length;
+            $tmp = $('<div class="row">')
             _.each(params.btns, function(param){
                 var title = param.title || '无题';
                 var id = param.name ;
                 var cls = param.class;
-                self.$row.append(self.geneBtn(total, btnIndex++, title, id, cls, param));
+                $tmp.append(self.geneBtn(total, btnIndex++, title, id, cls, param));
             });
+            self.$row.append($tmp)
         },
         geneBtn: function(totalRow, i, title, id, cls, param){
             if(totalRow == 1){
@@ -66,7 +70,20 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
             $formEle.addClass(clazz);
             $formEle.find('.input-group-addon').text(title);
             $formEle.find('.form-control').attr('type', type).attr('name', name)
+            if(type == 'file') {
+                this.initFileInput($formEle.find('.form-control'), "/backend/upload")
+            }
             return $formEle;
+        },
+        initFileInput: function ($el, uploadUrl) {
+            $el.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                showUpload: true, //是否显示上传按钮
+                showCaption: true,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            });
         },
         form: function(){
             var $tmp = $('<div class="row col-md-12">');

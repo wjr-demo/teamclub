@@ -30,7 +30,7 @@ public class ImageMergeHelper {
             BufferedImage combined = new BufferedImage(w, qrcode.getHeight() + overlay.getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics g = combined.getGraphics();
             g.drawImage(overlay, 0, 0, null);
-            g.drawImage(qrcode, 0, overlay.getHeight(), null);
+            g.drawImage(qrcode, 0, overlay.getHeight() - 50, null);
             g.setColor(Color.BLACK);
             g.setFont(new Font("宋体", Font.BOLD, 30));
             String txt = "你好啊啊";
@@ -59,7 +59,6 @@ public class ImageMergeHelper {
     public static void main(String[] args){
         InputStream containerStream = ImageMergeHelper.class.getClassLoader().getResourceAsStream("images/container.jpg");
         InputStream qrcodeStream = ImageMergeHelper.class.getClassLoader().getResourceAsStream("images/qrcode.jpg");
-        System.out.println(ImageMergeHelper.class.getResource(".").getFile());
         File newFile = new File("newimage.jpg");
         mergeImage(containerStream, qrcodeStream, newFile, 0, 0);
     }

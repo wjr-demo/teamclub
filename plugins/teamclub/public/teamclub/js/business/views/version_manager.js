@@ -41,6 +41,10 @@ define(['backbone', 'component'], function(Backbone, Component){
                 },{
                     title: '保存路径',
                     name: 'filePath'
+                },{
+                    title: '文件上传',
+                    name: 'uploadFile',
+                    type:'file'
                 }],
                 btns: [{
                     title: '提交',
