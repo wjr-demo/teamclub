@@ -1,0 +1,1 @@
+libraryDependencies += "org.apache.thrift" % "libthrift" % "0.9.2"
