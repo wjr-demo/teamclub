@@ -1,5 +1,0 @@
-GET		/index			@controllers.minishop.MiniAction.index
-
-GET		/mocktencent	@controllers.minishop.MiniAction.mocktencent
-
-POST	/mocktencent	@controllers.minishop.MiniAction.mocktencent
