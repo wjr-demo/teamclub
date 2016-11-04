@@ -27,32 +27,15 @@ lazy val models = project.in(file("plugins/models"))
   .dependsOn(base)
   .aggregate(base)
 
-lazy val tester = project.in(file("plugins/tester"))
-  .settings(playJavaSettings ++ commonSetting: _*)
-  .dependsOn(base, models)
-  .aggregate(base, models)
-
 lazy val backend = project.in(file("plugins/backend"))
   .settings(playJavaSettings ++ commonSetting: _*)
   .dependsOn(base, models)
   .aggregate(base, models)
 
-lazy val netease = project.in(file("plugins/netease"))
+lazy val tester = project.in(file("plugins/tester"))
   .settings(playJavaSettings ++ commonSetting: _*)
-  .dependsOn(base)
-  .aggregate(base)
-
-lazy val minishop = project.in(file("plugins/minishop"))
-  .settings(playJavaSettings ++ commonSetting: _*)
-  .dependsOn(backend)
-  .aggregate(backend)
-
-lazy val teamclub = project.in(file("plugins/teamclub"))
-  .settings(playJavaSettings ++ commonSetting: _*)
-  .settings()
-  .dependsOn(backend)
-  .aggregate(backend)
-
+  .dependsOn(base, models)
+  .aggregate(base, models)
 
 
 play.Project.playScalaSettings

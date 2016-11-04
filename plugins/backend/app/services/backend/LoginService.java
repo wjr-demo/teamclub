@@ -1,16 +1,12 @@
-package services.teamclub;
+package services.backend;
 
 import com.avaje.ebean.Ebean;
-import com.fasterxml.jackson.databind.JsonNode;
-import commons.Eithers;
 import commons.ErrorCode;
 import commons.ErrorCodes;
+import models.AppSubjectUser;
 import models.teamclub.AppUser;
 import org.springframework.stereotype.Component;
-import play.api.libs.json.JsValue;
 import play.libs.F;
-import play.libs.Json;
-import services.backend.ILogin;
 
 import java.util.Map;
 
@@ -27,7 +23,7 @@ public class LoginService implements ILogin{
     @Override
     public F.Either<String, ErrorCode> loginInvoke(Map<String, String> req) {
         String username = req.get("username");
-        AppUser unique = Ebean.getServer("jira").find(AppUser.class).where().eq("userKey", username).findUnique();
+        AppSubjectUser appSubjectUser = Ebean.find(AppSubjectUser.class).where().eq("username", username).findUnique();
         if(unique != null) {
             return F.Either.Left(username);
         }else {
