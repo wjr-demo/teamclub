@@ -21,7 +21,7 @@ object DynamicRoutes extends Router.Routes{
   private var _prefix = "/"
 
   val routMap = new mutable.HashMap[String, PartialFunction[RequestHeader, Handler]] with mutable.SynchronizedMap[String, PartialFunction[RequestHeader, Handler]]
-  val prefixHandlerMap = new mutable.HashMap[String, (RequestHeader) => Unit] with mutable.SynchronizedMap[String, (RequestHeader) => Unit]
+  val prefixHandlerMap = new mutable.HashMap[String, (RequestHeader) => Option[Handler]] with mutable.SynchronizedMap[String, (RequestHeader) => Option[Handler]]
 
   var documentation: Seq[(String, String, String)] = scala.collection.mutable.ArrayBuffer()
 
@@ -43,25 +43,35 @@ object DynamicRoutes extends Router.Routes{
 
   lazy val regex = """/(.*?)/.+""".r
 
+  val routes: PartialFunction[RequestHeader, Handler] = defaultRoutes
+
   override def handlerFor(request: RequestHeader): Option[Handler] = {
     request.uri match {
       case regex(rgx) => {
-        val handler = routMap.get(rgx).getOrElse(routes).lift(request)
-        handler match {
-          case Some(x) => {
-            prefixHandlerMap.get(rgx).map(v => v.apply(request))
+        prefixHandlerMap.get(rgx) match {
+          case Some(v) => {
+            val resp = v.apply(request)
+            resp match {
+              case Some(v) => resp
+              case None => {
+                val handler = routMap.get(rgx).getOrElse(routes).lift(request)
+                handler
+              }
+            }
+          }
+          case None => {
+            val handler = routMap.get(rgx).getOrElse(routes).lift(request)
             handler
           }
-          case _ => handler
         }
       }
       case _ => routes.lift(request)
     }
   }
 
-  var routes: PartialFunction[RequestHeader, Handler] = defaultRoutes
 
-  def appendRoutes(prefix: String, router:Router.Routes, prefixHandler: Option[(RequestHeader) => Unit]) = this.synchronized {
+
+  def appendRoutes(prefix: String, router:Router.Routes, prefixHandler: Option[(RequestHeader) => Option[Handler]]) = this.synchronized {
     router.setPrefix("/" + prefix)
     routMap += (prefix -> router.routes)
     prefixHandler.map(v => {

@@ -1,1 +1,2 @@
 1000:plugin.backend.BackendPlugin
+1001:plugin.backend.LoginPlugin

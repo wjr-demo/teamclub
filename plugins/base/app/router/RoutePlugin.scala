@@ -1,6 +1,6 @@
 package router
 
-import play.api.mvc.RequestHeader
+import play.api.mvc.{Handler, RequestHeader}
 import play.core.Router
 
 /**
@@ -8,7 +8,7 @@ import play.core.Router
  */
 trait RoutePlugin extends play.api.Plugin{
   val prefix: Option[String] = None
-  val prefixHandler: Option[(RequestHeader) => Unit] = None
+  val prefixHandler: Option[(RequestHeader) => Option[Handler]] = None
   def companion[T](name : String)(implicit man: Manifest[T]) : T = {
     prefix match {
       case Some(prf) => {

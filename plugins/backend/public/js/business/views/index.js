@@ -2,7 +2,7 @@
  * Created by wjr on 16-9-8.
  */
 define(['backbone', 'component'], function(Backbone, Component){
-    var prefix = '/teamclub';
+    var prefix = '/backend';
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent) {
             this.d = this.d || {};

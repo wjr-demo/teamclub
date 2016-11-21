@@ -29,9 +29,6 @@
     });
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap', 'metisMenu', 'js/business/app',
         'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh'], function(a, b, c, d, e, f, App) {
-        if(window.location.href.indexOf("login") !== -1) {
-            return false;
-        }
         App.init();
         $('#side-menu li').on('click',function(e){
             $(e.currentTarget).siblings().children('a').removeClass('active');

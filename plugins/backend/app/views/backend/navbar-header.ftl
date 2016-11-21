@@ -16,7 +16,7 @@
 			<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 		</a>
 		<ul class="dropdown-menu dropdown-user">
-			<li><a href="/backend/login"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
+			<li><a href="/login/login"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
 		</ul>
 		<!-- /.dropdown-user -->
 	</li>

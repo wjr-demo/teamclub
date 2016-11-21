@@ -13,8 +13,5 @@ import scalatest.xxx.*;
 public class TTest {
 
     public static void main(String[] args) {
-        BB bb = new BB();
-        bb.show();
-        System.out.println(BB.xxx());
     }
 }
