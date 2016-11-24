@@ -2,9 +2,9 @@ package controllers.backend
 
 import commons.Eithers
 import controllers.backend.IndexAction._
+import play.api.data.Form
+import play.api.data.Forms._
 import play.api.mvc.Action
-import play.api.mvc.BodyParsers.parse
-import play.libs.Scala
 import plugins.freemarker.Freemarker._
 import plugins.spring.Spring
 import services.backend.ILogin
@@ -20,10 +20,15 @@ object LoginAction {
     Ok(view(html)).withNewSession
   }
 
-  def loginInvoke = Action(parse.json){ request =>
-    val json = request.body
-    val username = (json \ "username").as[String]
-    val password = (json \ "password").as[String]
+  val loginForm = Form(
+    tuple(
+      "username" -> text,
+      "password" -> text
+    )
+  )
+
+  def loginInvoke = Action{ implicit request =>
+    val (username, password) = loginForm.bindFromRequest.get
     val resp = loginService.loginInvoke(username, password)
     if(resp.left.isDefined){
       Ok(Eithers.success).withSession("connected" -> username)

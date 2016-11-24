@@ -1,9 +1,8 @@
 package models
 
-import play.db.ebean.Model
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.{Entity, Id}
 
+import play.db.ebean.Model
 import play.db.ebean.Model.Finder
 
 import scala.beans.BeanProperty
@@ -14,8 +13,9 @@ import scala.beans.BeanProperty
 @Entity
 class AppSubjectUser extends Model {
 
+  @Id
   @BeanProperty
-  var id: Integer = _
+  var id: Int = _
 
   @BeanProperty
   var username: String = _

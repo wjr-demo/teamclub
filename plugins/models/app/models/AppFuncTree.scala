@@ -3,6 +3,7 @@ package models
 import javax.persistence.{Entity, Id}
 
 import play.db.ebean.Model
+import play.db.ebean.Model.Finder
 
 import scala.beans.BeanProperty
 
@@ -14,7 +15,7 @@ class AppFuncTree extends Model {
 
   @Id
   @BeanProperty
-  var id: Integer = _
+  var id: Int = _
 
   @BeanProperty
   var name: String = _
@@ -28,5 +29,7 @@ class AppFuncTree extends Model {
   @BeanProperty
   var parent: Integer = _
 
-
+}
+object AppFuncTree {
+  val finder = new Finder(classOf[Int], classOf[AppFuncTree])
 }

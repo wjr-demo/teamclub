@@ -108,7 +108,10 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
         this.initialize.apply(this, arguments);
     };
     _.extend(Backbone.Base.prototype, {}, {
-        initialize: function(){}
+        initialize: function(){},
+        $: function(selector) {
+            return this.$el.find(selector);
+        },
     });
     Backbone.Base.extend = Backbone.View.extend;
 

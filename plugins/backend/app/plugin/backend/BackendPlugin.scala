@@ -10,14 +10,7 @@ import router.RoutePlugin
  */
 class BackendPlugin(app: play.api.Application) extends RoutePlugin {
   override val prefix = Some("backend")
-  override val prefixHandler: Option[RequestHeader => Option[Handler]] = Some((request:RequestHeader) => {
-    Logger.info(request.method)
-    request.session.get("connected").map { username =>
-      None
-    } getOrElse {
-      None
-    }
-  })
+  override val prefixHandler: Option[RequestHeader => Option[Handler]] = None
 }
 
 

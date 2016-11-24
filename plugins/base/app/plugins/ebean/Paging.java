@@ -1,6 +1,7 @@
 package plugins.ebean;
 
 import com.avaje.ebean.Page;
+import com.fasterxml.jackson.databind.JsonNode;
 import play.libs.Json;
 
 import java.util.Collections;
@@ -43,7 +44,14 @@ public class Paging<A>{
         return currentPage;
     }
 
-    public String toJson(){
+    public JsonNode toJson(){
+        Map<String, Object> rest = new HashMap<String, Object>(4);
+        rest.put("recordsTotal",totalRows);
+        rest.put("recordsFiltered", totalRows);
+        rest.put("data", data);
+        return Json.toJson(rest);
+    }
+    public String toJsonStringfy(){
         Map<String, Object> rest = new HashMap<String, Object>(4);
         rest.put("recordsTotal",totalRows);
         rest.put("recordsFiltered", totalRows);

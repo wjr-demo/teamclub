@@ -8,6 +8,7 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
                 <span class="input-group-addon"></span>\
                 <input class="form-control">\
             </div>\
+            <div class="help-block with-errors"></div>\
         </div>'),
         btnEle: _.template('<div class="form-group>\
             <input type="button" />\
@@ -15,7 +16,7 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
         initialize: function (params, initD) {
             var self = this;
             this.initD = initD;
-            this.$row = $('<form role="form">');
+            this.$row = $('<form role="form" data-toggle="validator">');
             var i = 0 ;
             var btnIndex = 0 ;
             var $tmp = $('<div class="row">')
@@ -23,9 +24,10 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
                 var title = param.title || '无题';
                 var type = param.type || 'text';
                 var name = param.name ;
-                $tmp.append((self.geneSingle(i++, title, type, name)));
+                $tmp.append((self.geneSingle(i++, title, type, name, param)));
             });
             self.$row.append($tmp)
+            self.$row.append($('<div class="row" style="height: 20px;">'))
             var total = params.btns.length;
             $tmp = $('<div class="row">')
             _.each(params.btns, function(param){
@@ -34,20 +36,24 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
                 var cls = param.class;
                 $tmp.append(self.geneBtn(total, btnIndex++, title, id, cls, param));
             });
-            self.$row.append($tmp)
+            self.$row.append($tmp);
         },
         geneBtn: function(totalRow, i, title, id, cls, param){
             if(totalRow == 1){
-                clazz = 'col-md-2 col-md-offset-3'
+                clazz = 'col-md-2 col-md-offset-5'
             }else{
                 if(i % 2 == 0 ) {
-                    var clazz = 'col-md-2 col-md-offset-2'
+                    var clazz = 'col-md-2 col-md-offset-1'
                 }else {
                     var clazz = 'col-md-2 col-md-offset-3'
                 }
             }
             var $formgroup = $('<div class="form-group ' + clazz + '">');
-            var $btn = $("<input type='button' style='width: 100%'>");
+            if(param['type'] == 'submit') {
+                var $btn = $("<input type='submit' style='width: 80px;'>");
+            }else {
+                var $btn = $("<input type='button' style='width: 80px;'>");
+            }
             if(id !== undefined) $btn.attr("id", id);
             $btn.val(title);
             $btn.addClass('btn');
@@ -56,20 +62,35 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
             }else {
                 $btn.addClass('btn-default');
             }
-            $btn.on('click', param.callback);
+            if(param['type'] == 'submit') {
+                this.$row.validator().on('submit', function(e) {
+                    if (e.isDefaultPrevented()) {
+                        return false;
+                    }else {
+                        param.callback(e)
+                        return false;
+                    }
+                });
+            }else {
+                $btn.on('click', param.callback);
+            }
             $formgroup.append($btn);
             return $formgroup;
         },
-        geneSingle: function(i, title, type, name){
+        geneSingle: function(i, title, type, name, param){
             if(i % 2 == 0 ) {
-                var clazz = 'col-md-5'
+                var clazz = 'col-md-4 col-md-offset-1'
             }else {
-                var clazz = 'col-md-5 col-md-offset-2'
+                var clazz = 'col-md-4 col-md-offset-1'
             }
             var $formEle = $(this.formEle());
             $formEle.addClass(clazz);
             $formEle.find('.input-group-addon').text(title);
             $formEle.find('.form-control').attr('type', type).attr('name', name)
+            if(param['required'] == true){
+                $formEle.find('.form-control').attr('required', true);
+                $formEle.find('.form-control').attr('data-error',"请输入")
+            }
             if(type == 'file') {
                 this.initFileInput($formEle.find('.form-control'), "/backend/upload")
             }
@@ -86,13 +107,15 @@ define(['jquery','underscore','common', 'zh'], function($, _) {
             });
         },
         form: function(){
-            var $tmp = $('<div class="row col-md-12">');
+            var $tmp = $('<div class="row col-md-12"></div>');
             $tmp.append(this.$row);
             this.$row.serializeJson(this.initD);
+            this.$row.validator()
             return $tmp;
         },
         serializeJson: function(d){
             var json = this.$row.serializeJson();
+            delete json['undefined'];
             return _.extend(this.initD, json);
         }
     });

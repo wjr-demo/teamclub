@@ -15,7 +15,8 @@
             'common': 'js/libs/common',
             'component': 'js/libs/component',
             'fileinput': 'bower_components/bootstrap-fileinput/js/fileinput',
-            'zh':'bower_components/bootstrap-fileinput/js/locales/zh'
+            'zh':'bower_components/bootstrap-fileinput/js/locales/zh',
+            'validator': 'bower_components/bootstrap-validator/js/validator'
         },
         shim: {
             'bootstrap': ['jquery'],
@@ -28,7 +29,7 @@
         }
     });
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap', 'metisMenu', 'js/business/app',
-        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh'], function(a, b, c, d, e, f, App) {
+        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator'], function(a, b, c, d, e, f, App) {
         App.init();
         $('#side-menu li').on('click',function(e){
             $(e.currentTarget).siblings().children('a').removeClass('active');

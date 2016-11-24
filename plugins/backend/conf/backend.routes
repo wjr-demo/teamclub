@@ -1,1 +1,7 @@
 GET     /index          controllers.backend.IndexAction.index
+
+#应用管理
+
+POST	/appmanager/list	controllers.backend.AppManagerAction.list
+POST	/appmanager/add		controllers.backend.AppManagerAction.add
+POST	/appmanager/del		controllers.backend.AppManagerAction.del

@@ -45,7 +45,7 @@ define(['jquery','underscore','common'], function($, _) {
             return $form;
         },
         geneSingle: function(param){
-            var $e = $('<div class="col-md-3 form-group"></div>');
+            var $e = $('<div class="col-sm-4 form-group"></div>');
             var $group = $('<div class="input-group"></div>');
             $group.append($('<span class="input-group-addon">'+ param['title'] +'</span>'));
             if(param['type'] == undefined || param['type'] == 'text'){
