@@ -9,8 +9,9 @@ define([
     'js/libs/component/table',
     'js/libs/component/modal',
     'js/libs/component/sc',
+    'js/libs/popup-enums',
     'datatables'
-], function($, _, Form, Tab, Table, Modal, SC){
+], function($, _, Form, Tab, Table, Modal, SC, PopEnums){
     var base = Backbone.Base.extend({
         initialize: function(owner){
             this.tmpContent = $("<div></div>");
@@ -71,7 +72,8 @@ define([
             this.owner.$el.empty();
             this.owner.$el.append(this.tmpContent.children());
             this.tmpContent = $('<div>');
-        }
+        },
+        enumsPopUp:PopEnums
     });
     return base;
 });

@@ -40,9 +40,7 @@ define(['backbone', 'component', 'js/business/views/basic/treemanager'], functio
                     title: '应用编码',
                     name: 'appid',
                     type: 'popUp',
-                    viewOption: {
-                        'url': prefix + '/appmanager/list'
-                    },
+                    viewOption: self.component.enumsPopUp['APPMANAGER'],
                     required: true
                 },{
                     title: '应用Key',

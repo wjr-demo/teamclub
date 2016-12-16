@@ -2,7 +2,7 @@
     requirejs.config({
         baseUrl: '/assets',
         paths: {
-            'jquery': 'bower_components/jquery/dist/jquery.min',
+            'jquery': 'bower_components/jquery/dist/jquery',
             'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
             'metisMenu': 'bower_components/metisMenu/dist/metisMenu.min',
             'datatables': 'bower_components/datatables/media/js/jquery.dataTables',
@@ -35,9 +35,6 @@
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
         'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator'], function(a, b, c, d, e, f, App) {
         App.init(function(){
-            $('.sidebar li').on('click', function(e){
-                console.log(e);
-            });
             $('.nav-second-level li').on('click',function(e){
                 $('.nav-second-level li').children('a').removeClass('active');
                 $(e.currentTarget).children('a').addClass('active');

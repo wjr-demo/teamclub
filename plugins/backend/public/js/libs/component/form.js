@@ -33,7 +33,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="input-group">\
                     <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
                     <span class="popEdit input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>\
-                    <span class="input-group-addon"><i class="fa fa-remove"></i></span>\
+                    <span class="popDel input-group-addon"><i class="fa fa-remove"></i></span>\
                 </div>\
                 <div class="help-block with-errors"></div>\
             </div>\
@@ -150,7 +150,18 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 }
             }else if(param['type'] == 'popUp'){
                 var $formEle = $(this.popUpEle(param));
-                $formEle.find('.popEdit').on('click', popFunc)
+                var editCallback = function(v1, v2){
+                    $formEle.find('input').attr('val',v1)
+                    $formEle.find('input').val(v2)
+                }
+                var delCallback = function(d) {
+                    $formEle.find('input').attr('val', '')
+                    $formEle.find('input').val('')
+                }
+                var viewOption = param['viewOption'] || {}
+                _.extend(viewOption, {'editCallback': editCallback})
+                $formEle.find('.popEdit').on('click', viewOption ,popFunc)
+                $formEle.find('.popDel').on('click', delCallback)
             }else {
                 var $formEle = $(this.formEle(param));
             }
@@ -196,31 +207,23 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             }
         }
     });
-    var popFunc = function(formParams, tableParam, callback){
+    /***
+     * e.data //  url, columns , fields, val, text,
+     * @param e
+     */
+    var popFunc = function(e){
+        var data = e.data;
+        data['url'] = '/backend' + '/appmanager/list';
+        var editCallback = data['editCallback'];
         var tableParam = {
             "ajax": {
-                url: '/backend' + '/appmanager/list',
+                url: data['url'],  //'/backend' + '/appmanager/list',
                 type: 'POST'
             },
-            columns: [{
-                title: "应用编码",
-                data: "appid"
-            },{
-                title: '应用Key',
-                data: 'appkey'
-            },{
-                title: "应用名称",
-                data: "appname"
-            }]
+            columns: data['columns']
         }
         var formParams = {
-            fields:[{
-                title: '应用编码',
-                name: 'appid'
-            },{
-                title: '应用名称',
-                name: 'appname'
-            }],
+            fields: data['fields'],
             btns: [{
                 title: '查询',
                 class: 'btn-primary',
@@ -230,7 +233,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         var body = function(callbackParams) {
             var events = {};
             events['dblclick'] = function(d){
-                if(callback != undefined) callback(d);
+                var v1 = d[data['setField']];
+                var v2 = d[data['showField']];
+                if(editCallback != undefined) editCallback(v1, v2);
                 if( callbackParams['close'] != undefined){
                     callbackParams['close']();
                 }
