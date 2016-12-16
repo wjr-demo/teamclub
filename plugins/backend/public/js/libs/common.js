@@ -90,6 +90,8 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
             e = s;
             s = data;
             data = {};
+        }else {
+            delete data['undefined']
         }
         $.ajax({
             url:url,

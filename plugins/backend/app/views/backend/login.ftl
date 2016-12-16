@@ -60,7 +60,7 @@
 					</div>
 				</div>
 			</div>
-            <div class="modal-dialog" id="tip" style="display: none;">
+            <div class="modal-dialog modal-sm" id="tip" style="display: none;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">提示</h4>

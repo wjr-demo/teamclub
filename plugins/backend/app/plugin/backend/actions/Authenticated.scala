@@ -18,7 +18,7 @@ object Authenticated extends ActionBuilder[AuthenticatedRequest] {
     request.session.get("connected").map { username =>
       block(new AuthenticatedRequest(XSession(username, "backend"), request))
     } getOrElse {
-      Future.successful(Redirect("/backend/login"))
+      Future.successful(Redirect("/login/login"))
     }
   }
 }

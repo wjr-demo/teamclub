@@ -16,11 +16,15 @@
             'component': 'js/libs/component',
             'fileinput': 'bower_components/bootstrap-fileinput/js/fileinput',
             'zh':'bower_components/bootstrap-fileinput/js/locales/zh',
-            'validator': 'bower_components/bootstrap-validator/js/validator'
+            'validator': 'bower_components/bootstrap-validator/js/validator',
+            'jquery/ui': 'bower_components/jquery-ui/jquery-ui',
+            'jquery-ui-touch': 'bower_components/jquery.ui.touch-punch/dist/jquery.ui.touch-punch'
+
         },
         shim: {
             'bootstrap': ['jquery'],
             'metisMenu': ['jquery'],
+            'jquery-ui-touch': ['jquery', 'jquery/ui'],
             'sbAdmin': ['jquery', 'metisMenu'],
             'backbone': ['jquery', 'underscore'],
             'dataTables.bootstrap': ['datatables'],
@@ -28,28 +32,24 @@
             'zh': ['fileinput']
         }
     });
-    require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap', 'metisMenu', 'js/business/app',
+    require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
         'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator'], function(a, b, c, d, e, f, App) {
-        App.init();
-        $('#side-menu li').on('click',function(e){
-            $(e.currentTarget).siblings().children('a').removeClass('active');
-            $(e.currentTarget).children('a').addClass('active');
-        });
-        var assigned = false ;
-        if(window.location.href.split('#').length > 1) {
-            var r = window.location.href.split('#')[1];
-            $('#side-menu li a').removeClass('active');
-            _.each($('#side-menu li a'), function(single){
-                var $single = $(single);
-                if(!assigned && $single.attr('href').indexOf(r) != -1){
-                    $single.addClass('active');
-                    assigned = true;
+        App.init(function(){
+            $('.sidebar li').on('click', function(e){
+                console.log(e);
+            });
+            $('.nav-second-level li').on('click',function(e){
+                $('.nav-second-level li').children('a').removeClass('active');
+                $(e.currentTarget).children('a').addClass('active');
+            });
+            var assigned = false ;
+            if(!assigned) {
+                var lia = $($('#leftbar li a')[0]);
+                var href = lia['href']
+                if(href != undefined) {
+                    window.location.href= window.location.href + href;
                 }
-            })
-        }
-        if(!assigned) {
-            var lia = $($('#side-menu li a')[0]);
-            window.location.href= window.location.href + lia.attr('href');
-        }
+            }
+        });
     });
 })();

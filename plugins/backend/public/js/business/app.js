@@ -3,12 +3,37 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
         currentView: null,
         router: null,
         lruCache: new $.LRUCache(),
-        init: function(){
+        init: function(callback){
+            this.callback = callback;
             console.log('app init');
+            this.render();
         },
         showView: function(view){
             this.currentView = view;
             $("#page-wrapper").html(this.currentView.$el.children());
+        },
+        geneTree: function(array, $menu){
+            var s = this;
+            _.each(array, function(single) {
+                var $ele = $('<li><a href="#'+ single['module'] +'">'+ single['name'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
+                if(single['subTrees'].length > 0) {
+                    $ele.find('span').show();
+                    var $ul = $('<ul class="nav nav-second-level collapse"></ul>');
+                    $ele.append($ul);
+                    s.geneTree(single['subTrees'], $ul)
+                }
+                $menu.append($ele);
+            });
+        },
+        render: function(){
+            var self = this;
+            $.postJSON('/backend/treemanager/list', {}, function(d){
+                var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px;"></ul>')
+                self.geneTree(d, $menu)
+                $menu.metisMenu();
+                $('#leftbar').append($menu)
+                self.callback();
+            });
         },
         view404: Backbone.View.extend({
             initialize: function(err){
@@ -29,7 +54,7 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
                 })
             }
         },
-        loadHmtlByJs: function(url) {
+        loadHtmlByJs: function(url) {
             var self = this;
             self.modifyMenu();
             var urlArr = url.split('#');
@@ -54,7 +79,7 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
     app.router = new Router();
     app.router.on('route:defaultRoute', function(actions){
         if(actions !== undefined && actions !== null){
-            app.loadHmtlByJs(actions);
+            app.loadHtmlByJs(actions);
         }
     });
     Backbone.history.start();

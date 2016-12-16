@@ -15,11 +15,13 @@ define([
       }
     */
     SC.OpenWin = function(params){
+        params = params || {} ;
         $('body').append((new Modal({
-            'type': params.type,
+            'type': params.type ,
             'title': params.title || '提示',
-            'body': params.content,
-            'footer': params.footer
+            'body': params.body,
+            'footer': params.footer,
+            'style': {'width': '800px'}
         }).$el))
     };
     SC.Alert = function(title, content, clazz) {
@@ -37,6 +39,22 @@ define([
             'clazz': clazz || 'modal-sm',
             'body': content,
             'confirmFunc': confirmFunc
+        }).$el))
+    };
+    /***
+     *
+     * @param title
+     * @param content
+     * @param btns  [{el: $el, click:  click},{}]
+     * @constructor
+     */
+    SC.MultiBtn = function(title, content, btns, clazz) {
+        $('body').append((new Modal({
+            'type': 'MultiBtn',
+            'title': title || '提示',
+            'clazz': clazz || 'modal-sm',
+            'body': content,
+            'btns': btns
         }).$el))
     };
     SC.judge = function(d,fun1, func2) {

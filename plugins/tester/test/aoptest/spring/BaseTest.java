@@ -1,16 +1,12 @@
 package aoptest.spring;
 
-import aoptest.GreetingImpl;
-import aoptest.com.byteslounge.service.ExampleService;
-import aoptest.com.byteslounge.service.TestAction;
+import aoptest.Print;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import play.mvc.Result;
 import play.test.FakeApplication;
 import play.test.Helpers;
 import plugins.spring.Spring;
-import services.IcashService;
 
 /**
  * Created by zhangmeng on 16-6-27.
@@ -24,10 +20,8 @@ public class BaseTest {
     }
     @Test
     public void testAspect(){
-//        ExampleService beanOfType = Spring.getBeanOfType(ExampleService.class);
-//        beanOfType.showHello();
-        IcashService bean = (IcashService) Spring.getBean("cashsyncservice.common");
-        bean.show();
+        Print print = Spring.getBeanOfType(Print.class);
+        print.print();
     }
 
     @Test

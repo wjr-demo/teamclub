@@ -4,7 +4,8 @@ import java.util.Date
 
 import commons.Eithers
 import forms.backend.Forms._
-import play.api.mvc.{Action, Controller}
+import forms.backend.FormMappers._
+import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import services.backend.AppManagerService
 

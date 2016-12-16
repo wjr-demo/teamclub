@@ -7,4 +7,5 @@ import router.RoutePlugin
  */
 class TestPlugin(app: play.api.Application) extends RoutePlugin {
   override val prefix = Some("test")
+  override val prefixHandler = None
 }

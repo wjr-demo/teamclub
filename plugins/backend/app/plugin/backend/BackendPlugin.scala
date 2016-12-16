@@ -2,7 +2,7 @@ package plugin.backend
 
 import play.api.Logger
 import play.api.mvc.Results._
-import play.api.mvc.{Action, Handler, RequestHeader}
+import play.api.mvc._
 import router.RoutePlugin
 
 /**
@@ -10,7 +10,11 @@ import router.RoutePlugin
  */
 class BackendPlugin(app: play.api.Application) extends RoutePlugin {
   override val prefix = Some("backend")
-  override val prefixHandler: Option[RequestHeader => Option[Handler]] = None
+  override val prefixHandler: Option[RequestHeader => Option[Handler]] = Some( {
+    rh: RequestHeader =>
+      None
+    }
+  )
 }
 
 

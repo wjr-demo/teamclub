@@ -47,6 +47,10 @@ define([
             this.tmpContent.append($panel);
             return this;
         },
+        appendTab: function(params) {
+            this.tmpContent.append(new Tab(params).$full);
+            return this;
+        },
         geneTab: function(params) {
             return new Tab(params);
         },

@@ -17,3 +17,6 @@
     right: 0;
     z-index: 9999;
 }
+.hovered {
+    background-color: #eeeeee;
+}

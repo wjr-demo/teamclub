@@ -1,7 +1,7 @@
 /**
  * Created by wjr on 16-11-21.
  */
-define(['backbone', 'component'], function(Backbone, Component){
+define(['backbone', 'component', 'js/business/views/basic/treemanager'], function(Backbone, Component, TreeManagerView){
     var prefix = "/backend";
 
     var ModifyView = Backbone.View.extend({
@@ -39,6 +39,10 @@ define(['backbone', 'component'], function(Backbone, Component){
                 fields:[{
                     title: '应用编码',
                     name: 'appid',
+                    type: 'popUp',
+                    viewOption: {
+                        'url': prefix + '/appmanager/list'
+                    },
                     required: true
                 },{
                     title: '应用Key',
@@ -79,7 +83,7 @@ define(['backbone', 'component'], function(Backbone, Component){
         searParams: function() {
             var self = this ;
             var searParams = {
-                filters:[{
+                fields:[{
                     title: '应用编码',
                     name: 'appid'
                 },{
@@ -126,11 +130,13 @@ define(['backbone', 'component'], function(Backbone, Component){
                     title: '操作',
                     data: null,
                     render: function(){
+                        var btnManager =  '<input type="button" value="菜单配置" class="btn" name="treeManager"/>';
                         var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
                         var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
-                        return btnModify + btnDelete;
+                        return btnManager + btnModify + btnDelete;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
+                        $(td).find('input[name=treeManager]').on('click', $.proxy(self.treeManager, self, rowData));
                         $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
                         $(td).find('input[name=delete]').on('click', $.proxy(self.delete, self, rowData));
                     }
@@ -145,7 +151,7 @@ define(['backbone', 'component'], function(Backbone, Component){
             var title = d == undefined ? '新增' : '修改';
             this.tabs.addTab({
                 title: title,
-                content: new ModifyView(d, this).$el.children()
+                content: new ModifyView(d, this).$el
             })
         },
         delete: function(d){
@@ -175,6 +181,13 @@ define(['backbone', 'component'], function(Backbone, Component){
                         SC.Alert('', '操作失败');
                     })
                 })
+            })
+        },
+        treeManager: function(d) {
+            var self = this;
+            this.tabs.addTab({
+                title: '菜单配置',
+                content: new TreeManagerView(d, this, $.proxy(self.reload, self)).$el
             })
         }
     });

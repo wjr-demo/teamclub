@@ -5,3 +5,11 @@ GET     /index          controllers.backend.IndexAction.index
 POST	/appmanager/list	controllers.backend.AppManagerAction.list
 POST	/appmanager/add		controllers.backend.AppManagerAction.add
 POST	/appmanager/del		controllers.backend.AppManagerAction.del
+
+
+#菜单管理
+POST	/treemanager/list	controllers.backend.TreeManagerAction.list
+POST	/treemanager/findById	controllers.backend.TreeManagerAction.findById
+POST	/treemanager/parentlist controllers.backend.TreeManagerAction.parentlist
+POST	/treemanager/add	controllers.backend.TreeManagerAction.add
+POST	/treemanager/del	controllers.backend.TreeManagerAction.del

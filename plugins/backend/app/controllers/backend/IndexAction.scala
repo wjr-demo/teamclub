@@ -12,6 +12,6 @@ import plugins.freemarker.Freemarker._
 object IndexAction extends Controller{
   def index = Authenticated { request =>
     val appFuncTrees = Ebean.find(classOf[AppFuncTree]).where().eq("appId", request.sess.appid).findList
-    Ok(view("backend/index.ftl",new Arg("title", "PLATFORM"), new Arg("trees", appFuncTrees)));
+    Ok(view("backend/index.ftl",new Arg("title", "平台"), new Arg("trees", appFuncTrees)));
   }
 }

@@ -1,11 +1,15 @@
 package models
 
-import javax.persistence.{Entity, Id}
+import javax.persistence.{Transient, Entity, Id}
 
+import com.avaje.ebean.annotation.Formula
+import com.fasterxml.jackson.databind.JsonNode
 import play.db.ebean.Model
 import play.db.ebean.Model.Finder
+import play.libs.{Scala, Json}
 
 import scala.beans.BeanProperty
+import scala.collection.mutable.ListBuffer
 
 /**
  * Created by zhangmeng on 16-9-6.
@@ -29,7 +33,25 @@ class AppFuncTree extends Model {
   @BeanProperty
   var parent: Integer = _
 
+  @Transient
+  @BeanProperty
+  var subTrees: java.util.List[AppFuncTree] = new java.util.ArrayList[AppFuncTree]
+
+
 }
 object AppFuncTree {
   val finder = new Finder(classOf[Int], classOf[AppFuncTree])
+
+  def toJson(trees: java.util.List[AppFuncTree]): JsonNode = {
+    val newTrees = Scala.toSeq(trees)
+    val parents = newTrees.filter(s => {s.getParent == null || s.getParent == 0})
+    for(p <- parents) {
+      for(single <- newTrees) {
+        if(single.getParent == p.getId){
+          p.subTrees.add(single)
+        }
+      }
+    }
+    Json.toJson(Scala.asJava(parents))
+  }
 }

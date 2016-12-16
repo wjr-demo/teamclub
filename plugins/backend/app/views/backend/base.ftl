@@ -21,6 +21,8 @@
 
         <link href="/assets/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
+        <link href="/assets/bower_components/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet">
+
 		<!-- Custom CSS -->
 		<link href="/assets/css/sb-admin-2.css" rel="stylesheet">
 

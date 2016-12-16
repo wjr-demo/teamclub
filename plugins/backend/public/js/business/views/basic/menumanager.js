@@ -1,9 +1,6 @@
 /**
  * Created by wjr on 16-11-21.
  */
-/**
- * Created by wjr on 16-9-8.
- */
 define(['backbone', 'component'], function(Backbone, Component, Dash){
     var demo = Backbone.View.extend({
         initialize: function(){

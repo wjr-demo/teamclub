@@ -16,8 +16,8 @@ object Global extends GlobalSettings {
   }
 
   override def onStop(app: Application): Unit = {
-    Logger.info("stop spring plugin.");
-    springPlugin.onStop();
+    Logger.info("stop spring plugin.")
+    if(springPlugin != null) springPlugin.onStop()
   }
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {

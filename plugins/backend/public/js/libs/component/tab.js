@@ -39,6 +39,9 @@ define(['jquery','underscore','common'], function($, _) {
             var panActive = params['active'] == true ? 'active in' : '';
             var $li = $('<li style="min-width: 100px;text-align: center;" class="' + active + '"><a href="#'+ id +'" data-toggle="tab">' + params['title'] + '</a></li>');
             $li.on('click', function(e){
+                if($(e.currentTarget).hasClass('active')){
+                    return false;
+                }
                 var idx = $(e.currentTarget).children('a').attr('href');
                 self.remove(idx);
             });
