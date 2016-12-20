@@ -11,7 +11,7 @@ case class TreeManagerForm(id: Option[Int],
                            parent: Option[Int],
                            module: Option[String],
                            currentPage: Int,
-                           pageSize: Int = 10) {
+                           pageSize: Int = 10) extends ToModel[AppFuncTree]{
   def toModel(): AppFuncTree = {
     val appFuncTree: AppFuncTree = id match {
       case Some(v) => AppFuncTree.finder.byId(v)

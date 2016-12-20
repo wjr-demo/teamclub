@@ -4,7 +4,7 @@
 define([
     'jquery',
     'underscore',
-    'js/libs/component/modal'],function($, _, Modal){
+    'js/libs/component/modal', 'common'],function($, _, Modal){
     var SC = window.SC = window.SC || {};
     /***
       params => {
@@ -21,9 +21,51 @@ define([
             'title': params.title || '提示',
             'body': params.body,
             'footer': params.footer,
-            'style': {'width': '800px'}
+            'style': {'width': '800px', 'top': '-135px'},
+            'needMove': true
         }).$el))
     };
+
+    /***
+     *
+     * params.url
+     * params.winform
+     * params.callback
+     *
+     * @param params
+     * @constructor
+     */
+    SC.OpenWinForm = function(params) {
+        params = params || {};
+        this.winform = params['winform'];
+        params['body'] = this.winform.form();
+        params['confirmFunc'] = function(d, remove) {
+            $.postJSON(params['url'], d, function(resp) {
+                SC.judge(resp, function(){
+                    if(params.callback !== undefined) {
+                        params.callback(resp);
+                    }
+                    remove();
+                    SC.Alert('', '操作成功');
+                }, function(){
+                    SC.Alert('', d['message'])
+                });
+
+            });
+        };
+        var modal = new Modal({
+            'type': 'OpenWinForm' ,
+            'title': params.title || '提示',
+            'body': params.body,
+            'footer': params.footer,
+            'confirmFunc': params.confirmFunc,
+            'initData': params.initData,
+            'style': {'width': '800px', 'top': '-135px'},
+            'needMove': true
+        });
+        $('body').append((modal.$el))
+    }
+
     SC.Alert = function(title, content, clazz) {
         $('body').append((new Modal({
             'type': 'Alert',
@@ -63,5 +105,28 @@ define([
         }else {
             func2()
         }
+    };
+    SC.Delete = function(url, d, callback){
+        SC.Confirm('提示','是否确认删除?', function() {
+            $.postJSON(url, d, function(respD) {
+                SC.judge(respD, function(){
+                    callback();
+                    SC.Alert('', '删除成功');
+                }, function() {
+                    SC.Alert('', respD['message'])
+                })
+            })
+        })
+    };
+    SC.Save = function(url, params, callback) {
+        $.postJSON(url, params, function(d){
+            SC.judge(d, function(){
+                callback(d);
+                SC.Alert('', '保存成功');
+            }, function(){
+                SC.Alert('', d['message'])
+            });
+            return false;
+        });
     }
 })

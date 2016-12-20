@@ -67,6 +67,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(this.factory == undefined) {
                 self.$row.append($('<div class="row" style="height: 20px;">'))
             }
+            params.btns = params.btns || [];
             var total = params.btns.length;
             $tmp = $('<div class="row">')
             _.each(params.btns, function(param){
@@ -213,7 +214,6 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
      */
     var popFunc = function(e){
         var data = e.data;
-        data['url'] = '/backend' + '/appmanager/list';
         var editCallback = data['editCallback'];
         var tableParam = {
             "ajax": {
@@ -221,7 +221,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 type: 'POST'
             },
             columns: data['columns']
-        }
+        };
         var formParams = {
             fields: data['fields'],
             btns: [{
@@ -239,14 +239,14 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 if( callbackParams['close'] != undefined){
                     callbackParams['close']();
                 }
-            }
+            };
             var $full = $('<div>');
             var $form = new Form(formParams, {}, {'formType': 'searchForm'})
             var $table = new PureTable(tableParam, events, $form);
             $full.append($form.form());
             $full.append($table.geneTable());
             return $full.children();
-        }
+        };
         SC.OpenWin({
             'body': body
         })

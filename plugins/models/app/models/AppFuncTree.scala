@@ -3,6 +3,7 @@ package models
 import javax.persistence.{Transient, Entity, Id}
 
 import com.avaje.ebean.annotation.Formula
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import play.db.ebean.Model
 import play.db.ebean.Model.Finder
@@ -19,9 +20,11 @@ class AppFuncTree extends Model {
 
   @Id
   @BeanProperty
+  @JsonProperty("id")
   var id: Int = _
 
   @BeanProperty
+  @JsonProperty("text")
   var name: String = _
 
   @BeanProperty
@@ -35,10 +38,18 @@ class AppFuncTree extends Model {
 
   @Transient
   @BeanProperty
+  @JsonProperty("nodes")
   var subTrees: java.util.List[AppFuncTree] = new java.util.ArrayList[AppFuncTree]
 
-
+  @Transient
+  @BeanProperty
+  var state: State = _
 }
+class State {
+  @BeanProperty
+  var checked: Boolean = _
+}
+
 object AppFuncTree {
   val finder = new Finder(classOf[Int], classOf[AppFuncTree])
 

@@ -10,6 +10,7 @@ define([
     'js/libs/component/modal',
     'js/libs/component/sc',
     'js/libs/popup-enums',
+    'js/libs/libs',
     'datatables'
 ], function($, _, Form, Tab, Table, Modal, SC, PopEnums){
     var base = Backbone.Base.extend({

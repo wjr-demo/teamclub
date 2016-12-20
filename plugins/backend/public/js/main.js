@@ -4,6 +4,7 @@
         paths: {
             'jquery': 'bower_components/jquery/dist/jquery',
             'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
+            'bootstrap-treeview': 'bower_components/bootstrap-treeview/dist/bootstrap-treeview.min',
             'metisMenu': 'bower_components/metisMenu/dist/metisMenu.min',
             'datatables': 'bower_components/datatables/media/js/jquery.dataTables',
             'datatables.bootstrap': 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap',
@@ -23,6 +24,8 @@
         },
         shim: {
             'bootstrap': ['jquery'],
+            'bootstrap-treeview': ['bootstrap'],
+            'validator': ['jquery'],
             'metisMenu': ['jquery'],
             'jquery-ui-touch': ['jquery', 'jquery/ui'],
             'sbAdmin': ['jquery', 'metisMenu'],
@@ -39,7 +42,15 @@
                 $('.nav-second-level li').children('a').removeClass('active');
                 $(e.currentTarget).children('a').addClass('active');
             });
+
             var assigned = false ;
+            var href = window.location.href.split('#')[1];
+            if(href != undefined) {
+                assigned = true;
+                href = "#" + href;
+                $('a[href="' + href + '"]').addClass('active');
+                $('a[href="' + href + '"]').closest('ul').addClass('in').attr('aria-expanded', true)
+            }
             if(!assigned) {
                 var lia = $($('#leftbar li a')[0]);
                 var href = lia['href']

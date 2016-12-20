@@ -18,7 +18,7 @@ case class AppManagerForm(id: Option[Int],
                           var updatedAt:Option[Long],
                           var updatedBy:Option[String],
                           currentPage: Int,
-                          pageSize: Int = 10){
+                          pageSize: Int = 10) extends ToModel[AppDomain]{
 
   def toModel(): AppDomain = {
     val appDomain = id match {

@@ -15,12 +15,12 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
         geneTree: function(array, $menu){
             var s = this;
             _.each(array, function(single) {
-                var $ele = $('<li><a href="#'+ single['module'] +'">'+ single['name'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
-                if(single['subTrees'].length > 0) {
+                var $ele = $('<li><a href="#'+ single['module'] +'">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
+                if(single['nodes'].length > 0) {
                     $ele.find('span').show();
                     var $ul = $('<ul class="nav nav-second-level collapse"></ul>');
                     $ele.append($ul);
-                    s.geneTree(single['subTrees'], $ul)
+                    s.geneTree(single['nodes'], $ul)
                 }
                 $menu.append($ele);
             });
@@ -63,8 +63,13 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
             var paraJson = $.queryToJson(paraUrl);
 
             require([jsUrl], function(index){
-                var view = new index($.extend({method: url}, paraJson));
-                self.showView(view);
+                try{
+                    var view = new index($.extend({method: url}, paraJson));
+                    self.showView(view);
+                }catch(err) {
+                    var view404 = new self.view404(err);
+                    self.showView(view404);
+                }
             }, function(err){
                 var view404 = new self.view404(err);
                 self.showView(view404);

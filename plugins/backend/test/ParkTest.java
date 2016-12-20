@@ -9,10 +9,8 @@ import java.util.List;
  */
 public class ParkTest {
     public static void main(String[] args) throws Exception {
-        List lists = Lists.newArrayList(
-                ImmutableMap.of("id", "trade.weixin", "name", "微信"),
-                ImmutableMap.of("id", "trade.alipay", "name", "支付宝"),
-                ImmutableMap.of("id", "trade.qqpay", "name", "手Q支付"));
-        System.out.println(Json.toJson(lists));
+        for(; ;){
+            System.out.println("HELLO");
+        }
     }
 }

@@ -85,12 +85,12 @@ define(['backbone', 'component'], function(Backbone, Component) {
         geneTree: function(array, $menu){
             var s = this;
             _.each(array, function(single) {
-                var $ele = $('<li><a href="javascript:void(0)" id="tree_' + single['id'] + '">'+ single['name'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
-                if(single['subTrees'].length > 0) {
+                var $ele = $('<li><a href="javascript:void(0)" id="tree_' + single['id'] + '">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
+                if(single['nodes'].length > 0) {
                     $ele.find('span').show();
                     var $ul = $('<ul class="nav nav-second-level collapse"></ul>');
                     $ele.append($ul);
-                    s.geneTree(single['subTrees'], $ul)
+                    s.geneTree(single['nodes'], $ul)
                 }
                 $menu.append($ele);
             });
@@ -124,7 +124,7 @@ define(['backbone', 'component'], function(Backbone, Component) {
                     dataurl: prefix + '/treemanager/parentlist'
                 },{
                     title: '名称',
-                    name: 'name',
+                    name: 'text',
                     required: true
                 },{
                     title: 'APPID',
@@ -146,6 +146,7 @@ define(['backbone', 'component'], function(Backbone, Component) {
         submit: function() {
             var self = this ;
             var json = this.form.serializeJson();
+            json['name'] = json['text'];
             $.postJSON( prefix + '/treemanager/add', json, function(d){
                 SC.judge(d, function(){
                     self.renderTree();

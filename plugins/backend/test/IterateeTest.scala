@@ -160,3 +160,7 @@ object IterateeTest  {
   }
 
 }
+
+object D extends App {
+  println(System.currentTimeMillis)
+}

@@ -27,22 +27,13 @@ object AppManagerAction extends Controller{
 
   def add = Authenticated { implicit request =>
     val form = appManagerFormMapper.bindFromRequest
-//    val reqForm = required(form, Array("appid", "appname"))
     form.fold(
       error => {
         Ok(Eithers.failure(error))
       },
       appManagerForm => {
-        appManagerForm.id match {
-          case Some(v) => {
-            appManagerForm.updatedAt = Some(new Date().getTime)
-            appManagerForm.updatedBy = Some(request.sess.username)
-          }
-          case None => {
-            appManagerForm.createdAt = Some(new Date().getTime)
-            appManagerForm.createdBy = Some(request.sess.username)
-          }
-        }
+        appManagerForm.updatedAt = Some(new Date().getTime)
+        appManagerForm.updatedBy = Some(request.sess.username)
         val resp = AppManagerService.add(appManagerForm)
         Ok(Eithers.toJson(resp))
       }

@@ -15,7 +15,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                     </button>\
                     <h4 class="modal-title"></h4>\
                 </div>\
-                <div class="modal-body"></div>\
+                <div class="modal-body" style="overflow: hidden;"></div>\
                 <div class="modal-footer">\
                 </div>\
             </div>\
@@ -29,7 +29,8 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
          */
         initialize:function(params){
             this.params = params ;
-            this.$el = $('<div class="modal fade in" tabindex="-1" role="dialog" style="display: block;">')
+            this.initD = params['initData'] || {};
+            this.$el = $('<div class="modal fade in" tabindex="-1" role="dialog" style="display: block; padding-top: 10%">')
             this.render()
         },
         render: function() {
@@ -38,6 +39,26 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             this.$('#xClose').on('click', function(){
                 self.remove()
             });
+            this.renderView();
+            this.switchType();
+
+            this.$('.modal-dialog').draggable();
+            this.$('.modal-dialog').css({'top': '0px', 'left': '0px'})
+            this.$('.modal-content').resizable({
+                minHeight: 300,
+                minWidth: 300
+            });
+            this.$el.on('show.bs.modal', function () {
+                $(this).find('.modal-body').css({
+                    'max-height':'100%'
+                });
+            });
+            $('body').addClass('modal-open');
+            if(this.params['style'] !== undefined) {
+                this.$('.modal-dialog').css(this.params['style']);
+            }
+        },
+        renderView: function(){
             if(this.params['clazz'] != undefined) {
                 this.$el.find('.modal-dialog').addClass(this.params['clazz'])
             }
@@ -58,6 +79,9 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             if(this.params['footer'] !== undefined) {
                 this.$el.find('.modal-footer').append(this.params['footer'])
             }
+        },
+        switchType: function(){
+            var self = this ;
             if(this.params['type'] == 'Alert') {
                 var $closeBtn = $('<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>')
                 $closeBtn.on('click', function(){
@@ -69,7 +93,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                 var $closeBtn = $('<button type="button" class="btn btn-default">关闭</button>')
                 $confirmBtn.on('click', function(){
                     if($.isFunction(self.params['confirmFunc'])) {
-                        self.params['confirmFunc']()
+                        self.params['confirmFunc']();
                         self.remove()
                     }
                 });
@@ -89,22 +113,19 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                         self.$('.modal-footer').append($el);
                     })
                 }
-            }
-            this.$('.modal-dialog').draggable();
-            this.$('.modal-dialog').css({'top': '0px', 'left': '0px'})
-            this.$('.modal-content').resizable({
-                //alsoResize: ".modal-dialog",
-                minHeight: 300,
-                minWidth: 300
-            });
-            this.$el.on('show.bs.modal', function () {
-                $(this).find('.modal-body').css({
-                    'max-height':'100%'
+            }else if(this.params['type'] == 'OpenWinForm') {
+                var $confirmBtn = $('<button type="button" class="btn btn-primary">确认</button>')
+                var $closeBtn = $('<button type="button" class="btn btn-default">关闭</button>')
+                $confirmBtn.on('click', function(){
+                    if($.isFunction(self.params['confirmFunc'])) {
+                        self.params['confirmFunc']($.extend(_.clone(self.initD), self.$el.serializeJson()) , $.proxy(self.remove, self));
+                    }
                 });
-            });
-            $('body').addClass('modal-open');
-            if(this.params['style'] !== undefined) {
-                this.$('.modal-dialog').css(this.params['style']);
+                $closeBtn.on('click', function(){
+                    self.remove()
+                });
+                this.$el.find('.modal-footer').append($confirmBtn)
+                this.$el.find('.modal-footer').append($closeBtn)
             }
         },
         remove: function(){

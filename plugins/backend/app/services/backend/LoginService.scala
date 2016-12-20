@@ -6,6 +6,7 @@ import commons.ErrorCodes
 import models.AppSubjectUser
 import org.springframework.stereotype.Component
 import play.api.Play
+import play.api.libs.Crypto
 import play.libs.F
 import java.util.Map
 
@@ -25,7 +26,8 @@ import java.util.Map
     val appSubjectUser: AppSubjectUser = AppSubjectUser.finder.where.eq("username", username).eq("appId", appid).setMaxRows(1).findUnique
     if (appSubjectUser != null) {
       if(appSubjectUser.password != null && appSubjectUser.password == password) {
-        return F.Either.Left(username)
+        val resp = Crypto.encryptAES(appSubjectUser.getUsername + "|" + appSubjectUser.getAppId + "|" + appSubjectUser.getOrganNo)
+        return F.Either.Left(resp)
       }else {
         return F.Either.Right(ErrorCodes.of("账户和密码不对应"))
       }

@@ -37,7 +37,6 @@ class AppDomain extends Model {
   var createdBy: String = _
 
   @BeanProperty
-  @JsonFormat(pattern="yyyyMMddhhmmss")
   var updatedAt: Date = _
 
   @BeanProperty
@@ -55,6 +54,7 @@ object AppDomain {
     val app = new AppDomain
     app.appid = "asdfdsf"
     app.appname = "vzxcvxcv"
+    app.updatedAt = new Date
     println(Json.toJson(app))
   }
 }

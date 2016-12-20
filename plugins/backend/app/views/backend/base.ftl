@@ -12,6 +12,7 @@
 
 		<!-- Bootstrap Core CSS -->
 		<link href="/assets/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        <link href="/assets/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
         <link href="/assets/bower_components/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
 
 		<!-- MetisMenu CSS -->
@@ -37,6 +38,9 @@
 		<!--[if lt IE 9]>
 		<script src="/assets/js/thrid/html5shiv.js"></script>
 		<script src="/assets/js/thrid/respond.min.js"></script>
+		<script>
+			var SC = window.SC = window.SC || {};
+		</script>
 		<![endif]-->
 	</head>
 	<body>

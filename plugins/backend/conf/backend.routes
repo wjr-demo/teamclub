@@ -13,3 +13,16 @@ POST	/treemanager/findById	controllers.backend.TreeManagerAction.findById
 POST	/treemanager/parentlist controllers.backend.TreeManagerAction.parentlist
 POST	/treemanager/add	controllers.backend.TreeManagerAction.add
 POST	/treemanager/del	controllers.backend.TreeManagerAction.del
+
+#角色管理
+POST	/rolemanager/list	controllers.backend.RoleManagerAction.list
+POST	/rolemanager/add	controllers.backend.RoleManagerAction.add
+POST	/rolemanager/del	controllers.backend.RoleManagerAction.del
+
+#员工管理
+POST	/operatormanager/list	controllers.backend.OperatorManagerAction.list
+POST	/operatormanager/add	controllers.backend.OperatorManagerAction.add
+POST	/operatormanager/del	controllers.backend.OperatorManagerAction.del
+
+#角色菜单关联
+POST	/approletree/list

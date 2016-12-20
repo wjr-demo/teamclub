@@ -123,5 +123,7 @@ object Government {
 }
 
 object XX extends App {
-  val f = future { }
+  for(a <- 1 to 100){
+    println("ss" + a)
+  }
 }

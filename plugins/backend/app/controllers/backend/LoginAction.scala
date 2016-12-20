@@ -4,6 +4,7 @@ import commons.Eithers
 import controllers.backend.IndexAction._
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.libs.Crypto
 import play.api.mvc.Action
 import plugins.freemarker.Freemarker._
 import plugins.spring.Spring
@@ -31,7 +32,7 @@ object LoginAction {
     val (username, password) = loginForm.bindFromRequest.get
     val resp = loginService.loginInvoke(username, password)
     if(resp.left.isDefined){
-      Ok(Eithers.success).withSession("connected" -> username)
+      Ok(Eithers.success).withSession("connected" -> resp.left.get)
     }else {
       Ok(Eithers.failure(resp.right.get))
     }

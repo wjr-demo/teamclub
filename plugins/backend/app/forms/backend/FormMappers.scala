@@ -7,6 +7,9 @@ import play.api.data.Forms._
  * Created by zhangmeng on 16-12-13.
  */
 object FormMappers {
+
+  val defaultPageSize = 10
+
   val appManagerFormMapper = Form(
     mapping(
       "id" -> optional(number),
@@ -19,7 +22,7 @@ object FormMappers {
       "updatedAt" -> optional(longNumber),
       "updatedBy" -> optional(text),
       "currentPage" -> default(number, 0),
-      "pageSize" -> default(number, 10)
+      "pageSize" -> default(number, defaultPageSize)
     )(AppManagerForm.apply)(AppManagerForm.unapply)
   )
 
@@ -31,7 +34,39 @@ object FormMappers {
       "parent" -> optional(number),
       "module" -> optional(text),
       "currentPage" -> default(number, 0),
-      "pageSize" -> default(number, 10)
+      "pageSize" -> default(number, defaultPageSize)
     )(TreeManagerForm.apply)(TreeManagerForm.unapply)
   )
+
+  val roleManagerFormMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "rolename" -> optional(text),
+      "description" -> optional(text),
+      "appid" -> optional(text),
+      "organNo" -> optional(text),
+      "createdAt" -> optional(longNumber),
+      "createdBy" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(RoleManagerForm.apply)(RoleManagerForm.unapply)
+  )
+
+  val appSubjectUserMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "username" -> optional(text),
+      "appId" -> optional(text),
+      "organNo" -> optional(text),
+      "realname" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)
+  )
+
+//  val appRoleFuncTreeMapper = Form(
+//    mapping(
+//      ""
+//    )(AppRoleFuncTreeForm.apply)(AppRoleFuncTreeForm.unapply)
+//  )
 }
