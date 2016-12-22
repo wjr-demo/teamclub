@@ -19,7 +19,8 @@
             'zh':'bower_components/bootstrap-fileinput/js/locales/zh',
             'validator': 'bower_components/bootstrap-validator/js/validator',
             'jquery/ui': 'bower_components/jquery-ui/jquery-ui',
-            'jquery-ui-touch': 'bower_components/jquery.ui.touch-punch/dist/jquery.ui.touch-punch'
+            'jquery-ui-touch': 'bower_components/jquery.ui.touch-punch/dist/jquery.ui.touch-punch',
+            'md5': 'bower_components/JavaScript-MD5/js/md5'
 
         },
         shim: {
@@ -32,11 +33,12 @@
             'backbone': ['jquery', 'underscore'],
             'dataTables.bootstrap': ['datatables'],
             'dataTables.responsive': ['datatables'],
-            'zh': ['fileinput']
+            'zh': ['fileinput'],
+            'md5': ['jquery']
         }
     });
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
-        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator'], function(a, b, c, d, e, f, App) {
+        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator', 'md5'], function(a, b, c, d, e, f, App) {
         App.init(function(){
             $('.nav-second-level li').on('click',function(e){
                 $('.nav-second-level li').children('a').removeClass('active');

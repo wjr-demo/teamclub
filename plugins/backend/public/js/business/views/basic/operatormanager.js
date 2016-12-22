@@ -1,15 +1,13 @@
 /**
  * Created by wjr on 16-12-19.
  */
-/**
- * Created by wjr on 16-12-19.
- */
-define(['backbone', 'component'], function(Backbone, Component){
+define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
 
     var prefix = '/backend';
 
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent) {
+            this.isModify = this.d != undefined ;
             this.d = d || {};
             this.parent = parent;
             this.tabs = parent.tabs;
@@ -21,10 +19,18 @@ define(['backbone', 'component'], function(Backbone, Component){
             this.component
                 .appendPanel('HAHA', this.form.form())
                 .build();
+            if(this.isModify) {
+                this.form.hideEle('password');
+            }
         },
         submit: function(e) {
             var self = this;
             var json = this.form.serializeJson();
+            if(this.isModify) { //修改
+                json['password'] = undefined
+            }else { //添加
+                if(json['password'] != undefined) json['password'] = md5(json['password'])
+            }
             SC.Save(prefix + '/operatormanager/add', json, function(d) {
                 self.parent.reload();
                 self.tabs.closeCurTab();
@@ -41,6 +47,14 @@ define(['backbone', 'component'], function(Backbone, Component){
                 },{
                     title: '真实姓名',
                     name: 'realname'
+                },{
+                    title: '密码',
+                    name: 'password'
+                },{
+                    title: '角色',
+                    name: 'deptid',
+                    type: 'popUp',
+                    viewOption: self.component.enumsPopUp['ROLELIST'],
                 }],
                 btns: [{
                     title: '提交',
@@ -145,12 +159,15 @@ define(['backbone', 'component'], function(Backbone, Component){
         changePwd: function(d) {
             var self = this ;
             var params = {};
-            params['winform'] = this.component.geneForm(this.formParams(), d);
+            var cloneD = _.clone(d);
+            cloneD['password'] = undefined
+            params['winform'] = this.component.geneForm(this.formParams(), cloneD);
             params['callback'] = function(){
                 self.reload();
             };
             params['url'] = prefix + '/operatormanager/add';
             params['initData'] = d;
+            params['prefixDataHandler'] = function(d) { d['password'] = md5(d['password']); return d ;}
             SC.OpenWinForm(params);
         },
         formParams: function() {

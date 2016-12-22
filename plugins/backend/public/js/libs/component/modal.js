@@ -59,6 +59,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             }
         },
         renderView: function(){
+            var self = this ;
             if(this.params['clazz'] != undefined) {
                 this.$el.find('.modal-dialog').addClass(this.params['clazz'])
             }

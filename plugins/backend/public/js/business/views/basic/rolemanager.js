@@ -6,19 +6,40 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
     var prefix = '/backend';
 
     var AttachTreeView = Backbone.View.extend({
-        tpl: '<div id="left"></div><div><input type="button" class="btn" value="确认"/></div>',
-        renderTree: function() {
-            $.postJSON(prefix + '/treemanager/list', {}, function(d){
-                self.$('#left').empty();
-                self.$('#left').treeview({
-                    data: d['tree'],
-                    showCheckbox: true,
-                    multiSelect: true,
-
+        tpl: '<div id="left"></div><div><input type="button" class="btn" id="submit" value="确认"/></div>',
+        events: {
+            'click #submit': 'submit'
+        },
+        submit: function(){
+            var checked = this.$('#left').treeview('getChecked');
+            var array = [];
+            _.each(checked, function(d) {
+                array.push(d['id'])
+            });
+            var nodeIds = array.join(',');
+            var roleId = this.initD['id'];
+            $.postJSON(prefix + '/approletree/add', {'roleId': roleId, "nodeIds": nodeIds}, function(d) {
+                SC.judge(d, function(){
+                    SC.Alert('', '保存成功')
+                }, function(){
+                    SC.Alert('', '保存失败')
                 })
             });
+            console.log(array.join(","))
         },
-        initialize: function(){
+        renderTree: function() {
+            var self = this ;
+            $.postJSON(prefix + '/treeapprolelist', {'appId': self.initD['appId'], 'roleId': this.initD['id']}, function(d){
+                self.$('#left').empty();
+                self.$('#left').treeview({
+                    data: d,
+                    showCheckbox: true,
+                    multiSelect: true
+                });
+            });
+        },
+        initialize: function(d, parent){
+            this.initD = d;
             this.component = new Component(this);
             this.$el.append(this.tpl);
             this.renderTree();

@@ -45,6 +45,7 @@
     "bootstrap-select": "^1.12.1",
     "jquery-ui": "^1.12.1",
     "jquery.ui.touch-punch": "^0.3.0",
-    "bootstrap-treeview": "^1.2.0"
+    "bootstrap-treeview": "^1.2.0",
+    "JavaScript-MD5": "^2.6.0"
   }
 }

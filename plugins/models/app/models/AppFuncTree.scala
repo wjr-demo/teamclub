@@ -42,8 +42,14 @@ class AppFuncTree extends Model {
   var subTrees: java.util.List[AppFuncTree] = new java.util.ArrayList[AppFuncTree]
 
   @Transient
-  @BeanProperty
   var state: State = _
+
+  def getState: State = state
+  def setState(checked: Boolean) = {
+    val tmp = new State
+    tmp.setChecked(checked)
+    this.state = tmp
+  }
 }
 class State {
   @BeanProperty

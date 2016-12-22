@@ -32,6 +32,12 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var realname: String = _
 
+  @BeanProperty
+  var deptid: Int = _
+
+  @BeanProperty
+  var isSysAdmin: Boolean = _
+
 }
 object AppSubjectUser {
   val finder = new Finder(classOf[Int], classOf[AppSubjectUser])

@@ -25,8 +25,8 @@ import java.util.Map
   def loginInvoke(username: String, password: String): F.Either[String, ErrorCode] = {
     val appSubjectUser: AppSubjectUser = AppSubjectUser.finder.where.eq("username", username).eq("appId", appid).setMaxRows(1).findUnique
     if (appSubjectUser != null) {
-      if(appSubjectUser.password != null && appSubjectUser.password == password) {
-        val resp = Crypto.encryptAES(appSubjectUser.getUsername + "|" + appSubjectUser.getAppId + "|" + appSubjectUser.getOrganNo)
+      if(appSubjectUser.password != null && appSubjectUser.password == Crypto.encryptAES(password)) {
+        val resp = Crypto.encryptAES("HELLO" + appSubjectUser.getId)
         return F.Either.Left(resp)
       }else {
         return F.Either.Right(ErrorCodes.of("账户和密码不对应"))

@@ -26,6 +26,7 @@ object OperatorManagerAction extends Controller{
     appSubjectUserMapper.bindFromRequest.fold(
       error => Ok,
       form => {
+        form.appId = Some(request.sess.appid)
         val resp = OperatorManagerService.add(form)
         Ok(Eithers.toJson(resp))
       }

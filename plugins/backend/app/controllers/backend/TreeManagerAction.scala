@@ -20,7 +20,7 @@ object TreeManagerAction extends Controller{
         Ok(Eithers.failure(error))
       },
       form => {
-        val resp = TreeManagerService.list(form)
+        val resp = TreeManagerService.list(form, request.sess.appSubjectUser)
         Ok(Eithers.toJson(resp))
       }
     )

@@ -1,5 +1,8 @@
 /**
  * Created by wjr on 16-7-6.
+ * form {
+ *
+ * }
  */
 define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], function($, _, a, b, PureTable) {
     var multiType = [];
@@ -44,6 +47,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         initialize: function (params, initD, addParam) {
             var self = this;
             this.initD = initD || {};
+            this.seriFilterArray = [];
             this.$searchBtn = undefined;
             this.addParam = addParam || {};
             this.factory = multiType[this.addParam['formType']] || {};
@@ -52,6 +56,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             } else {
                 this.$row = $(this.factory['row']);
             }
+            this.$el = this.$row;
             var i = 0 ;
             var btnIndex = 0 ;
             var $tmp = $('<div class="row">')
@@ -77,6 +82,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $tmp.append(self.geneBtn(total, btnIndex++, param));
             });
             self.$row.append($tmp);
+        },
+        hideEle: function(name) {
+            this.$('input[name='+ name +']').closest('.form-group').hide()
         },
         geneBtn: function(totalRow, i, param){
             if(totalRow == 1){
@@ -160,6 +168,21 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     $formEle.find('input').val('')
                 }
                 var viewOption = param['viewOption'] || {}
+                if(this.initD && this.initD[param['name']] != undefined) {
+                    this.seriFilterArray.push(param['name']);
+                    var key = viewOption['setField'];
+                    var value = this.initD[param['name']];
+                    var postParam = {}
+                    postParam[key] = value;
+                    $.postJSON(viewOption['url'], postParam, function(d) {
+                        if(d['data'].length > 1 ){
+                            console.log(param['name'] + '渲染失败')
+                            return false ;
+                        }else {
+                            editCallback(value, d['data'][0][viewOption['showField']])
+                        }
+                    })
+                }
                 _.extend(viewOption, {'editCallback': editCallback})
                 $formEle.find('.popEdit').on('click', viewOption ,popFunc)
                 $formEle.find('.popDel').on('click', delCallback)
@@ -193,7 +216,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         form: function(){
             var $tmp = $('<div class="row col-md-12"></div>');
             $tmp.append(this.$row);
-            this.$row.serializeJson(this.initD);
+            var cloneInitD = _.clone(this.initD);
+            _.each(this.seriFilterArray, function(d) {
+                delete cloneInitD[d];
+            });
+            this.$row.serializeJson(cloneInitD);
             this.$row.validator();
             return $tmp;
         },

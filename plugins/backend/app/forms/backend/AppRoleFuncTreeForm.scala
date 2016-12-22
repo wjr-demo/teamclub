@@ -7,8 +7,9 @@ import models.{AppRoleFuncTree, AppRole}
  */
 case class AppRoleFuncTreeForm(nodeId: Option[Int],
                                nodeType: Option[Int],
-                               appId: Option[String],
+                               var appId: Option[String],
                                roleId: Option[Int],
+                               nodeIds: Option[String],
                                currentPage: Int,
                                pageSize: Int) extends ToModel[AppRoleFuncTree]{
   def toModel(): AppRoleFuncTree = {

@@ -56,17 +56,25 @@ object FormMappers {
     mapping(
       "id" -> optional(number),
       "username" -> optional(text),
+      "password" -> optional(text),
       "appId" -> optional(text),
       "organNo" -> optional(text),
       "realname" -> optional(text),
+      "deptid" -> optional(number),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)
   )
 
-//  val appRoleFuncTreeMapper = Form(
-//    mapping(
-//      ""
-//    )(AppRoleFuncTreeForm.apply)(AppRoleFuncTreeForm.unapply)
-//  )
+  val appRoleFuncTreeMapper = Form(
+    mapping(
+      "nodeId" -> optional(number),
+      "nodeType" -> optional(number),
+      "appId" -> optional(text),
+      "roleId" -> optional(number),
+      "nodeIds" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(AppRoleFuncTreeForm.apply)(AppRoleFuncTreeForm.unapply)
+  )
 }

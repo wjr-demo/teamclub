@@ -20,7 +20,7 @@ class AppRoleFuncTree extends Model{
   var nodeType: Int = _
 
   @BeanProperty
-  var appId: Int = _
+  var appId: String = _
 
   @BeanProperty
   var roleId : Int = _

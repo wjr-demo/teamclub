@@ -40,6 +40,9 @@ define([
         this.winform = params['winform'];
         params['body'] = this.winform.form();
         params['confirmFunc'] = function(d, remove) {
+            if(params['prefixDataHandler'] !== undefined) {
+                d = params['prefixDataHandler'](d);
+            }
             $.postJSON(params['url'], d, function(resp) {
                 SC.judge(resp, function(){
                     if(params.callback !== undefined) {

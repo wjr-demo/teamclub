@@ -19,8 +19,17 @@ object OperatorManagerService {
 
   def add(form: AppSubjectUserForm): Either[ErrorCode, ErrorCode] = {
     val appSubjectUser = form.toModel()
-    form.id.fold(appSubjectUser.save())(v => appSubjectUser.update())
-    Left(ErrorCodes.SUCCESS)
+    form.id.fold {
+      if(AppSubjectUser.finder.where().eq("username", appSubjectUser.username).findRowCount() > 0) {
+        Right(ErrorCodes.of("用户名重复"))
+      } else {
+        appSubjectUser.save()
+        Left(ErrorCodes.SUCCESS)
+      }
+    }{
+      v => appSubjectUser.update()
+      Left(ErrorCodes.SUCCESS)
+    }
   }
 
   def del(form: AppSubjectUserForm) = {

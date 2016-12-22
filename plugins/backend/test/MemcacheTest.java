@@ -22,9 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MemcacheTest extends BaseTest {
     @Test
     public void testMemcache(){
-        String s = "a9A0X?XoB0nY`h;SNpO^qQ=p6Dqt:hv8[li_AcwI?wv4bnh7rGfEsnDZqHDad7Ybwjr";
-        System.out.println(s.substring(0, 16));
-        System.out.println(Crypto.encryptAES("admin123"));
+        System.out.println(Crypto.encryptAES("912ec803b2ce49e4a541068d495ab570"));
     }
 
     @Test
