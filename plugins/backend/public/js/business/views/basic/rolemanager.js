@@ -58,7 +58,7 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
         render: function(){
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.component
-                .appendPanel('HAHA', this.form.form())
+                .appendPanel('', this.form.form())
                 .build();
         },
         submit: function(e) {

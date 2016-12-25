@@ -1,14 +1,14 @@
 package services.backend
 
-import java.util.Date
-
-import com.avaje.ebean.ExpressionList
+import com.avaje.ebean.{Ebean, ExpressionList}
 import com.fasterxml.jackson.databind.JsonNode
-import commons.{ErrorCodes, ErrorCode}
+import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AppManagerForm
-import models.AppDomain
-import play.libs.Json
-import plugin.backend.actions.XSession
+import libs.backend.Libs
+import models.{AppDomain, AppSubjectUser}
+import org.apache.commons.codec.digest.DigestUtils
+import play.api.Logger
+import play.api.libs.Crypto
 import plugins.ebean.Paging
 
 /**
@@ -27,12 +27,32 @@ object AppManagerService {
     form.id match {
       case Some(v) => {
         model.update
+        Left(ErrorCodes.SUCCESS)
       }
       case None => {
-        model.save
+        val trans =  Ebean.beginTransaction();
+        try {
+          model.save
+          val subjectUser = new AppSubjectUser
+          val organNo = Libs.geneOrganNum()
+          subjectUser.setUsername(organNo + "@" + organNo)
+          subjectUser.appId = model.appid
+          subjectUser.deptid = 0
+          subjectUser.isSysAdmin = true
+          subjectUser.password = Crypto.encryptAES(DigestUtils.md5Hex("admin123"))
+          subjectUser.save()
+          trans.commit()
+          Left(ErrorCodes.SUCCESS)
+        } catch{
+          case e: Exception => {
+            Logger.error("", e)
+            Right(ErrorCodes.of(e.getMessage))
+          }
+        } finally {
+          trans.end()
+        }
       }
     }
-    Left(ErrorCodes.SUCCESS)
   }
 
   def del(form: AppManagerForm): Either[ErrorCode,ErrorCode] = {

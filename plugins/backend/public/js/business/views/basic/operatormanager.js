@@ -17,7 +17,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
         render: function(){
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.component
-                .appendPanel('HAHA', this.form.form())
+                .appendPanel('', this.form.form())
                 .build();
             if(this.isModify) {
                 this.form.hideEle('password');
@@ -87,7 +87,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
             var self = this;
             var tableParams = {
                 "ajax": {
-                    url: prefix + '/operatormanager/list',
+                    url: prefix + '/operatormanager/list?appId=' + SC.current.appId,
                     type: 'POST'
                 },
                 columns: [{

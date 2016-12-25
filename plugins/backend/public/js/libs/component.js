@@ -33,8 +33,8 @@ define([
         genePanel: function($head, $body){
             var panel = $('<div class="panel panel-default"></div>');
             var panelHead = $('<div class="panel-heading"></div>');
-            var panelBody = $('<div class="panel-body"></div>');
-            if($head != undefined){
+            var panelBody = $('<div class="panel-body" style="padding-top: 30px;"></div>');
+            if($head != undefined && $head != ""){
                 panelHead.append($head);
                 panel.append(panelHead);
             }

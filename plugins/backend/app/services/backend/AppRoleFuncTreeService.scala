@@ -28,7 +28,7 @@ object AppRoleFuncTreeService {
         Ebean.createUpdate(classOf[AppRoleFuncTree],"delete from AppRoleFuncTree where roleId = :roleId").setParameter("roleId", v1).execute();
         form.nodeIds.map { v=>
           val nodeArray = v.split(",")
-          for(node <- nodeArray) {
+           for(node <- nodeArray) {
             val single = new AppRoleFuncTree()
             form.appId.map{ single.setAppId(_)}
             single.setNodeId(node.toInt)
@@ -40,6 +40,7 @@ object AppRoleFuncTreeService {
       }
     }
   }
+
   def treeRoleList(roleId: Int, appSubjectUser: AppSubjectUser): Either[JsonNode, ErrorCode] =  {
     val appFuncTrees:Option[java.util.List[AppFuncTree]] = if(appSubjectUser.getIsSysAdmin) {
       Some(Ebean.find(classOf[AppFuncTree]).where().eq("appId", appSubjectUser.appId).findList)

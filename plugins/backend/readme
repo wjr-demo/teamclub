@@ -1,1 +1,9 @@
 主要用于控制项目上结构
+form
+{
+    title: '应用编码',
+    name: 'appid',
+    type: 'popUp',
+    viewOption: self.component.enumsPopUp['APPMANAGER'],
+    required: true
+}

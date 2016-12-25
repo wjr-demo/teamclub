@@ -38,10 +38,10 @@
 		<!--[if lt IE 9]>
 		<script src="/assets/js/thrid/html5shiv.js"></script>
 		<script src="/assets/js/thrid/respond.min.js"></script>
-		<script>
-			var SC = window.SC = window.SC || {};
-		</script>
 		<![endif]-->
+        <script>
+            var SC = window.SC = window.SC || {}; SC.current=${SC_CURRENT !''}
+        </script>
 	</head>
 	<body>
 		<#nested />

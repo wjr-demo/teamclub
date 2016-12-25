@@ -32,6 +32,11 @@ lazy val backend = project.in(file("plugins/backend"))
   .dependsOn(base, models)
   .aggregate(base, models)
 
+lazy val dongkaiyue = project.in(file("plugins/dongkaiyue"))
+  .settings(playJavaSettings ++ commonSetting: _*)
+  .dependsOn(backend)
+  .aggregate(backend)
+
 lazy val tester = project.in(file("plugins/tester"))
   .settings(playJavaSettings ++ commonSetting: _*)
   .dependsOn(base, models)

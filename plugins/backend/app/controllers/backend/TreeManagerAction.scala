@@ -2,7 +2,7 @@ package controllers.backend
 
 import commons.Eithers
 import forms.backend.Forms
-import models.AppFuncTree
+import models.{AppFuncTree, AppSubjectUser}
 import play.api.mvc.{Action, Controller}
 import play.libs.Json
 import plugin.backend.actions.Authenticated
@@ -20,8 +20,16 @@ object TreeManagerAction extends Controller{
         Ok(Eithers.failure(error))
       },
       form => {
-        val resp = TreeManagerService.list(form, request.sess.appSubjectUser)
-        Ok(Eithers.toJson(resp))
+        if(form.appId.isDefined) {
+          val user = new AppSubjectUser
+          user.appId = form.appId.get
+          user.isSysAdmin = true
+          val resp = TreeManagerService.list(form, user)
+          Ok(Eithers.toJson(resp))
+        } else {
+          val resp = TreeManagerService.list(form, request.sess.appSubjectUser)
+          Ok(Eithers.toJson(resp))
+        }
       }
     )
   }

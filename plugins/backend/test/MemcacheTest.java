@@ -1,4 +1,5 @@
 import com.avaje.ebean.Ebean;
+import commons.Libs;
 import commons.support.counter.Counter;
 import freemarker.template.SimpleDate;
 import models.AppDomain;
@@ -32,12 +33,16 @@ public class MemcacheTest extends BaseTest {
     }
 
     @Test
-    public void testEncrypt() {
-        String s = Crypto.encryptAES("1234|2345|3456");
-        String[] ss = Crypto.decryptAES(s).split("\\|");
-        for(String single : ss) {
-            System.out.println(single);
+    public void TestCounter() {
+        for(int i = 0 ;i < 10; i++){
+            System.out.println(libs.backend.Libs.geneOrganNum());
         }
+    }
+
+    @Test
+    public void testEncrypt() {
+        String s = Crypto.encryptAES("0192023a7bbd73250516f069df18b500");
+        System.out.println(s);
     }
 
     @Test

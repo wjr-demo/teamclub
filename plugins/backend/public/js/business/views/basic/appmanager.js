@@ -15,7 +15,7 @@ define(['backbone', 'component', 'js/business/views/basic/treemanager'], functio
         render: function(){
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.component
-                .appendPanel('HAHA', this.form.form())
+                .appendPanel('', this.form.form())
                 .build();
         },
         submit: function(e) {
@@ -39,8 +39,6 @@ define(['backbone', 'component', 'js/business/views/basic/treemanager'], functio
                 fields:[{
                     title: '应用编码',
                     name: 'appid',
-                    type: 'popUp',
-                    viewOption: self.component.enumsPopUp['APPMANAGER'],
                     required: true
                 },{
                     title: '应用Key',

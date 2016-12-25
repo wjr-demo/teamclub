@@ -20,6 +20,7 @@ define(['backbone', 'component'], function(Backbone, Component) {
         initialize: function(d, parent, callback){
             this.component = new Component(this);
             this.form = undefined;
+            this.initD = d;
             this.render();
         },
         events: {
@@ -102,7 +103,8 @@ define(['backbone', 'component'], function(Backbone, Component) {
         renderTree: function() {
             var self = this ;
             self.$('#left').empty();
-            $.postJSON(prefix + '/treemanager/list', {}, function(d){
+            var postD = {'appId': this.initD['appid']};
+            $.postJSON(prefix + '/treemanager/list', postD, function(d){
                 var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px; width: 100%;"></ul>')
                 self.geneTree(d, $menu)
                 $menu.metisMenu();
@@ -121,7 +123,7 @@ define(['backbone', 'component'], function(Backbone, Component) {
                     title: '上级菜单',
                     name: 'parent',
                     type: 'dropdown',
-                    dataurl: prefix + '/treemanager/parentlist'
+                    dataurl: prefix + '/treemanager/parentlist?appId=' +  self.initD['appid']
                 },{
                     title: '名称',
                     name: 'text',

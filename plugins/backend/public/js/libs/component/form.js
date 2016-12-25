@@ -13,6 +13,12 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         'btnClazz': 'col-md-2'
 
     };
+
+    var convertUrl = function(search) {
+        search = search.substring(search.indexOf('?')).substring(1)
+        return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+    };
+
     var Form = Backbone.Base.extend({
         formEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
@@ -146,7 +152,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = $(this.selectEle(param))
                 if(param['dataurl'] != undefined) {
                     var key = param['name']
-                    $.postJSON(param['dataurl'], {}, function(d){
+                    $.postJSON(param['dataurl'], convertUrl(param['dataurl']), function(d){
                         _.each(d, function(dd){
                             if(self.initD[key] == dd['id']) {
                                 var selected = "selected"

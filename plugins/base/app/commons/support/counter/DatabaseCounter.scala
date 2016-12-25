@@ -25,6 +25,7 @@ class DatabaseCounter extends CounterStandard[CounterEntity] {
 
   def select(key: String): CounterEntity = {
     val result:SqlRow = Ebean.createSqlQuery(String.format(selectSql, tableName)).setParameter("hashCode", key.hashCode).setParameter("id", key).setMaxRows(1).findUnique()
+    if(result ==  null) return null
     var entry: CounterEntity = null
     entry = new CounterEntity
     entry.id = result.getString("id")

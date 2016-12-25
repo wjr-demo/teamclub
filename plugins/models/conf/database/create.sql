@@ -109,3 +109,11 @@ CREATE TABLE `weixin_counter` (
   PRIMARY KEY (`id`),
   KEY `weixin_counter_hash` (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+## 角色菜单表
+CREATE TABLE `app_role_func_tree` (
+  `node_id` int(11) DEFAULT '0',
+  `node_type` int(11) DEFAULT '0',
+  `app_id` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

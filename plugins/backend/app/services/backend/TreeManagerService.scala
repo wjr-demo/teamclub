@@ -38,7 +38,7 @@ object TreeManagerService {
   }
 
   def parentlist(treeManagerForm: TreeManagerForm): Either[JsonNode, ErrorCode] = {
-    val list = AppFuncTree.finder.where().or(Expr.eq("parent", 0), Expr.eq("parent", null)).findList()
+    val list = AppFuncTree.finder.where().or(Expr.eq("parent", 0), Expr.eq("parent", null)).eq("appId", treeManagerForm.appId.getOrElse("")).findList()
     val tuple = Scala.toSeq(list).collect({
       case v: AppFuncTree => ImmutableMap.of("id", v.id ,"name", v.getName)
     })

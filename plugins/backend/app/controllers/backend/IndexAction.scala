@@ -1,9 +1,9 @@
 package controllers.backend
 
 import com.avaje.ebean.Ebean
-import models.{AppRoleFuncTree, AppFuncTree}
+import models.{AppFuncTree, AppRoleFuncTree}
 import play.api.mvc.Controller
-import play.libs.Scala
+import play.libs.{Json, Scala}
 import plugin.backend.actions.Authenticated
 import plugins.freemarker.Freemarker._
 
@@ -12,6 +12,7 @@ import plugins.freemarker.Freemarker._
  */
 object IndexAction extends Controller{
   def index = Authenticated { implicit request =>
-    Ok(view("backend/index.ftl",new Arg("title", "平台")));
+    val json = Json.toJson(request.sess.appSubjectUser)
+    Ok(view("backend/index.ftl",new Arg("title", "平台"), new Arg("SC_CURRENT", json)));
   }
 }
