@@ -9,6 +9,7 @@ case class TreeManagerForm(id: Option[Int],
                            name: Option[String],
                            appId: Option[String],
                            parent: Option[Int],
+                           ordered: Option[Int],
                            module: Option[String],
                            currentPage: Int,
                            pageSize: Int = 10) extends ToModel[AppFuncTree]{
@@ -21,6 +22,7 @@ case class TreeManagerForm(id: Option[Int],
     appId map {v => appFuncTree.setAppId(v) }
     module map {v => appFuncTree.setModule(v) }
     parent map {v => appFuncTree.setParent(v) }
+    ordered.map(appFuncTree.setOrdered(_))
     appFuncTree
   }
 }

@@ -82,7 +82,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                     }
                 }else {
                     if(val != undefined){
-                        if(val == "") val = " "
+                        if(val == "") val = ""
                         res[name] = val;
                     }
                 }

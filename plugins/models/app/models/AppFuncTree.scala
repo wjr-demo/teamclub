@@ -36,6 +36,9 @@ class AppFuncTree extends Model {
   @BeanProperty
   var parent: Integer = _
 
+  @BeanProperty
+  var ordered: Integer = _
+
   @Transient
   @BeanProperty
   @JsonProperty("nodes")

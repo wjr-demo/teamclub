@@ -157,7 +157,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '用户名',
                     name: 'username'
                 },{
-                    title: '所属部门',
+                    title: '部门',
                     name: 'deptid',
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['ROLELIST']

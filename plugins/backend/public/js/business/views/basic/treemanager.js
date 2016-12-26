@@ -135,6 +135,9 @@ define(['backbone', 'component'], function(Backbone, Component) {
                 },{
                     title: 'JS地址',
                     name: 'module'
+                },{
+                    title: '序号',
+                    name: 'ordered'
                 }],
                 btns: [{
                     title: '提交',

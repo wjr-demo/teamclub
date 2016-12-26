@@ -34,3 +34,8 @@ POST	/treeapprolelist		controllers.backend.AppRoleFuncTreeAction.treeRoleList
 POST	/globalconfig/list		controllers.backend.AdminGlobalConfigAction.list
 POST	/globalconfig/add		controllers.backend.AdminGlobalConfigAction.add
 POST	/globalconfig/del		controllers.backend.AdminGlobalConfigAction.del
+
+#部门管理
+POST    /appdepartment/list     controllers.backend.AppDepartmentAction.list
+POST    /appdepartment/add      controllers.backend.AppDepartmentAction.add
+POST    /appdepartment/del      controllers.backend.AppDepartmentAction.del

@@ -19,10 +19,9 @@ object TreeManagerService {
 
   def add(treeManagerForm: TreeManagerForm): Either[ErrorCode, ErrorCode] = {
     val model = treeManagerForm.toModel()
-    if(model.id == 0) {
-      model.save()
-    }else {
-      model.update()
+    treeManagerForm.id match {
+      case Some(v) => model.update()
+      case None => model.save()
     }
     Left(ErrorCodes.SUCCESS)
   }

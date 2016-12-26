@@ -43,11 +43,11 @@ object AppRoleFuncTreeService {
 
   def treeRoleList(roleId: Int, appSubjectUser: AppSubjectUser): Either[JsonNode, ErrorCode] =  {
     val appFuncTrees:Option[java.util.List[AppFuncTree]] = if(appSubjectUser.getIsSysAdmin) {
-      Some(Ebean.find(classOf[AppFuncTree]).where().eq("appId", appSubjectUser.appId).findList)
+      Some(Ebean.find(classOf[AppFuncTree]).where().eq("appId", appSubjectUser.appId).orderBy("ordered asc").findList)
     }else {
       val appRoleFuncTrees = AppRoleFuncTree.finder.where().eq("roleId",appSubjectUser.getDeptid).findList()
       val nodeList = Scala.toSeq(appRoleFuncTrees).map{ v => v.getNodeId}
-      Some(AppFuncTree.finder.where().eq("appId", appSubjectUser.appId).in("id", Scala.asJava(nodeList)).findList())
+      Some(AppFuncTree.finder.where().eq("appId", appSubjectUser.appId).in("id", Scala.asJava(nodeList)).orderBy("ordered asc").findList())
     }
     appFuncTrees match {
       case None => Right(ErrorCodes.of("空菜单"))

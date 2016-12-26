@@ -33,6 +33,7 @@ object FormMappers {
       "name" -> optional(text),
       "appId" -> optional(text),
       "parent" -> optional(number),
+      "ordered" -> optional(number),
       "module" -> optional(text),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
@@ -94,5 +95,16 @@ object FormMappers {
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AdminGlobalConfigForm.apply)(AdminGlobalConfigForm.unapply)
+  )
+
+  val appDepartmentMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "departName" -> optional(text),
+      "departDesc" -> optional(text),
+      "appId" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(AppDepartmentForm.apply)(AppDepartmentForm.unapply)
   )
 }

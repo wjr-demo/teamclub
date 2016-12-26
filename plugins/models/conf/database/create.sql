@@ -157,7 +157,7 @@ CREATE TABLE `org_entity_info` (
   `bank_account_photo` varchar(128) DEFAULT NULL,
   `pepole_indentity_photo` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ## 数据库不重复自增表
 CREATE TABLE `weixin_counter` (
