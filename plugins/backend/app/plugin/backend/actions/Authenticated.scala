@@ -29,9 +29,9 @@ object Authenticated extends ActionBuilder[AuthenticatedRequest] {
     request.session.get("connected").map { connectedStr =>
       try{
         val ss = Crypto.decryptAES(connectedStr).replace("HELLO", "").toInt
-        val appSubjectUser = Cache.get(Libs.CachePrefix.LOGIN + ss).getOrElse {
+        val appSubjectUser = Cache.getAs[AppSubjectUser](Libs.CachePrefix.LOGIN + ss).getOrElse {
           AppSubjectUser.finder.byId(ss)
-        }.asInstanceOf[AppSubjectUser]
+        }
         Cache.set(Libs.CachePrefix.LOGIN + ss, appSubjectUser, cacheTime)
         block(new AuthenticatedRequest(XSession(appSubjectUser.username, appSubjectUser.appId, appSubjectUser.organNo, appSubjectUser), request))
       }catch{

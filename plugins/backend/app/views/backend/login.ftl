@@ -52,8 +52,14 @@
 									<div class="form-group">
 										<input class="form-control" placeholder="密码" name="password" id="password" type="password" value="">
 									</div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="captcha" placeholder="验证码" aria-describedby="basic-addon2">
+                                            <span class="input-group-addon" style="border:0px; padding: 0px;" id="basic-addon2"><img id="imgCaptcha" style="height: 34px;"/></span>
+                                        </div>
+                                    </div>
 									<!-- Change this to a button or input when using this as a form -->
-									<a id="login" href="#" class="btn btn-lg btn-success btn-block">Login</a>
+									<a id="login" href="#" class="btn btn-lg btn-success btn-block">登录</a>
 								</fieldset>
 							</form>
 						</div>
@@ -69,7 +75,7 @@
 						<div id="tipMessage"></div>
 					</div>
                     <div class="modal-footer">
-                        <button type="button" id="closeBtn"　class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" id="closeBtn" class="btn btn-default" data-dismiss="modal">关闭</button>
                     </div>
                 </div>
             </div>
@@ -94,6 +100,16 @@
 				});
 			};
 			$(function(){
+				var loadCaptcha = function(){
+                    $.postJSON('/login/captcha', {}, function(d) {
+                        $('#imgCaptcha').attr('src', d['captcha'])
+                        $('#imgCaptcha').attr('token', d['token'])
+                    })
+				}
+				loadCaptcha();
+				$('#imgCaptcha').on('click', function() {
+                    loadCaptcha();
+				})
                 var showTip = function(msg) {
                     $('#tipMessage').text(msg)
                     $('#tip').show();
@@ -118,8 +134,11 @@
 					var d = {};
 					d['username'] = username;
 					d['password'] = md5(password);
+					d['captcha'] = $('#captcha').val();
+					d['token'] = $('#imgCaptcha').attr('token');
 					$.postJSON('/login/loginInvoke', d, function(d){
 						if(d['status'] != 0) {
+							loadCaptcha()
                             showTip(d['message'])
 						} else {
                             window.location.href = "/backend/index"

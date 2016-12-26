@@ -1,2 +1,3 @@
 GET		/login			controllers.backend.LoginAction.login
 POST	/loginInvoke	controllers.backend.LoginAction.loginInvoke
+POST	/captcha		controllers.backend.LoginAction.captcha

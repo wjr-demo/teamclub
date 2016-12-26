@@ -1,6 +1,8 @@
 import java.util.concurrent.TimeUnit
 
-import scala.concurrent.{Promise, Future, Await}
+import org.apache.commons.codec.binary.Base64
+
+import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 /**
@@ -122,8 +124,3 @@ object Government {
   }
 }
 
-object XX extends App {
-  for(a <- 1 to 100){
-    println("ss" + a)
-  }
-}

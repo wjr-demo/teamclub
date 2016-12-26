@@ -1,5 +1,6 @@
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import org.apache.commons.codec.binary.Base64;
 import play.libs.Json;
 
 import java.util.List;
@@ -9,8 +10,6 @@ import java.util.List;
  */
 public class ParkTest {
     public static void main(String[] args) throws Exception {
-        for(; ;){
-            System.out.println("HELLO");
-        }
+        System.out.println(new String(new Base64().encode(new byte[]{'A', 'B'})));
     }
 }

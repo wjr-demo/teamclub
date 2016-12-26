@@ -53,6 +53,6 @@ trait B {
 }
 
 object XMain extends App {
-  val i: java.lang.Integer = -1
-  println(Int.unbox(i))
+  val resp  = Some(2) map { 2* _ }
+  println(resp)
 }

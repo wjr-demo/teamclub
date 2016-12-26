@@ -1,1 +1,2 @@
-libraryDependencies += "org.apache.thrift" % "libthrift" % "0.9.2"
+libraryDependencies ++= Seq(
+)

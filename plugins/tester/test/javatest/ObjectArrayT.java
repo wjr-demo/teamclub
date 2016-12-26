@@ -1,6 +1,5 @@
 package javatest;
 
-import scalatest.InvokeJavaArray;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -16,6 +15,5 @@ public class ObjectArrayT {
         List<Object> list = new ArrayList<Object>();
         list.add("hello");
         list.add("world");
-        InvokeJavaArray.getAny(new Object[] {"hello", "world"});
     }
 }

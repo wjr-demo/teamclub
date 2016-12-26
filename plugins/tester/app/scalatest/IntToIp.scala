@@ -1,8 +1,12 @@
 package scalatest
 
+import java.util.concurrent.TimeUnit
+
 import play.api.libs.json.{JsPath, Writes, Json}
 
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.{Promise, Future}
+import scala.util.{Failure, Success}
 
 /**
  * Created by zhangmeng on 16-11-16.
@@ -55,4 +59,21 @@ object IntToIp extends App {
   println(Json.toJson(tlist))
 
   println(Json.toJson(parents))
+}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+object TTT extends App {
+  val f = Future.failed {
+    TimeUnit.SECONDS.sleep(1)
+    new RuntimeException("ASd")
+  }
+  f.onComplete {
+    case Success(v) => {
+      println("SDV")
+    }
+    case Failure(t) => {
+      println("error")
+    }
+  }
+  println("END")
 }
