@@ -5,11 +5,11 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
 
     var prefix = '/backend';
 
-    var EntityView = Backbone.view.extend({
+    var EntityView = Backbone.View.extend({
         initialize: function(d, parent) {
             this.d = d || {};
         }
-    })
+    });
 
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent) {
@@ -177,10 +177,10 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
             this.table.reload();
         },
         view: function(d) {
-            this.tabs.addTab({
-                title: '查看',
-                content: new EntityView(d, this).$el
-            })
+            //this.tabs.addTab({
+            //    title: '查看',
+            //    content: new EntityView(d, this).$el
+            //})
         },
         modify: function(d) {
             var title = d == undefined ? '新增' : '修改';
