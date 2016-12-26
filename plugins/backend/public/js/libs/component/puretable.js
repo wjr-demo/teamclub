@@ -37,7 +37,7 @@ define(['jquery','underscore','common'], function($, _, Common) {
             var self = this ;
             this.tableParams.ajax.data = function(d){
                 if(self.$additionForm !== undefined) {
-                    var data = self.$additionForm.serializeJson()
+                    var data = self.$additionForm.$row.serializeJson(undefined, true)
                 }
                 delete d['columns'];
                 delete d['search'];

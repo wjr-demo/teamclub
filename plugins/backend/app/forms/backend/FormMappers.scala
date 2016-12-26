@@ -1,5 +1,6 @@
 package forms.backend
 
+import models.AdminGlobalConfig
 import play.api.data.Form
 import play.api.data.Forms._
 
@@ -58,9 +59,12 @@ object FormMappers {
       "username" -> optional(text),
       "password" -> optional(text),
       "appId" -> optional(text),
+      "roleType" -> optional(number),
       "organNo" -> optional(text),
       "realname" -> optional(text),
       "deptid" -> optional(number),
+      "isSysAdmin" -> optional(boolean),
+      "isDeptAdmin" -> optional(boolean),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)
@@ -76,5 +80,19 @@ object FormMappers {
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppRoleFuncTreeForm.apply)(AppRoleFuncTreeForm.unapply)
+  )
+
+  val adminGlobalConfigMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "appId" -> optional(text),
+      "keyCode" -> optional(text),
+      "cfgName" -> optional(text),
+      "cfgType" -> optional(text),
+      "value" -> optional(text),
+      "des" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(AdminGlobalConfigForm.apply)(AdminGlobalConfigForm.unapply)
   )
 }

@@ -45,11 +45,14 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
             var self = this ;
             if(this.$initForm != undefined && this.tableParams.ajax != undefined){
                 this.tableParams.ajax.data = function(d){
-                    var data = self.$initForm == undefined ? {} : self.$initForm.serializeJson();
+                    var data = self.$initForm == undefined ? {} : self.$initForm.serializeJson(undefined, true);
                     delete d['columns'];
                     delete d['search'];
                     delete data['undefined']
                     $.extend(d, data);
+                    if(self.tableParams.ajax.extendData != undefined) {
+                        $.extend(d, self.tableParams.ajax.extendData)
+                    }
                     d['currentPage'] = d['start'] / d['length']
                     d['pageSize'] = d['length']
                     delete d['start']

@@ -17,6 +17,7 @@ object OperatorManagerAction extends Controller{
         Ok
       },
       form => {
+        form.appId = Some(request.sess.appid)
         val resp = OperatorManagerService.list(form)
         Ok(Eithers.toJson(resp))
       }

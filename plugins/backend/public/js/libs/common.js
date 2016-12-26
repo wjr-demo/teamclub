@@ -17,7 +17,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
         }
         return -1
     });
-    $.fn.serializeJson = function(jsonData){
+    $.fn.serializeJson = function(jsonData, filterEmpty){
         if(this.length > 0){
             var self = this;
             if(jsonData){
@@ -76,9 +76,18 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                 }
                 var val = that.attr('val');
                 val = val? val : that.val();
-                if(val != undefined){
-                    res[name] = val;
+                if(filterEmpty) {
+                    if(val != undefined && val != ""){
+                        res[name] = val;
+                    }
+                }else {
+                    if(val != undefined){
+                        if(val == "") val = " "
+                        res[name] = val;
+                    }
                 }
+
+
             });
             return res;
         }else{

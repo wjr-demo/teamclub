@@ -29,6 +29,7 @@ object AppRoleFuncTreeAction extends Controller{
     appRoleFuncTreeMapper.bindFromRequest.fold(
       error => Ok(Eithers.failure(error)),
       form => {
+        form.appId = Some(request.sess.appid)
         val resp = AppRoleFuncTreeService.list(form)
         Ok(Eithers.toJson(resp))
       }

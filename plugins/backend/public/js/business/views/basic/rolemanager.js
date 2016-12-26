@@ -63,7 +63,7 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
         },
         submit: function(e) {
             var self = this;
-            var json = this.form.serializeJson();
+            var json = this.form.serializeJ();
             $.postJSON(prefix + '/rolemanager/add', json, function(d){
                 SC.judge(d, function(){
                     self.parent.reload();

@@ -4,6 +4,7 @@ import commons.support.counter.Counter;
 import freemarker.template.SimpleDate;
 import models.AppDomain;
 import models.AppFuncTree;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import play.cache.Cache;
 import play.libs.Crypto;
@@ -32,6 +33,7 @@ public class MemcacheTest extends BaseTest {
         System.out.println(AppFuncTree.toJson(lists));
     }
 
+
     @Test
     public void TestCounter() {
         for(int i = 0 ;i < 10; i++){
@@ -41,7 +43,8 @@ public class MemcacheTest extends BaseTest {
 
     @Test
     public void testEncrypt() {
-        String s = Crypto.encryptAES("0192023a7bbd73250516f069df18b500");
+        System.out.println(DigestUtils.md5Hex("admin123"));
+        String s = Crypto.encryptAES(DigestUtils.md5Hex("admin123"));
         System.out.println(s);
     }
 

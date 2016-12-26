@@ -27,6 +27,20 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
+        textAreaEle: _.template('<div class="form-group" style="min-width: 300px;">\
+            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
+            <div class="col-md-8">\
+                <textarea class="form-control" name="<%= name %>" id="<%= name %>" placeholder=""　/>\
+                <div class="help-block with-errors"></div>\
+            </div>\
+        </div>'),
+        checkBoxEle: _.template('<div class="form-group" style="min-width: 300px;">\
+            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
+            <div class="col-md-8">\
+                <input type="checkbox" style="height: 34px;" name="<%= name %>" id="<%= name %>" placeholder="">\
+                <div class="help-block with-errors"></div>\
+            </div>\
+        </div>'),
         selectEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="col-md-8">\
@@ -50,7 +64,8 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         btnEle: _.template('<div class="form-group>\
             <input type="button" />\
         </div>'),
-        initialize: function (params, initD, addParam) {
+        initialize: function (initParams, initD, addParam) {
+            var params = $.extend(true, {}, initParams);
             var self = this;
             this.initD = initD || {};
             this.seriFilterArray = [];
@@ -192,6 +207,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 _.extend(viewOption, {'editCallback': editCallback})
                 $formEle.find('.popEdit').on('click', viewOption ,popFunc)
                 $formEle.find('.popDel').on('click', delCallback)
+            }else if(param['type'] == 'textarea'){
+                var $formEle = $(this.textAreaEle(param))
+            }else if(param['type'] == 'checkbox') {
+                var $formEle = $(this.checkBoxEle(param))
             }else {
                 var $formEle = $(this.formEle(param));
             }
@@ -230,7 +249,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$row.validator();
             return $tmp;
         },
-        serializeJson: function(d){
+        serializeJ: function(){
             var json = this.$row.serializeJson();
             delete json['undefined'];
             return _.extend(_.clone(this.initD), json);

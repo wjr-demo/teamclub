@@ -20,7 +20,7 @@ define(['backbone', 'component', 'js/business/views/basic/treemanager'], functio
         },
         submit: function(e) {
             var self = this;
-            var json = this.form.serializeJson();
+            var json = this.form.serializeJ();
             $.postJSON(prefix + '/appmanager/add', json, function(d){
                 SC.judge(d, function(){
                     self.parent.reload();

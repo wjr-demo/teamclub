@@ -1,7 +1,8 @@
 package models
 
-import javax.persistence.{Entity, Id}
+import javax.persistence.{Transient, Entity, Id}
 
+import com.avaje.ebean.annotation.Formula
 import play.db.ebean.Model
 import play.db.ebean.Model.Finder
 
@@ -24,6 +25,12 @@ class AppSubjectUser extends Model {
   var appId: String = _
 
   @BeanProperty
+  var roleType: Int = _
+
+  @Transient
+  var roleName: Int = _
+
+  @BeanProperty
   var password: String = _
 
   @BeanProperty
@@ -35,9 +42,23 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var deptid: Int = _
 
+  @Transient
+  var deptName: String = _
+
   @BeanProperty
   var isSysAdmin: Boolean = _
 
+  @BeanProperty
+  var isDeptAdmin: Boolean =_
+
+  def getRoleName: String = {
+    if(roleType != 0)
+      AppRole.finder.byId(roleType).getRolename
+    else
+      ""
+  }
+
+  def getDeptName: String = ""
 }
 object AppSubjectUser {
   val finder = new Finder(classOf[Int], classOf[AppSubjectUser])
