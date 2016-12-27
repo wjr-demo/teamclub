@@ -23,6 +23,15 @@ CREATE TABLE `admin_global_config` (
   KEY `key_code_unique` (`domain_id`,`key_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+## 部门表
+CREATE TABLE `app_department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `depart_name` varchar(32) NOT NULL,
+  `depart_desc` varchar(128) DEFAULT NULL,
+  `update_version` int(11) DEFAULT '0',
+  `app_id` varchar(16) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ##应用表
 CREATE TABLE `app_domain` (

@@ -48,7 +48,9 @@ object OperatorManagerService {
     form.id.map(expr.eq("id", _))
     form.appId.map(expr.eq("appId", _))
     form.organNo.map(expr.eq("organNo", _))
-    form.deptid.map(expr.eq("deptid", _))
+    form.deptid.map(v => {
+      if(v != 0) expr.eq("deptid", v)
+    })
     expr
   }
 }

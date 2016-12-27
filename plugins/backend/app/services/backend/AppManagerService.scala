@@ -41,6 +41,7 @@ object AppManagerService {
           subjectUser.isSysAdmin = true
           subjectUser.password = Crypto.encryptAES(DigestUtils.md5Hex("admin123"))
           subjectUser.save()
+
           trans.commit()
           Left(ErrorCodes.SUCCESS)
         } catch{

@@ -5,7 +5,7 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</button>
-	<a class="navbar-brand" href="/core/index">${title ! 'SB ADMIN'}</a>
+	<a class="navbar-brand" href="#">${title ! 'SB ADMIN'}</a>
 </div>
 <!-- /.navbar-header -->
 
@@ -16,6 +16,7 @@
 			<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 		</a>
 		<ul class="dropdown-menu dropdown-user">
+            <li><a href="#"><i class="fa fa-user fa-fw"></i><span id="userInfo"></span></a></li>
 			<li><a href="/login/login"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
 		</ul>
 		<!-- /.dropdown-user -->

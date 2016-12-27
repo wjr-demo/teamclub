@@ -1,7 +1,7 @@
 package controllers.backend
 
 import com.avaje.ebean.Ebean
-import models.{AppFuncTree, AppRoleFuncTree}
+import models.{AppDomain, AppFuncTree, AppRoleFuncTree}
 import play.api.mvc.Controller
 import play.libs.{Json, Scala}
 import plugin.backend.actions.Authenticated
@@ -12,7 +12,9 @@ import plugins.freemarker.Freemarker._
  */
 object IndexAction extends Controller{
   def index = Authenticated { implicit request =>
+    val appDomain = AppDomain.finder.where().eq("appid", request.sess.appid).setMaxRows(1).findUnique()
+    val title = if(appDomain != null) appDomain.getAppname else "管理平台"
     val json = Json.toJson(request.sess.appSubjectUser)
-    Ok(view("backend/index.ftl",new Arg("title", "平台"), new Arg("SC_CURRENT", json)));
+    Ok(view("backend/index.ftl",new Arg("title", title), new Arg("SC_CURRENT", json)));
   }
 }

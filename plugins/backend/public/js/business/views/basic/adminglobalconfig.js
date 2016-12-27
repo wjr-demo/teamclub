@@ -42,6 +42,11 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     name: 'cfgName',
                     required: true
                 },{
+                    title: '配置项类型',
+                    name: 'cfgType',
+                    type: 'dropdown',
+                    data: [{"id":"select","name":"select"},{"id":"text","name":"text"}]
+                },{
                     title: '配置值',
                     name: 'value',
                     type: 'textarea',
@@ -93,9 +98,6 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '配置名称',
                     data: 'cfgName'
                 },{
-                    title: "配置值",
-                    data: "value"
-                },{
                     title: '配置描述',
                     data: 'des'
                 },{
@@ -126,7 +128,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         delete: function(d) {
             var self = this ;
-            SC.Delete(prefix + '/appmanager/del', d, function(d){
+            SC.Delete(prefix + '/globalconfig/del', d, function(d){
                 self.reload();
             });
         },
@@ -134,11 +136,11 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
             var self = this ;
             var searParams = {
                 fields:[{
-                    title: '应用编码',
-                    name: 'appid'
+                    title: '配置编码',
+                    name: 'keyCode'
                 },{
-                    title: '应用名称',
-                    name: 'appname'
+                    title: '配置名称',
+                    name: 'cfgName'
                 }],
                 btns: [{
                     title: '查询',

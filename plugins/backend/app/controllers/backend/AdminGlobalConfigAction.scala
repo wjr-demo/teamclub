@@ -18,6 +18,7 @@ object AdminGlobalConfigAction extends Controller {
         Ok(Eithers.failure(mapper))
       },
       form => {
+        form.appId = Some(request.sess.appid)
         val resp = AdminGlobalConfigService.add(form)
         Ok(Eithers.toJson(resp))
       }

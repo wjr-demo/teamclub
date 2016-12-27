@@ -10,9 +10,10 @@ define([
     'js/libs/component/modal',
     'js/libs/component/sc',
     'js/libs/popup-enums',
+    'js/libs/component/textview',
     'js/libs/libs',
     'datatables'
-], function($, _, Form, Tab, Table, Modal, SC, PopEnums){
+], function($, _, Form, Tab, Table, Modal, SC, PopEnums, TextView){
     var base = Backbone.Base.extend({
         initialize: function(owner){
             this.tmpContent = $("<div></div>");
@@ -44,6 +45,9 @@ define([
             }
             return panel;
         },
+        geneTextView: function(fields, data) {
+            return new TextView(fields, data)
+        },
         appendPanel: function($head, $body){
             var $panel = this.genePanel($head, $body);
             this.tmpContent.append($panel);
@@ -63,6 +67,7 @@ define([
             return new Form(formParams, initD);
         },
         build: function(){
+            this.owner.$el.empty();
             this.owner.$el.append(this.tmpContent.children());
             this.tmpContent = $('<div></div>');
         },

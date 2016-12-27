@@ -117,13 +117,11 @@ define(['backbone', 'component'], function(Backbone, Component) {
             var self = this;
             var formParams = {
                 fields:[{
-                    name: 'id',
-                    hide: true
-                },{
                     title: '上级菜单',
                     name: 'parent',
                     type: 'dropdown',
-                    dataurl: prefix + '/treemanager/parentlist?appId=' +  self.initD['appid']
+                    dataurl: prefix + '/treemanager/parentlist',
+                    params: {'appId': self.initD['appid']}
                 },{
                     title: '名称',
                     name: 'text',
@@ -152,6 +150,7 @@ define(['backbone', 'component'], function(Backbone, Component) {
             var self = this ;
             var json = this.form.serializeJson();
             json['name'] = json['text'];
+            json['id'] = this.initD['id'];
             $.postJSON( prefix + '/treemanager/add', json, function(d){
                 SC.judge(d, function(){
                     self.renderTree();

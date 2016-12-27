@@ -20,5 +20,15 @@ define([], function() {
                     d.getSeconds().padLeft()].join(':');
         return dformat;
     };
+
+    Libs.tableLine = function(title, modify, proxy) {
+        var $hd = $('<div class="data-hd">')
+        var $hdi = $('<label class="data-hd-i">' +  title + '</label>')
+        var $hda = $('<label class="data-hd-a">[ ' + modify + ' ]</label>')
+        $hda.on('click', proxy)
+        $hd.append($hdi).append($hda)
+        return $hd;
+    };
+
     return Libs;
 });

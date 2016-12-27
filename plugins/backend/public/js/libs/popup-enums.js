@@ -45,5 +45,15 @@ define(function(){
         setField: 'id',
         showField: 'rolename'
     }
+
+    enumsPopUp['DEPTLIST'] = {
+        url: '/backend/appdepartment/list',
+        columns: [{
+            title: '部门名称',
+            data: 'departName'
+        }],
+        setField: 'id',
+        showField: 'departName'
+    }
     return enumsPopUp
 })

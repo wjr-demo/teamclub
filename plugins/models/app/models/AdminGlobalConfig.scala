@@ -1,6 +1,6 @@
 package models
 
-import javax.persistence.{Id, Entity}
+import javax.persistence.{Version, Id, Entity}
 
 import play.db.ebean.Model
 import play.db.ebean.Model.Finder
@@ -33,6 +33,10 @@ class AdminGlobalConfig extends Model {
 
   @BeanProperty
   var des: String = _
+
+  @Version
+  @BeanProperty
+  var updateVersion: Int = _
 }
 
 object AdminGlobalConfig {

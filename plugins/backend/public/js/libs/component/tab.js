@@ -29,7 +29,6 @@ define(['jquery','underscore','common'], function($, _) {
             if(this.idxArr.length > 1) {
                 var idx = this.idxArr[this.idxArr.length - 2];
                 this.remove(idx);
-                this.tabs[idx].find('a').tab('show');
             }
         },
         add: function(params){
@@ -55,23 +54,28 @@ define(['jquery','underscore','common'], function($, _) {
         },
         remove: function(idx){
             var self = this;
-            if(idx.indexOf('#') != -1) idx = idx.substring(1);
+            if(idx.indexOf('#tab') != -1) idx = idx.substring(4);
+            if(idx.indexOf('tab') != -1) idx = idx.substring(3);
             _.each(this.tabs, function(v, k){
-                if(k.length > idx.length || k > idx){
+                var ik = k.substring(3)
+                if(parseInt(ik) > parseInt(idx)){
                     v.remove();
                     var _index = self.idxArr.indexOf(k);
                     if(_index != -1){
-                        self.idxArr.pop(_index);
+                            self.idxArr.splice(_index, 1);
                     }
                     delete self.tabs[k];
                 }
             });
             _.each(this.contents, function(v, k){
-                if(k.length > idx.length || k > idx){
+                var ik = k.substring(3)
+                if(parseInt(ik) > parseInt(idx)){
                     v.remove();
                     delete self.contents[k];
                 }
             });
+            var _idx = this.idxArr[this.idxArr.length - 1];
+            if(_idx != undefined) this.tabs[_idx].find('a').tab('show');
         }
     });
     return Tab;

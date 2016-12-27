@@ -82,7 +82,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                     }
                 }else {
                     if(val != undefined){
-                        if(val == "") val = ""
+                        if(val == "") val = "s"
                         res[name] = val;
                     }
                 }
@@ -110,12 +110,13 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
             dataType: "json",
             success:s,
             error:function(e) {
-                alert('ajax调用失败');
+                console.log(e)
             }
         });
     };
     Backbone.Base = function(){
         this.cid = _.uniqueId('base');
+        this.$el =  $('<div>')
         this.initialize.apply(this, arguments);
     };
     _.extend(Backbone.Base.prototype, {}, {

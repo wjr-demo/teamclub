@@ -20,3 +20,18 @@
 .hovered {
     background-color: #eeeeee;
 }
+
+.data-hd {
+    border-left: 3px solid #44b549;
+    height: 14px;
+    line-height: 14px;
+    padding-left: 7px;
+}
+.data-hd .data-hd-i {
+    font-weight: bold;
+    padding-right: 10px;
+}
+.data-hd .data-hd-a {
+    color: #44b549;
+    cursor: pointer;
+}

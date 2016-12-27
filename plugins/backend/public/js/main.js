@@ -61,5 +61,6 @@
                 }
             }
         });
+        $('#userInfo').text(SC.current.username);
     });
 })();

@@ -167,7 +167,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = $(this.selectEle(param))
                 if(param['dataurl'] != undefined) {
                     var key = param['name']
-                    $.postJSON(param['dataurl'], convertUrl(param['dataurl']), function(d){
+                    $.postJSON(param['dataurl'], param['params'], function(d){
                         _.each(d, function(dd){
                             if(self.initD[key] == dd['id']) {
                                 var selected = "selected"
@@ -178,6 +178,16 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                         });
                     })
                 }
+                if(param['data'] != undefined) {
+                    _.each(param['data'], function(dd){
+                        if(self.initD[key] == dd['id']) {
+                            var selected = "selected"
+                        } else {
+                            var selected = "" ;
+                        }
+                        $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd['id']  + '">' + dd['name'] + '</option>')
+                    });
+                }
             }else if(param['type'] == 'popUp'){
                 var $formEle = $(this.popUpEle(param));
                 var editCallback = function(v1, v2){
@@ -185,7 +195,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     $formEle.find('input').val(v2)
                 }
                 var delCallback = function(d) {
-                    $formEle.find('input').attr('val', '')
+                    $formEle.find('input').attr('val', 0)
                     $formEle.find('input').val('')
                 }
                 var viewOption = param['viewOption'] || {}
@@ -196,8 +206,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     var postParam = {}
                     postParam[key] = value;
                     $.postJSON(viewOption['url'], postParam, function(d) {
-                        if(d['data'].length > 1 ){
-                            console.log(param['name'] + '渲染失败')
+                        if(d['data'].length < 1 ){
+                            console.log(param['name'] + '无渲染')
+                            editCallback(0, '')
                             return false ;
                         }else {
                             editCallback(value, d['data'][0][viewOption['showField']])
@@ -211,6 +222,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = $(this.textAreaEle(param))
             }else if(param['type'] == 'checkbox') {
                 var $formEle = $(this.checkBoxEle(param))
+            }else if(param['type'] == 'datetime'){
+                var $formEle = $(this.formEle(param));
+                $formEle.find('input').datetime
             }else {
                 var $formEle = $(this.formEle(param));
             }

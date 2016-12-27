@@ -1,5 +1,6 @@
 package models
 
+import java.util.Date
 import javax.persistence.{Transient, Entity, Id}
 
 import com.avaje.ebean.annotation.Formula
@@ -51,6 +52,12 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var isDeptAdmin: Boolean =_
 
+  @BeanProperty
+  var entryTime: Date =_
+
+  @BeanProperty
+  var positiveTime: Date = _
+
   def getRoleName: String = {
     if(roleType != 0)
       AppRole.finder.byId(roleType).getRolename
@@ -58,7 +65,13 @@ class AppSubjectUser extends Model {
       ""
   }
 
-  def getDeptName: String = ""
+  def getDeptName: String = {
+    if(deptid != 0) {
+      AppDepartment.finder.byId(deptid).getDepartName
+    }else {
+      ""
+    }
+  }
 }
 object AppSubjectUser {
   val finder = new Finder(classOf[Int], classOf[AppSubjectUser])

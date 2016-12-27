@@ -66,6 +66,8 @@ object FormMappers {
       "deptid" -> optional(number),
       "isSysAdmin" -> optional(boolean),
       "isDeptAdmin" -> optional(boolean),
+      "entryTime" -> optional(longNumber),
+      "positiveTime" -> optional(longNumber),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)

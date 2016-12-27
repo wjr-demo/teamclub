@@ -24,6 +24,8 @@
 
         <link href="/assets/bower_components/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet">
 
+		<link href="/assets/bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
 		<!-- Custom CSS -->
 		<link href="/assets/css/sb-admin-2.css" rel="stylesheet">
 

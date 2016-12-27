@@ -6,6 +6,8 @@ define([
     'underscore',
     'js/libs/component/modal', 'common'],function($, _, Modal){
     var SC = window.SC = window.SC || {};
+
+
     /***
       params => {
         title,

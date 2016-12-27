@@ -16,6 +16,8 @@ case class AppSubjectUserForm(id: Option[Int],
                               deptid: Option[Int],
                               isSysAdmin: Option[Boolean],
                               isDeptAdmin: Option[Boolean],
+                              entryTime: Option[Long],
+                              positiveTime: Option[Long],
                               currentPage: Int,
                               pageSize: Int) extends ToModel[AppSubjectUser]{
   def toModel(): AppSubjectUser = {

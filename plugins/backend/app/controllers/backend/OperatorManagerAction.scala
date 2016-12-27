@@ -14,7 +14,7 @@ object OperatorManagerAction extends Controller{
   def list = Authenticated { implicit request =>
     appSubjectUserMapper.bindFromRequest.fold(
       error => {
-        Ok
+        Ok(Eithers.failure(error))
       },
       form => {
         form.appId = Some(request.sess.appid)
@@ -25,7 +25,9 @@ object OperatorManagerAction extends Controller{
   }
   def add = Authenticated { implicit request =>
     appSubjectUserMapper.bindFromRequest.fold(
-      error => Ok,
+      error => {
+        Ok(Eithers.failure(error))
+      },
       form => {
         form.appId = Some(request.sess.appid)
         val resp = OperatorManagerService.add(form)
@@ -35,7 +37,9 @@ object OperatorManagerAction extends Controller{
   }
   def del = Authenticated { implicit request =>
     appSubjectUserMapper.bindFromRequest.fold(
-      error => Ok,
+      error => {
+        Ok(Eithers.failure(error))
+      },
       form => {
         val resp = OperatorManagerService.del(form)
         Ok(Eithers.toJson(resp))

@@ -7,7 +7,36 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
 
     var EntityView = Backbone.View.extend({
         initialize: function(d, parent) {
-            this.d = d || {};
+            this.parent = parent;
+            this.tabs = parent.tabs;
+            this.component = new Component(this);
+            this.initD = d || {};
+            this.render();
+        },
+        render: function() {
+            var self = this ;
+            $.postJSON(prefix + '/operatormanager/list', {'id': this.initD['id']}, function(d) {
+                var renderD = d['data'][0];
+                var textViewD = [{
+                    title: '用户名',
+                    field: 'username'
+                },{
+                    title: '姓名',
+                    field: 'realName'
+                }];
+                self.component
+                    .appendPanel(Libs.tableLine('基本信息', '编辑', function() {
+                        self.tabs.addTab({
+                            title: '修改',
+                            content: new ModifyView(renderD, self).$el
+                        })
+                    }), self.component.geneTextView(textViewD, renderD).$el)
+                    .rebuild();
+            })
+        },
+        reload: function() {
+            this.render();
+            this.parent.reload();
         }
     });
 
@@ -58,9 +87,22 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     name: 'password'
                 },{
                     title: '角色',
-                    name: 'roletype',
+                    name: 'roleType',
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['ROLELIST'],
+                },{
+                    title: '所属部门',
+                    name: 'deptid',
+                    type: 'popUp',
+                    viewOption: self.component.enumsPopUp['DEPTLIST'],
+                },{
+                    title: '入职时间',
+                    name: 'entryTime',
+                    type: 'date'
+                },{
+                    title: '转正时间',
+                    name: 'positiveName',
+                    type: 'date'
                 },{
                     title: '部门管理员',
                     name: 'isDeptAdmin',
@@ -136,7 +178,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnView   =  '<input type="button" value="查看" class="btn" name="view"  />';
+                        var btnView =  '<input type="button" value="查看" class="btn" name="view"/>';
                         var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
                         var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
                         return btnView + btnModify + btnDelete;
@@ -160,7 +202,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '部门',
                     name: 'deptid',
                     type: 'popUp',
-                    viewOption: self.component.enumsPopUp['ROLELIST']
+                    viewOption: self.component.enumsPopUp['DEPTLIST']
                 }],
                 btns: [{
                     title: '查询',
@@ -177,10 +219,10 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
             this.table.reload();
         },
         view: function(d) {
-            //this.tabs.addTab({
-            //    title: '查看',
-            //    content: new EntityView(d, this).$el
-            //})
+            this.tabs.addTab({
+                title: '查看',
+                content: new EntityView(d, this).$el
+            })
         },
         modify: function(d) {
             var title = d == undefined ? '新增' : '修改';
