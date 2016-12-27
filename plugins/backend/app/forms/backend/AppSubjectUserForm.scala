@@ -1,5 +1,7 @@
 package forms.backend
 
+import java.util.Date
+
 import models.AppSubjectUser
 import play.api.libs.Crypto
 
@@ -16,6 +18,8 @@ case class AppSubjectUserForm(id: Option[Int],
                               deptid: Option[Int],
                               isSysAdmin: Option[Boolean],
                               isDeptAdmin: Option[Boolean],
+                              phone: Option[String],
+                              telephone: Option[String],
                               entryTime: Option[Long],
                               positiveTime: Option[Long],
                               currentPage: Int,
@@ -37,6 +41,10 @@ case class AppSubjectUserForm(id: Option[Int],
     deptid map appSubjectUser.setDeptid
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
+    entryTime map { v => appSubjectUser.setEntryTime(new Date(v)) }
+    positiveTime map {v => appSubjectUser.setPositiveTime(new Date(v)) }
+    phone map appSubjectUser.setPhone
+    telephone map appSubjectUser.setTelephone
     appSubjectUser
   }
 }

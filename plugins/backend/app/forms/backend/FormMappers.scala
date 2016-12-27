@@ -66,6 +66,8 @@ object FormMappers {
       "deptid" -> optional(number),
       "isSysAdmin" -> optional(boolean),
       "isDeptAdmin" -> optional(boolean),
+      "phone" -> optional(text),
+      "telephone" -> optional(text),
       "entryTime" -> optional(longNumber),
       "positiveTime" -> optional(longNumber),
       "currentPage" -> default(number, 0),

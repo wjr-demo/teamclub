@@ -222,9 +222,50 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = $(this.textAreaEle(param))
             }else if(param['type'] == 'checkbox') {
                 var $formEle = $(this.checkBoxEle(param))
-            }else if(param['type'] == 'datetime'){
+            }else if(param['type'] == 'date'){
+                this.seriFilterArray.push(param['name']);
+                param['type'] = 'dtime';
                 var $formEle = $(this.formEle(param));
-                $formEle.find('input').datetime
+                var $elInput = $formEle.find('input');
+                $elInput.on('change', function() {
+                    var val = $elInput.val();
+                    var timeV = new Date(Date.parse(val)).getTime()
+                    $elInput.attr('val', timeV);
+                });
+                $elInput.attr('readonly', true)
+                $elInput.datetimepicker({
+                    format: 'yyyy-mm-dd',
+                    language: 'zh-CN',
+                    minView:'month',
+                    maxView:'decade',
+                    todayBtn: true
+                });
+                if(this.initD && this.initD[param['name']] != undefined) {
+                    $elInput.attr('val', this.initD[param['name']])
+                    $elInput.val(Libs.formatDateWith(new Date(this.initD[param['name']])))
+                }
+            }else if(param['type'] == 'datetime'){
+                this.seriFilterArray.push(param['name']);
+                param['type'] = 'text';
+                var $formEle = $(this.formEle(param));
+                var $elInput = $formEle.find('input');
+                $elInput.on('change', function() {
+                    var val = $elInput.val();
+                    var timeV = new Date(Date.parse(val)).getTime()
+                    $elInput.attr('val', timeV);
+                });
+                $elInput.attr('readonly', true)
+                $elInput.datetimepicker({
+                    format: 'yyyy-mm-dd hh:ii',
+                    language: 'zh-CN',
+                    minView:'hour',
+                    maxView:'decade',
+                    todayBtn: true
+                });
+                if(this.initD && this.initD[param['name']] != undefined) {
+                    $elInput.attr('val', this.initD[param['name']])
+                    $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
+                }
             }else {
                 var $formEle = $(this.formEle(param));
             }
@@ -256,6 +297,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var $tmp = $('<div class="row col-md-12"></div>');
             $tmp.append(this.$row);
             var cloneInitD = _.clone(this.initD);
+            console.log(this.seriFilterArray)
             _.each(this.seriFilterArray, function(d) {
                 delete cloneInitD[d];
             });

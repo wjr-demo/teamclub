@@ -58,6 +58,12 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var positiveTime: Date = _
 
+  @BeanProperty
+  var phone: String = _
+
+  @BeanProperty
+  var telephone: String = _
+
   def getRoleName: String = {
     if(roleType != 0)
       AppRole.finder.byId(roleType).getRolename

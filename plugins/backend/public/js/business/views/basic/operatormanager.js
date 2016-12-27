@@ -101,8 +101,14 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     type: 'date'
                 },{
                     title: '转正时间',
-                    name: 'positiveName',
+                    name: 'positiveTime',
                     type: 'date'
+                },{
+                    title: '联系手机',
+                    name: 'telephone'
+                },{
+                    title: '公司座机',
+                    name: 'phone'
                 },{
                     title: '部门管理员',
                     name: 'isDeptAdmin',

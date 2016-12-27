@@ -13,11 +13,20 @@ define([], function() {
                     d.getFullYear(),
                     (d.getMonth()+1).padLeft(),
                     d.getDate().padLeft()
-                    ].join('/')+
+                    ].join('-')+
                 ' ' +
                 [ d.getHours().padLeft(),
-                    d.getMinutes().padLeft(),
-                    d.getSeconds().padLeft()].join(':');
+                    d.getMinutes().padLeft()].join(':');
+        return dformat;
+    };
+    Libs.formatDateWith = function(timestamp, ch) {
+        ch = ch || '-'
+        var d = new Date(timestamp);
+        var dformat = [
+                d.getFullYear(),
+                (d.getMonth()+1).padLeft(),
+                d.getDate().padLeft()
+            ].join(ch)
         return dformat;
     };
 

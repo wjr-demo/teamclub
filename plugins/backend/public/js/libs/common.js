@@ -46,7 +46,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                         if(jsonData[name] != undefined) that.val(value);
                         var val = that.attr('val');
                         if(jsonData[val] != undefined) that.attr('val',jsonData[val]);
-                        else that.removeAttr('val');
+                        // else that.removeAttr('val');
                     }else if(that[0].tagName.toLowerCase() == 'select'){
 
                     }else{
@@ -82,7 +82,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                     }
                 }else {
                     if(val != undefined){
-                        if(val == "") val = "s"
+                        if(that.attr('type') == 'text' && val == "") val = " "
                         res[name] = val;
                     }
                 }
