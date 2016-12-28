@@ -1,6 +1,5 @@
 package forms.backend
 
-import models.AdminGlobalConfig
 import play.api.data.Form
 import play.api.data.Forms._
 
@@ -68,8 +67,6 @@ object FormMappers {
       "isDeptAdmin" -> optional(boolean),
       "phone" -> optional(text),
       "telephone" -> optional(text),
-      "entryTime" -> optional(longNumber),
-      "positiveTime" -> optional(longNumber),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)
@@ -110,5 +107,18 @@ object FormMappers {
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppDepartmentForm.apply)(AppDepartmentForm.unapply)
+  )
+
+  val adminAreaCodeMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "areaCode" -> optional(text),
+      "areaName" -> optional(text),
+      "status" -> optional(boolean),
+      "createdAt" -> optional(longNumber),
+      "parentCode" -> optional(number),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(AdminAreaCodeForm.apply)(AdminAreaCodeForm.unapply)
   )
 }

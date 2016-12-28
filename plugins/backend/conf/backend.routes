@@ -34,8 +34,14 @@ POST	/treeapprolelist		controllers.backend.AppRoleFuncTreeAction.treeRoleList
 POST	/globalconfig/list		controllers.backend.AdminGlobalConfigAction.list
 POST	/globalconfig/add		controllers.backend.AdminGlobalConfigAction.add
 POST	/globalconfig/del		controllers.backend.AdminGlobalConfigAction.del
+GET		/globalconfig/jsList.js	controllers.backend.AdminGlobalConfigAction.jsList
 
 #部门管理
 POST    /appdepartment/list     controllers.backend.AppDepartmentAction.list
 POST    /appdepartment/add      controllers.backend.AppDepartmentAction.add
 POST    /appdepartment/del      controllers.backend.AppDepartmentAction.del
+
+#地区管理
+POST	/adminareacode/list		controllers.backend.AdminAreaCodeAction.list
+POST	/adminareacode/add		controllers.backend.AdminAreaCodeAction.add
+POST	/adminareacode/del		controllers.backend.AdminAreaCodeAction.del

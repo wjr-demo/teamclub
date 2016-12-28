@@ -2,9 +2,11 @@ package services.backend
 
 import com.avaje.ebean.ExpressionList
 import com.fasterxml.jackson.databind.JsonNode
-import commons.{ErrorCodes, ErrorCode}
+import com.google.common.collect.Maps
+import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AdminGlobalConfigForm
 import models.AdminGlobalConfig
+import play.libs.{Scala, Json}
 import plugins.ebean.Paging
 
 /**
@@ -31,6 +33,15 @@ object AdminGlobalConfigService {
     expression(expr, form)
     val page = expr.findPagingList(form.pageSize).getPage(form.currentPage)
     Left(Paging.toPage(page).toJson)
+  }
+
+  def jsList: JsonNode = {
+    val list = AdminGlobalConfig.finder.findList()
+    val map = Maps.newHashMap[String,String]()
+    for(agc: AdminGlobalConfig <- Scala.toSeq(list)){
+      map.put(agc.getKeyCode, agc.getValue)
+    }
+    Json.toJson(map)
   }
 
   def del(form: AdminGlobalConfigForm): Either[ErrorCode, ErrorCode] = {

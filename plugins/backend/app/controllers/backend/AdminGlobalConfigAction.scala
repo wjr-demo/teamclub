@@ -2,7 +2,8 @@ package controllers.backend
 
 import commons.Eithers
 import forms.backend.{Forms, FormMappers, AdminGlobalConfigForm}
-import play.api.mvc.Controller
+import play.api.mvc.{Action, Controller}
+import play.libs.Json
 import plugin.backend.actions.Authenticated
 import services.backend.AdminGlobalConfigService
 
@@ -37,6 +38,12 @@ object AdminGlobalConfigAction extends Controller {
         Ok(Eithers.toJson(resp))
       }
     )
+  }
+
+  def jsList = Action { implicit request =>
+    val json = AdminGlobalConfigService.jsList
+    val str = "define(function(){window.globalCfgDict = new Func.DictUtils(" + Json.stringify(json) + ");})"
+    Ok(str).as("text/javascript; charset=utf8")
   }
 
   def del = Authenticated { implicit request =>

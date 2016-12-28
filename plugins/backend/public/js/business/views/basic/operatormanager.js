@@ -96,20 +96,6 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['DEPTLIST'],
                 },{
-                    title: '入职时间',
-                    name: 'entryTime',
-                    type: 'date'
-                },{
-                    title: '转正时间',
-                    name: 'positiveTime',
-                    type: 'date'
-                },{
-                    title: '联系手机',
-                    name: 'telephone'
-                },{
-                    title: '公司座机',
-                    name: 'phone'
-                },{
                     title: '部门管理员',
                     name: 'isDeptAdmin',
                     type: 'checkbox'

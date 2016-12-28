@@ -238,6 +238,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     language: 'zh-CN',
                     minView:'month',
                     maxView:'decade',
+                    autoclose: true,
                     todayBtn: true
                 });
                 if(this.initD && this.initD[param['name']] != undefined) {
@@ -260,6 +261,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     language: 'zh-CN',
                     minView:'hour',
                     maxView:'decade',
+                    autoclose: true,
                     todayBtn: true
                 });
                 if(this.initD && this.initD[param['name']] != undefined) {

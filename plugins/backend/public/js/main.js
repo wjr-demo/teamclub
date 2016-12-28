@@ -22,7 +22,8 @@
             'jquery-ui-touch': 'bower_components/jquery.ui.touch-punch/dist/jquery.ui.touch-punch',
             'md5': 'bower_components/JavaScript-MD5/js/md5',
             'datetimepicker': 'bower_components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker',
-            'datetimepicker-ZH': 'bower_components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN'
+            'datetimepicker-ZH': 'bower_components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN',
+            'dictList': '../backend/globalconfig/jsList'
         },
         shim: {
             'bootstrap': ['jquery'],
@@ -37,11 +38,12 @@
             'zh': ['fileinput'],
             'md5': ['jquery'],
             'datetimepicker-ZH': ['datetimepicker'],
-            'datetimepicker': ['bootstrap']
+            'datetimepicker': ['bootstrap'],
+            'dictList': ['js/libs/libs']
         }
     });
     require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
-        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator', 'md5', 'datetimepicker', 'datetimepicker-ZH'], function(a, b, c, d, e, f, App) {
+        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator', 'md5', 'datetimepicker', 'datetimepicker-ZH','dictList'], function(a, b, c, d, e, f, App) {
         App.init(function(){
             $('.nav-second-level li').on('click',function(e){
                 $('.nav-second-level li').children('a').removeClass('active');

@@ -48,7 +48,18 @@ object Dict extends App {
     Dict(5, "扫描方式")
   )
 
-  println(Json.toJson(PAY_STYLE))
-  println(Json.toJson(CUSTOMER_LEVEL))
-  println(Json.toJson(FILE_TRANSFER_STYLE))
+  val STUDY_LEVEL = List(
+    Dict(1, "小学"),
+    Dict(2, "初级中学"),
+    Dict(3, "高级中学"),
+    Dict(4, "大学专科"),
+    Dict(5, "大学本科"),
+    Dict(6, "硕士研究生"),
+    Dict(7, "博士研究生")
+  )
+
+//  println(Json.toJson(PAY_STYLE))
+//  println(Json.toJson(CUSTOMER_LEVEL))
+//  println(Json.toJson(FILE_TRANSFER_STYLE))
+  println(Json.toJson(STUDY_LEVEL))
 }

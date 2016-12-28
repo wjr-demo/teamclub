@@ -20,8 +20,6 @@ case class AppSubjectUserForm(id: Option[Int],
                               isDeptAdmin: Option[Boolean],
                               phone: Option[String],
                               telephone: Option[String],
-                              entryTime: Option[Long],
-                              positiveTime: Option[Long],
                               currentPage: Int,
                               pageSize: Int) extends ToModel[AppSubjectUser]{
   def toModel(): AppSubjectUser = {
@@ -41,10 +39,6 @@ case class AppSubjectUserForm(id: Option[Int],
     deptid map appSubjectUser.setDeptid
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
-    entryTime map { v => appSubjectUser.setEntryTime(new Date(v)) }
-    positiveTime map {v => appSubjectUser.setPositiveTime(new Date(v)) }
-    phone map appSubjectUser.setPhone
-    telephone map appSubjectUser.setTelephone
     appSubjectUser
   }
 }

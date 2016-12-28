@@ -117,6 +117,10 @@ define(['backbone', 'component'], function(Backbone, Component) {
             var self = this;
             var formParams = {
                 fields:[{
+                    name: 'id',
+                    type: 'hide',
+                    hide: true
+                },{
                     title: '上级菜单',
                     name: 'parent',
                     type: 'dropdown',
@@ -150,7 +154,6 @@ define(['backbone', 'component'], function(Backbone, Component) {
             var self = this ;
             var json = this.form.serializeJson();
             json['name'] = json['text'];
-            json['id'] = this.initD['id'];
             $.postJSON( prefix + '/treemanager/add', json, function(d){
                 SC.judge(d, function(){
                     self.renderTree();
