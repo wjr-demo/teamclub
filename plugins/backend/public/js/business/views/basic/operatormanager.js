@@ -66,6 +66,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
             }else { //添加
                 if(json['password'] != undefined) json['password'] = md5(json['password'])
             }
+            json['appSubjectUserMore'] = {"identifyNo": '13112719911011003X'}
             SC.Save(prefix + '/operatormanager/add', json, function(d) {
                 self.parent.reload();
                 self.tabs.closeCurTab();

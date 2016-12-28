@@ -67,6 +67,9 @@ object FormMappers {
       "isDeptAdmin" -> optional(boolean),
       "phone" -> optional(text),
       "telephone" -> optional(text),
+      "appSubjectUserMore" -> optional(mapping(
+        "identifyNo" -> optional(text)
+      )(AppSubjectUserMoreForm.apply)(AppSubjectUserMoreForm.unapply)),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)

@@ -8,6 +8,9 @@ import play.api.libs.Crypto
 /**
  * Created by zhangmeng on 16-12-19.
  */
+
+case class AppSubjectUserMoreForm(identifyNo: Option[String])
+
 case class AppSubjectUserForm(id: Option[Int],
                               username: Option[String],
                               password: Option[String],
@@ -20,6 +23,7 @@ case class AppSubjectUserForm(id: Option[Int],
                               isDeptAdmin: Option[Boolean],
                               phone: Option[String],
                               telephone: Option[String],
+                              appSubjectUserMore: Option[AppSubjectUserMoreForm],
                               currentPage: Int,
                               pageSize: Int) extends ToModel[AppSubjectUser]{
   def toModel(): AppSubjectUser = {
@@ -39,6 +43,11 @@ case class AppSubjectUserForm(id: Option[Int],
     deptid map appSubjectUser.setDeptid
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
+    appSubjectUserMore map { x =>
+      x.identifyNo.map{ y =>
+        appSubjectUser.setIdentifyNo(y)
+      }
+    }
     appSubjectUser
   }
 }
