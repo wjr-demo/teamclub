@@ -67,9 +67,32 @@ object FormMappers {
       "isDeptAdmin" -> optional(boolean),
       "phone" -> optional(text),
       "telephone" -> optional(text),
-      "appSubjectUserMore" -> optional(mapping(
-        "identifyNo" -> optional(text)
+      "recordData" -> optional(mapping(
+        "identifyNo" -> optional(text),
+        "birthday" -> optional(longNumber),
+        "marriageStatus" -> optional(number),
+        "educationLevel" -> optional(number),
+        "strongPoint" -> optional(text),
+        "nativePlaceDetail" -> optional(text),
+        "familyName" -> optional(text),
+        "familyRelation" -> optional(text),
+        "familyPhone" -> optional(text)
       )(AppSubjectUserMoreForm.apply)(AppSubjectUserMoreForm.unapply)),
+      "companyAbountData" -> optional(mapping(
+        "entryTime" -> optional(longNumber),
+        "positiveTime" -> optional(longNumber),
+        "expectedLeave" -> optional(longNumber),
+        "comQqNum" -> optional(text),
+        "comQqPasswd" -> optional(text),
+        "comQqPermit" -> optional(text),
+        "netIp" -> optional(text),
+        "netSpeed" -> optional(text),
+        "netPermit" -> optional(text),
+        "computerNo" -> optional(text),
+        "computerPasswd" -> optional(text),
+        "computerConfig" -> optional(text),
+        "remark" -> optional(text)
+      )(AppSubjectUserCompanyAbout.apply)(AppSubjectUserCompanyAbout.unapply)),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AppSubjectUserForm.apply)(AppSubjectUserForm.unapply)

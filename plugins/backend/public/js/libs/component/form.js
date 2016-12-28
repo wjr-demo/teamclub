@@ -19,10 +19,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
     };
 
+    // groupClz  divClz
     var Form = Backbone.Base.extend({
         formEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="col-md-8">\
+            <div class="<%= divClz %>">\
                 <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
                 <div class="help-block with-errors"></div>\
             </div>\
@@ -45,7 +46,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="col-md-8">\
                 <select name="<%= name %>" class="form-control innerselect">\
-                    <option></option>\
+                    <option value="0"></option>\
                 </select>\
                 <div class="help-block with-errors"></div>\
             </div>\
@@ -83,6 +84,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var $tmp = $('<div class="row">')
             _.each(params.fields, function(param){
                 param['title'] = (param['title'] || '无题') + "：";
+                param['divClz'] = param['divClz'] || 'col-md-8';
                 if(param['required'] == true) {
                     param['title'] += '<span style="color: red; vertical-align: sub;">*</span>'
                 }
@@ -157,16 +159,19 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             return $formgroupSuper;
         },
         geneSingle: function(i, param){
+            if(param['el'] != undefined){
+                return param['el'];
+            }
             var self = this;
             if(self.factory['singleClazz'] !== undefined) {
                 var clazz  = self.factory['singleClazz'];
             }else {
-                var clazz = 'col-md-6';
+                var clazz = param['groupClz'] || 'col-md-6';
             }
             if(param['type'] == 'dropdown'){
                 var $formEle = $(this.selectEle(param))
+                var key = param['name']
                 if(param['dataurl'] != undefined) {
-                    var key = param['name']
                     $.postJSON(param['dataurl'], param['params'], function(d){
                         _.each(d, function(dd){
                             if(self.initD[key] == dd['id']) {
@@ -283,6 +288,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 this.initFileInput($formEle.find('.form-control'), "/backend/upload")
             }
             $formEle.find('label').css(self.factory['labelStyle'] || {})
+            if(param['hideLabel'] == true) {
+                $formEle.find('label').hide();
+            }
             return $formEle;
         },
         initFileInput: function ($el, uploadUrl) {

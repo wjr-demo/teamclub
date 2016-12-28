@@ -2,7 +2,7 @@
  * Created by wjr on 16-12-19.
  */
 define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
-
+    
     var prefix = '/backend';
 
     var EntityView = Backbone.View.extend({
@@ -51,8 +51,12 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
         },
         render: function(){
             this.form = this.component.geneForm(this.formParams(), this.d);
+            this.recordForm = this.component.geneForm(this.recordFormParams(), this.d);
+            this.companyAbountForm = this.component.geneForm(this.companyAbountFormParams(), this.d);
             this.component
-                .appendPanel('', this.form.form())
+                .appendPanel('基本信息', this.form.form())
+                .appendPanel('档案信息', this.recordForm.form())
+                .appendPanel('相关信息', this.companyAbountForm.form())
                 .build();
             if(this.isModify) {
                 this.form.hideEle('password');
@@ -66,12 +70,122 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
             }else { //添加
                 if(json['password'] != undefined) json['password'] = md5(json['password'])
             }
-            json['appSubjectUserMore'] = {"identifyNo": '13112719911011003X'}
+            var recordFormData = this.recordForm.serializeJ();
+            var companyAbountData = this.companyAbountForm.serializeJ();
+            json['recordData'] = recordFormData;
+            json['companyAbountData'] = companyAbountData;
             SC.Save(prefix + '/operatormanager/add', json, function(d) {
                 self.parent.reload();
                 self.tabs.closeCurTab();
             });
             return false;
+        },
+        companyAbountFormParams: function() {
+            var self = this ;
+            var formParams = {
+                fields:[{
+                    title: '入职时间',
+                    name: 'entryTime',
+                    type: 'date'
+                },{
+                    title: '转正时间',
+                    name: 'positiveTime',
+                    type: 'date'
+                },{
+                    title: '预期离职',
+                    name: 'expectedLeave',
+                    type: 'date'
+                },{
+                    title: '企业qq帐号',
+                    name: 'comQqNum'
+                },{
+                    title: '企业qq密码',
+                    name: 'comQqPasswd'
+                },{
+                    title: '企业qq权限',
+                    name: 'comQqPermit',
+                    type: 'textarea'
+                },{
+                    title: '上网IP',
+                    name: 'netIp'
+                },{
+                    title: '上网速度',
+                    name: 'netSpeed'
+                },{
+                    title: '网络权限',
+                    name: 'netPermit',
+                    type: 'textarea'
+                },{
+                    title: '电脑编号',
+                    name:'computerNo'
+                },{
+                    title: '电脑密码',
+                    name: 'computerPasswd'
+                },{
+                    title: '电脑配置',
+                    name: 'computerConfig',
+                    type: 'textarea'
+                },{
+                    title: '备注',
+                    name: 'remark',
+                    type: 'textarea'
+                }],
+                btns: [{
+                    title: '提交',
+                    class: 'btn-primary',
+                    type: 'submit',
+                    callback: $.proxy(self.submit, self)
+                }]
+            }
+            return formParams;
+        },
+        recordFormParams: function(){
+            var self = this ;
+            var formParams = {
+                fields:[{
+                    title: '身份证号',
+                    name: 'identifyNo'
+                },{
+                    title: '生日',
+                    name: 'birthday',
+                    type: 'date'
+                },{
+                    title: '婚姻状态',
+                    name: 'marriageStatus',
+                    type: 'dropdown',
+                    data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                },{
+                    title: '教育程度',
+                    name: 'educationLevel',
+                    type: 'dropdown',
+                    data: Libs.Dicts['STUDY_LEVEL']
+                },{
+                    title: '特长',
+                    name: 'strongPoint',
+                    type: 'textarea'
+                },{
+                    title: '籍贯-省',
+                    name: 'nativePlaceProv',
+                    type: 'dropdown'
+                },{
+                    title: '籍贯-市',
+                    name: 'nativePlaceCity',
+                    type: 'dropdown'
+                },{
+                    title: '籍贯-详细',
+                    name: 'nativePlaceDetail'
+                },{
+                    title: '亲属姓名',
+                    name: 'familyName'
+                },{
+                    title: '亲属关系',
+                    name: 'familyRelation'
+                },{
+                    title: '亲属号码',
+                    name: 'familyPhone'
+                }]
+            }
+            return formParams;
         },
         formParams : function() {
             var self = this;
@@ -104,12 +218,6 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '系统管理员',
                     name: 'isSysAdmin',
                     type: 'checkbox'
-                }],
-                btns: [{
-                    title: '提交',
-                    class: 'btn-primary',
-                    type: 'submit',
-                    callback: $.proxy(self.submit, self)
                 }]
             };
             return formParams;

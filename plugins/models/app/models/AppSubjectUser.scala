@@ -23,16 +23,16 @@ class AppSubjectUser extends Model {
   var username: String = _ //用户名
 
   @BeanProperty
+  var password: String = _ //密码
+
+  @BeanProperty
   var appId: String = _ //平台号
 
   @BeanProperty
   var roleType: Int = _ //角色
 
   @Transient
-  var roleName: Int = _ //角色名称
-
-  @BeanProperty
-  var password: String = _ //密码
+  var roleName: String = _ //角色名称
 
   @BeanProperty
   var organNo: String = _ //所属组织机构（公司）
@@ -71,7 +71,7 @@ class AppSubjectUser extends Model {
   var birthday: Date = _ //生日
 
   @BeanProperty
-  var marriageStatus: Boolean = _ //婚姻状态 { 0:未婚 , 1:已婚 }
+  var marriageStatus: Int = _ //婚姻状态 { 1:未婚 , 2:已婚 }
 
   @BeanProperty
   var educationLevel: Int = _  //教育程度

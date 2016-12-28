@@ -2,11 +2,16 @@
  * Created by wjr on 16-12-20.
  */
 define(['jquery'], function(){
+
+
     Number.prototype.padLeft = function(base,chr){
         var  len = (String(base || 10).length - String(this).length)+1;
         return len > 0? new Array(len).join(chr || '0')+this : this;
     }
     var Libs = window.Libs = window.Libs || {};
+    Libs.Dicts = {}
+    Libs.Dicts['STUDY_LEVEL'] = [{"id":1,"name":"小学"},{"id":2,"name":"初级中学"},{"id":3,"name":"高级中学"},{"id":4,"name":"大学专科"},{"id":5,"name":"大学本科"},{"id":6,"name":"硕士研究生"},{"id":7,"name":"博士研究生"}]
+
     Libs.formatDate = function(timestamp) {
         var d = new Date(timestamp);
         var dformat = [
