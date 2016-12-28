@@ -45,7 +45,7 @@ object AdminAreaCodeService {
   def expression(expr: ExpressionList[AdminAreaCode], form: AdminAreaCodeForm): ExpressionList[AdminAreaCode] = {
     form.id map (expr.eq("id", _))
     form.areaCode map (expr.eq("areaCode", _))
-    form.areaName map (expr.eq("areaName", _))
+    form.areaName map (v => expr.like("areaName", v + "%"))
     form.status map (expr.eq("status", _))
     form.parentCode map ( expr.eq("parentCode", _))
     expr.orderBy("areaCode asc")
