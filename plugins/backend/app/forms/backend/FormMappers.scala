@@ -151,4 +151,20 @@ object FormMappers {
       "pageSize" -> default(number, defaultPageSize)
     )(AdminAreaCodeForm.apply)(AdminAreaCodeForm.unapply)
   )
+
+  val userDepartChangeMapper = Form(
+    mapping(
+      "id" -> optional(number),
+      "changeDate" -> optional(longNumber),
+      "userId" -> optional(number),
+      "departId" -> optional(number),
+      "roleId" -> optional(number),
+      "phone" -> optional(text),
+      "wages" -> optional(number),
+      "calcuStyle" -> optional(number),
+      "remark" -> optional(text),
+      "currentPage" -> default(number, 0),
+      "pageSize" -> default(number, defaultPageSize)
+    )(UserDepartChangeForm.apply)(UserDepartChangeForm.unapply)
+  )
 }

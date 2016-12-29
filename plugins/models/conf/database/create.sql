@@ -205,6 +205,19 @@ CREATE TABLE `org_entity_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `user_depart_change` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `change_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT '0',
+  `depart_id` int(11) DEFAULT '0',
+  `role_id` int(11) DEFAULT '0',
+  `phone` varchar(12) DEFAULT NULL,
+  `wages` int(11) DEFAULT '0',
+  `calcu_style` int(11) DEFAULT '0',
+  `remark` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ## 数据库不重复自增表
 CREATE TABLE `weixin_counter` (
   `id` varchar(128) NOT NULL,

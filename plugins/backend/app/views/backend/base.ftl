@@ -40,6 +40,7 @@
 		<!--[if lt IE 9]>
 		<script src="/assets/js/thrid/html5shiv.js"></script>
 		<script src="/assets/js/thrid/respond.min.js"></script>
+		<![endif]-->
 	</head>
 	<body>
 		<#nested />

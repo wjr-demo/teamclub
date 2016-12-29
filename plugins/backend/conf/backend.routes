@@ -24,6 +24,11 @@ POST	/operatormanager/list	controllers.backend.OperatorManagerAction.list
 POST	/operatormanager/add	controllers.backend.OperatorManagerAction.add
 POST	/operatormanager/del	controllers.backend.OperatorManagerAction.del
 
+#员工变动记录
+POST	/userdepartchange/list	controllers.backend.UserDepartChangeAction.list
+POST	/userdepartchange/add	controllers.backend.UserDepartChangeAction.add
+POST	/userdepartchange/del	controllers.backend.UserDepartChangeAction.del
+
 #角色菜单关联
 POST	/approletree/list		controllers.backend.AppRoleFuncTreeAction.list
 POST	/approletree/add		controllers.backend.AppRoleFuncTreeAction.add

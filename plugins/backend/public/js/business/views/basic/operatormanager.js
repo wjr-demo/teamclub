@@ -5,41 +5,6 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
     
     var prefix = '/backend';
 
-    var EntityView = Backbone.View.extend({
-        initialize: function(d, parent) {
-            this.parent = parent;
-            this.tabs = parent.tabs;
-            this.component = new Component(this);
-            this.initD = d || {};
-            this.render();
-        },
-        render: function() {
-            var self = this ;
-            $.postJSON(prefix + '/operatormanager/list', {'id': this.initD['id']}, function(d) {
-                var renderD = d['data'][0];
-                var textViewD = [{
-                    title: '用户名',
-                    field: 'username'
-                },{
-                    title: '姓名',
-                    field: 'realName'
-                }];
-                self.component
-                    .appendPanel(Libs.tableLine('基本信息', '编辑', function() {
-                        self.tabs.addTab({
-                            title: '修改',
-                            content: new ModifyView(renderD, self).$el
-                        })
-                    }), self.component.geneTextView(textViewD, renderD).$el)
-                    .rebuild();
-            })
-        },
-        reload: function() {
-            this.render();
-            this.parent.reload();
-        }
-    });
-
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent, type) {
             this.type = type;
