@@ -1,11 +1,13 @@
 package controllers.backend
 
-import commons.Eithers
+import commons.{Libs, Eithers}
 import models.AppSubjectUser
+import play.api.cache.Cache
 import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import services.backend.OperatorManagerService
 import forms.backend.FormMappers._
+import play.api.Play.current
 
 /**
  * Created by zhangmeng on 16-12-19.
@@ -31,6 +33,7 @@ object OperatorManagerAction extends Controller{
       form => {
         form.appId = Some(request.sess.appid)
         val resp = OperatorManagerService.add(form)
+        form.id map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
         Ok(Eithers.toJson(resp))
       }
     )

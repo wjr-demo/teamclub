@@ -30,6 +30,21 @@ define([
             this.tmpContent.append($e);
             return this;
         },
+        setAsView: function($el) {
+            var self = this;
+            setTimeout(function(){
+                var $el = $el == undefined ? self.owner.$el : $el
+                var el = $el[0]
+                var $viewE = $('<div class="viewer" style="z-index: 9999; position: absolute">')
+                $viewE.css('display', 'block')
+                $viewE.css('top', el.offsetTop + "px")
+                $viewE.css('left', el.offsetLeft + "px")
+                $viewE.css('width', el.offsetWidth + "px")
+                $viewE.css('height', el.offsetHeight + "px")
+                $el.append($viewE)
+                $el.find('.btn').hide();
+            }, 500)
+        },
         //生成面板
         genePanel: function($head, $body){
             var panel = $('<div class="panel panel-default"></div>');
@@ -70,6 +85,7 @@ define([
             this.owner.$el.empty();
             this.owner.$el.append(this.tmpContent.children());
             this.tmpContent = $('<div></div>');
+            return this;
         },
         generate: function(){
             return this.tmpContent;

@@ -14,6 +14,8 @@ case class AppSubjectUserMoreForm(identifyNo: Option[String],
                                   marriageStatus: Option[Int],
                                   educationLevel: Option[Int],
                                   strongPoint: Option[String],
+                                  nativePlacePro: Option[Int],
+                                  nativePlaceCity: Option[Int],
                                   nativePlaceDetail: Option[String],
                                   familyName: Option[String],
                                   familyRelation: Option[String],
@@ -68,19 +70,29 @@ case class AppSubjectUserForm(id: Option[Int],
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
     appSubjectUserMore map { x =>
       x.identifyNo.map{ y =>  appSubjectUser.setIdentifyNo(y) }
-      x.birthday map { y => appSubjectUser.setBirthday(new Date(y))}
+      x.birthday map { y => {
+         if(y == 0) appSubjectUser.setBirthday(null) else appSubjectUser.setBirthday(new Date(y))
+      }}
       x.marriageStatus map { y => appSubjectUser.setMarriageStatus(y)}
       x.educationLevel map { y => appSubjectUser.setEducationLevel(y)}
       x.strongPoint map { y => appSubjectUser.setStrongPoint(y)}
+      x.nativePlacePro map { y => appSubjectUser.setNativePlaceProv(y)}
+      x.nativePlaceCity map { y => appSubjectUser.setNativePlaceCity(y)}
       x.nativePlaceDetail.map { y => appSubjectUser.setNativePlaceDetail(y)}
       x.familyName map { y => appSubjectUser.setFamilyName(y)}
       x.familyRelation map { y => appSubjectUser.setFamilyRelation(y)}
       x.familyPhone map { y => appSubjectUser.setFamilyPhone(y)}
     }
     appSubjectUserCompanyAbout map { x =>
-      x.entryTime map { y => appSubjectUser.setEntryTime(new Date(y))}
-      x.positiveTime map { y => appSubjectUser.setPositiveTime(new Date(y))}
-      x.expectedLeave map { y => appSubjectUser.setExpectedLeave(new Date(y))}
+      x.entryTime map { y => {
+        if(y == 0) appSubjectUser.setEntryTime(null) else appSubjectUser.setEntryTime(new Date(y))
+      }}
+      x.positiveTime map { y => {
+        if(y == 0) appSubjectUser.setPositiveTime(null) else appSubjectUser.setPositiveTime(new Date(y))
+      }}
+      x.expectedLeave map { y => {
+        if(y == 0) appSubjectUser.setExpectedLeave(null) else appSubjectUser.setExpectedLeave(new Date(y))
+      }}
       x.comQqNum map { y => appSubjectUser.setComQqNum(y)}
       x.comQqPasswd map { y => appSubjectUser.setComQqPasswd(y)}
       x.comQqPermit map { y => appSubjectUser.setComQqPermit(y)}

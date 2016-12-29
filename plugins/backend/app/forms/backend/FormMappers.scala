@@ -73,6 +73,8 @@ object FormMappers {
         "marriageStatus" -> optional(number),
         "educationLevel" -> optional(number),
         "strongPoint" -> optional(text),
+        "nativePlaceProv" -> optional(number),
+        "nativePlaceCity" -> optional(number),
         "nativePlaceDetail" -> optional(text),
         "familyName" -> optional(text),
         "familyRelation" -> optional(text),
@@ -129,6 +131,7 @@ object FormMappers {
       "id" -> optional(number),
       "departName" -> optional(text),
       "departDesc" -> optional(text),
+      "attachCode" -> optional(text),
       "appId" -> optional(text),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
@@ -143,6 +146,7 @@ object FormMappers {
       "status" -> optional(boolean),
       "createdAt" -> optional(longNumber),
       "parentCode" -> optional(number),
+      "all" -> optional(boolean),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(AdminAreaCodeForm.apply)(AdminAreaCodeForm.unapply)

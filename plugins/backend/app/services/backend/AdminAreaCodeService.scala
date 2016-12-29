@@ -2,9 +2,11 @@ package services.backend
 
 import com.avaje.ebean.ExpressionList
 import com.fasterxml.jackson.databind.JsonNode
+import com.google.common.collect.ImmutableMap
 import commons.{ErrorCodes, ErrorCode}
 import forms.backend.AdminAreaCodeForm
 import models.AdminAreaCode
+import play.libs.{Scala, Json}
 import plugins.ebean.Paging
 
 /**
@@ -14,8 +16,15 @@ object AdminAreaCodeService {
   def list(form: AdminAreaCodeForm): Either[JsonNode, ErrorCode] =  {
     val expr = AdminAreaCode.finder.where()
     expression(expr, form)
-    val page = expr.findPagingList(form.pageSize).getPage(form.currentPage)
-    Left(Paging.toPage(page).toJson)
+    form.all match {
+      case Some(v) => {
+        Left(Json.toJson(expr.findList()))
+      }
+      case None => {
+        val page = expr.findPagingList(form.pageSize).getPage(form.currentPage)
+        Left(Paging.toPage(page).toJson)
+      }
+    }
   }
 
   def add(form: AdminAreaCodeForm): Either[ErrorCode, ErrorCode] = {

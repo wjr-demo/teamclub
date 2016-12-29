@@ -28,10 +28,20 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
+        dateTimeEle: _.template('<div class="form-group" style="min-width: 300px;">\
+            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
+            <div class="<%= divClz %>">\
+                <div class="input-group">\
+                    <input type="dtime" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
+                    <span class="timeRemove input-group-addon"><i class="fa fa-remove"></i></span>\
+                </div>\
+                <div class="help-block with-errors"></div>\
+            </div>\
+        </div>'),
         textAreaEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="col-md-8">\
-                <textarea class="form-control" name="<%= name %>" id="<%= name %>" placeholder=""　/>\
+                <textarea type="textarea" class="form-control" name="<%= name %>" id="<%= name %>" rows="3" placeholder=""　/>\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
@@ -45,7 +55,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         selectEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="col-md-8">\
-                <select name="<%= name %>" class="form-control innerselect">\
+                <select name="<%= name %>" id="<%= name %>" class="form-control innerselect">\
                     <option value="0"></option>\
                 </select>\
                 <div class="help-block with-errors"></div>\
@@ -171,15 +181,19 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(param['type'] == 'dropdown'){
                 var $formEle = $(this.selectEle(param))
                 var key = param['name']
+                var mapper = param['mapper'] || {}
                 if(param['dataurl'] != undefined) {
                     $.postJSON(param['dataurl'], param['params'], function(d){
+                        d = d['data'] || d
+                        var idK = mapper['id'] || 'id'
+                        var idV = mapper['name'] || 'name'
                         _.each(d, function(dd){
-                            if(self.initD[key] == dd['id']) {
+                            if(self.initD[key] == dd[idK]) {
                                 var selected = "selected"
                             } else {
                                 var selected = "" ;
                             }
-                            $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd['id']  + '">' + dd['name'] + '</option>')
+                            $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd[idK]  + '">' + dd[idV] + '</option>')
                         });
                     })
                 }
@@ -229,9 +243,13 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = $(this.checkBoxEle(param))
             }else if(param['type'] == 'date'){
                 this.seriFilterArray.push(param['name']);
-                param['type'] = 'dtime';
-                var $formEle = $(this.formEle(param));
+                var $formEle = $(this.dateTimeEle(param));
                 var $elInput = $formEle.find('input');
+                var $elRemove = $formEle.find('.timeRemove');
+                $elRemove.on('click', function(){
+                    $elInput.val('');
+                    $elInput.attr('val', '0');
+                });
                 $elInput.on('change', function() {
                     var val = $elInput.val();
                     var timeV = new Date(Date.parse(val)).getTime()
@@ -252,8 +270,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 }
             }else if(param['type'] == 'datetime'){
                 this.seriFilterArray.push(param['name']);
-                param['type'] = 'text';
-                var $formEle = $(this.formEle(param));
+                var $formEle = $(this.dateTimeEle(param));
                 var $elInput = $formEle.find('input');
                 $elInput.on('change', function() {
                     var val = $elInput.val();

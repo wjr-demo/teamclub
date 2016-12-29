@@ -40,6 +40,7 @@ GET		/globalconfig/jsList.js	controllers.backend.AdminGlobalConfigAction.jsList
 POST    /appdepartment/list     controllers.backend.AppDepartmentAction.list
 POST    /appdepartment/add      controllers.backend.AppDepartmentAction.add
 POST    /appdepartment/del      controllers.backend.AppDepartmentAction.del
+POST	/appdepartment/keycode	controllers.backend.AppDepartmentAction.keycode
 
 #地区管理
 POST	/adminareacode/list		controllers.backend.AdminAreaCodeAction.list

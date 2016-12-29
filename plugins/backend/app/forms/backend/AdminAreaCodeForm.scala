@@ -13,6 +13,7 @@ case class AdminAreaCodeForm(id: Option[Int],
                              status:Option[Boolean],
                              createdAt: Option[Long],
                              parentCode: Option[Int],
+                             all: Option[Boolean],
                              currentPage: Int,
                              pageSize: Int) extends ToModel[AdminAreaCode]{
   def toModel(): AdminAreaCode = {

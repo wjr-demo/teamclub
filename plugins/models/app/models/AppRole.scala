@@ -37,6 +37,9 @@ class AppRole extends Model {
   @BeanProperty
   var createdBy: String = _
 
+  @BeanProperty
+  var attachCode: String = _
+
   @Version
   @BeanProperty
   var updateVersion: Int = _

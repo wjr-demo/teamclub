@@ -41,6 +41,11 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     name: 'departName',
                     required: true
                 },{
+                    title: '关联编码',
+                    name: 'attachCode',
+                    type: 'dropdown',
+                    dataurl: prefix + '/appdepartment/keycode'
+                },{
                     title: '部门描述',
                     name: 'departDesc',
                     type: 'textarea'
@@ -83,6 +88,9 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                 columns: [{
                     title: "部门名称",
                     data: "departName"
+                },{
+                    title: '关联编码',
+                    data: 'attachCode'
                 },{
                     title: '部门描述',
                     data: 'departDesc'

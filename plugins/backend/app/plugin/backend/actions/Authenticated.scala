@@ -32,6 +32,7 @@ object Authenticated extends ActionBuilder[AuthenticatedRequest] {
         val appSubjectUser = Cache.getAs[AppSubjectUser](Libs.CachePrefix.LOGIN + ss).getOrElse {
           AppSubjectUser.finder.byId(ss)
         }
+        appSubjectUser.setPassword("")
         Cache.set(Libs.CachePrefix.LOGIN + ss, appSubjectUser, cacheTime)
         block(new AuthenticatedRequest(XSession(appSubjectUser.username, appSubjectUser.appId, appSubjectUser.organNo, appSubjectUser), request))
       }catch{

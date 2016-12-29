@@ -41,13 +41,17 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
     });
 
     var ModifyView = Backbone.View.extend({
-        initialize: function(d, parent) {
+        initialize: function(d, parent, type) {
+            this.type = type;
             this.isModify = d != undefined ;
             this.d = d || {};
             this.parent = parent;
             this.tabs = parent.tabs;
             this.component = new Component(this);
             this.render();
+        },
+        events: {
+            'change #nativePlaceProv': 'changeProv'
         },
         render: function(){
             this.form = this.component.geneForm(this.formParams(), this.d);
@@ -58,9 +62,23 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                 .appendPanel('档案信息', this.recordForm.form())
                 .appendPanel('相关信息', this.companyAbountForm.form())
                 .build();
+            if(this.type == 'view') {
+                this.component.setAsView();
+            }
             if(this.isModify) {
                 this.form.hideEle('password');
             }
+        },
+        changeProv: function(){
+            var self = this ;
+            var nativeProvV = this.$('#nativePlaceProv').val();
+            var params = {'parentCode': nativeProvV, 'all': true};
+            this.$('#nativePlaceCity').find('option').remove().end().append('<option>')
+            $.postJSON(prefix + '/adminareacode/list',params, function(d){
+                _.each(d, function(single){
+                    self.$('#nativePlaceCity').append('<option value="' + single['id'] +  '">' + single['areaName'] + '</option>')
+                })
+            })
         },
         submit: function(e) {
             var self = this;
@@ -160,20 +178,27 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     type: 'dropdown',
                     data: Libs.Dicts['STUDY_LEVEL']
                 },{
-                    title: '特长',
-                    name: 'strongPoint',
-                    type: 'textarea'
-                },{
                     title: '籍贯-省',
                     name: 'nativePlaceProv',
-                    type: 'dropdown'
+                    type: 'dropdown',
+                    dataurl: prefix + '/adminareacode/list',
+                    params: {'parentCode': 0, 'all': true},
+                    mapper: {'id': 'id', 'name': 'areaName'}
                 },{
                     title: '籍贯-市',
                     name: 'nativePlaceCity',
-                    type: 'dropdown'
+                    type: 'dropdown',
+                    dataurl: prefix + '/adminareacode/list',
+                    params: {'parentCode': self.d['nativePlaceProv'], 'all': true},
+                    mapper: {'id': 'id', 'name': 'areaName'}
                 },{
                     title: '籍贯-详细',
-                    name: 'nativePlaceDetail'
+                    name: 'nativePlaceDetail',
+                    type: 'textarea'
+                },{
+                    title: '特长',
+                    name: 'strongPoint',
+                    type: 'textarea'
                 },{
                     title: '亲属姓名',
                     name: 'familyName'
@@ -322,7 +347,7 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
         view: function(d) {
             this.tabs.addTab({
                 title: '查看',
-                content: new EntityView(d, this).$el
+                content: new ModifyView(d, this, 'view').$el
             })
         },
         modify: function(d) {

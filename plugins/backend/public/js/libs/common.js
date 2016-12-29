@@ -82,7 +82,8 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                     }
                 }else {
                     if(val != undefined){
-                        if(that.attr('type') == 'text' && val == "") val = " "
+                        var type = that.attr('type');
+                        if((type == 'text' ||  type == 'textarea')&& val == "") val = " "
                         res[name] = val;
                     }
                 }
@@ -95,6 +96,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
         }
     };
     $.postJSON = function(url,data,s,e){
+        data = data || {}
         if($.isFunction(data)){
             e = s;
             s = data;

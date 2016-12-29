@@ -39,6 +39,7 @@ CREATE TABLE `admin_global_config` (
 CREATE TABLE `app_department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `depart_name` varchar(32) NOT NULL,
+  `attach_code` varchar(16) DEFAULT NULL,
   `depart_desc` varchar(128) DEFAULT NULL,
   `update_version` int(11) DEFAULT '0',
   `app_id` varchar(16) NOT NULL,

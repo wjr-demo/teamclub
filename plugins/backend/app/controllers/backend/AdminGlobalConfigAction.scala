@@ -40,9 +40,17 @@ object AdminGlobalConfigAction extends Controller {
     )
   }
 
-  def jsList = Action { implicit request =>
-    val json = AdminGlobalConfigService.jsList
-    val str = "define(function(){window.globalCfgDict = new Func.DictUtils(" + Json.stringify(json) + ");})"
+  def jsList = Authenticated { implicit request =>
+    val dict = Json.stringify(AdminGlobalConfigService.jsList)
+    val scCurrent = Json.toJson(request.sess.appSubjectUser)
+    val str =
+      s"""
+        |define(function(){
+        | window.globalCfgDict = new Func.DictUtils(${dict});
+        | var SC = window.SC = window.SC || {}; SC.current=${scCurrent}
+        |})
+        |
+      """.stripMargin
     Ok(str).as("text/javascript; charset=utf8")
   }
 

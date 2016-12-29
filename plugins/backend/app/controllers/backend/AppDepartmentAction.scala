@@ -1,6 +1,7 @@
 package controllers.backend
 
 import commons.Eithers
+import enums.backend.Department
 import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import forms.backend.FormMappers._
@@ -41,5 +42,9 @@ object AppDepartmentAction extends Controller{
         Ok(Eithers.toJson(resp))
       }
     )
+  }
+
+  def keycode = Authenticated { implicit request =>
+    Ok(Eithers.toJson(Left(Department.getAll())))
   }
 }

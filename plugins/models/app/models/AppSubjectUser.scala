@@ -130,20 +130,20 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var remark: String =_ //备注
 
-  def getRoleName: String = {
-    if(roleType != 0)
-      AppRole.finder.byId(roleType).getRolename
-    else
-      ""
-  }
+  @Transient
+  var deptAttachCode:String = _ //部门Attach Code
 
-  def getDeptName: String = {
-    if(deptid != 0) {
-      AppDepartment.finder.byId(deptid).getDepartName
-    }else {
-      ""
-    }
-  }
+  @Transient
+  var roleAttachCode: String = _ //角色 Attach Code
+
+  def getRoleAttachCode: String =  if(roleType != 0) AppRole.finder.byId(roleType).getAttachCode else ""
+
+  def getRoleName: String = if(roleType != 0) AppRole.finder.byId(roleType).getRolename else ""
+
+  def getDeptAttachCode: String = if(deptid != 0) AppDepartment.finder.byId(deptid).getAttachCode else ""
+
+  def getDeptName: String = if(deptid != 0)  AppDepartment.finder.byId(deptid).getDepartName else ""
+
 }
 object AppSubjectUser {
   val finder = new Finder(classOf[Int], classOf[AppSubjectUser])

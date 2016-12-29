@@ -26,6 +26,9 @@ class AppDepartment extends Model {
   var appId: String =  _
 
   @BeanProperty
+  var attachCode: String = _
+
+  @BeanProperty
   @Version
   var updateVersion: Int = _
 
