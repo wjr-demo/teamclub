@@ -46,6 +46,7 @@ define(function(){
         showField: 'rolename'
     }
 
+    /*** 部门管理 */
     enumsPopUp['DEPTLIST'] = {
         url: '/backend/appdepartment/list',
         columns: [{

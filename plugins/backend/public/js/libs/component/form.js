@@ -308,6 +308,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(param['hideLabel'] == true) {
                 $formEle.find('label').hide();
             }
+            if(param['callback'] != undefined) {
+                var finalV = param['callback'](this.initD[param['name']])
+                $formEle.find('input').val(finalV)
+                this.seriFilterArray.push(param['name']);
+            }
             return $formEle;
         },
         initFileInput: function ($el, uploadUrl) {
@@ -324,7 +329,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var $tmp = $('<div class="row col-md-12"></div>');
             $tmp.append(this.$row);
             var cloneInitD = _.clone(this.initD);
-            console.log(this.seriFilterArray)
+            //console.log(this.seriFilterArray)
             _.each(this.seriFilterArray, function(d) {
                 delete cloneInitD[d];
             });

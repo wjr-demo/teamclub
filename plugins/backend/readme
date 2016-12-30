@@ -6,4 +6,24 @@ form
     type: 'popUp',
     viewOption: self.component.enumsPopUp['APPMANAGER'],
     required: true
+
+    type: 'dropdown',
+    dataurl: prefix + '/adminareacode/list',
+    params: {'parentCode': 0, 'all': true},
+    mapper: {'id': 'id', 'name': 'areaName'}
+}
+
+
+
+table {
+	title: "创建时间",
+	data: "createdAt",
+	render: function(d) {
+		return Libs.formatDate(d);
+	}
+	"ajax": {
+    	url: prefix + '/userdepartchange/list',
+    	type: 'POST',
+    	extendData: {'userId': self.initD['id']}
+    }
 }

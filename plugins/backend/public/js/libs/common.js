@@ -113,6 +113,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
             success:s,
             error:function(e) {
                 console.log(e)
+                alert(e.statusText)
             }
         });
     };

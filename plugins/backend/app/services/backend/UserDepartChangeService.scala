@@ -1,10 +1,11 @@
 package services.backend
 
-import com.avaje.ebean.ExpressionList
+import com.avaje.ebean.{Ebean, ExpressionList}
 import com.fasterxml.jackson.databind.JsonNode
 import commons.{ErrorCodes, ErrorCode}
 import forms.backend.UserDepartChangeForm
-import models.UserDepartChange
+import models.{AppSubjectUser, UserDepartChange}
+import play.api.Logger
 import plugins.ebean.Paging
 
 /**
@@ -32,8 +33,30 @@ object UserDepartChangeService {
 
   def add(form: UserDepartChangeForm): Either[ErrorCode, ErrorCode] = {
     val model = form.toModel()
-    form.id.fold(model.save)(model.update)
-    Left(ErrorCodes.SUCCESS)
+    val trans = Ebean.beginTransaction()
+    try{
+      form.id match {
+        case Some(v) => {
+          model.update
+        }
+        case None => {
+          model.save
+        }
+      }
+      val appUser = AppSubjectUser.finder.byId(model.userId)
+      appUser.setDeptid(model.getDepartId)
+      appUser.setRoleType(model.getRoleId)
+      appUser.update()
+      trans.commit()
+      Left(ErrorCodes.SUCCESS)
+    } catch{
+      case e: Exception => {
+        Logger.error("", e)
+        Right(ErrorCodes.of(e.getMessage))
+      }
+    }finally {
+      trans.end()
+    }
   }
 
   def expression(expr: ExpressionList[UserDepartChange], form: UserDepartChangeForm): Unit = {
@@ -42,5 +65,6 @@ object UserDepartChangeService {
     form.userId.map(expr.eq("userId", _))
     form.departId.map(expr.eq("departId", _))
     form.roleId.map(expr.eq("roleId", _))
+    expr.orderBy("changeDate desc")
   }
 }

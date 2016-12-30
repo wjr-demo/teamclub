@@ -15,7 +15,7 @@ object Dict extends App {
       )
   }
 
-  val PAY_STYLE = List(
+  val ORDER_PAY_STYLE = List(
     Dict(1, "款到发货"),
     Dict(2, "预付总货款的30%，发货前付清余款"),
     Dict(3, "预付总货款的30%，货到付款"),
@@ -58,8 +58,15 @@ object Dict extends App {
     Dict(7, "博士研究生")
   )
 
+  val USER_PAY_STYLE = List(
+    Dict(1, "计时"),
+    Dict(2, "记件"),
+    Dict(3, "计时+记件")
+  )
+
 //  println(Json.toJson(PAY_STYLE))
 //  println(Json.toJson(CUSTOMER_LEVEL))
 //  println(Json.toJson(FILE_TRANSFER_STYLE))
-  println(Json.toJson(STUDY_LEVEL))
+//  println(Json.toJson(STUDY_LEVEL))
+  println(Json.toJson(USER_PAY_STYLE))
 }

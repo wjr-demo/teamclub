@@ -2,8 +2,10 @@ import com.avaje.ebean.Ebean;
 import commons.Libs;
 import commons.support.counter.Counter;
 import freemarker.template.SimpleDate;
+import models.AdminGlobalConfig;
 import models.AppDomain;
 import models.AppFuncTree;
+import models.AppSubjectUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import play.cache.Cache;
@@ -36,9 +38,8 @@ public class MemcacheTest extends BaseTest {
 
     @Test
     public void TestCounter() {
-        for(int i = 0 ;i < 10; i++){
-            System.out.println(libs.backend.Libs.geneOrganNum());
-        }
+        String v = AdminGlobalConfig.getByKey("USER_PAY_STYLE", 1);
+        System.out.println(v);
     }
 
     @Test

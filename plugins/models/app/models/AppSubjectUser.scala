@@ -31,9 +31,6 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var roleType: Int = _ //角色
 
-  @Transient
-  var roleName: String = _ //角色名称
-
   @BeanProperty
   var organNo: String = _ //所属组织机构（公司）
 
@@ -42,9 +39,6 @@ class AppSubjectUser extends Model {
 
   @BeanProperty
   var deptid: Int = _ //部门id
-
-  @Transient
-  var deptName: String = _ //部门名称
 
   @BeanProperty
   var isSysAdmin: Boolean = _ //是否系统管理员
@@ -131,10 +125,16 @@ class AppSubjectUser extends Model {
   var remark: String =_ //备注
 
   @Transient
+  var roleName: String = _ //角色名称
+
+  @Transient
   var deptAttachCode:String = _ //部门Attach Code
 
   @Transient
   var roleAttachCode: String = _ //角色 Attach Code
+
+  @Transient
+  var deptName: String = _ //部门名称
 
   def getRoleAttachCode: String =  if(roleType != 0) AppRole.finder.byId(roleType).getAttachCode else ""
 
@@ -143,6 +143,10 @@ class AppSubjectUser extends Model {
   def getDeptAttachCode: String = if(deptid != 0) AppDepartment.finder.byId(deptid).getAttachCode else ""
 
   def getDeptName: String = if(deptid != 0)  AppDepartment.finder.byId(deptid).getDepartName else ""
+
+  def getDepartment: AppDepartment = AppDepartment.finder.byId(deptid)
+
+  def getRole: AppRole = AppRole.finder.byId(roleType)
 
 }
 object AppSubjectUser {

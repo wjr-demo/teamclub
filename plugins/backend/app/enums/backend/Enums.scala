@@ -25,6 +25,12 @@ object Department extends Enumeration {
   case class DepartmentVal(key: String, desc: String) extends Val(key)
   val ADMINISTRATOR = DepartmentVal("ADMINISTRATOR", "行政部")
   val FINANCE = DepartmentVal("FINANCE", "财务部")
+  val BUSINESS = DepartmentVal("BUSINESS", "商务部")
+  val PRODUCER = DepartmentVal("PRODUCER", "制造部")
+  val PURCHASE = DepartmentVal("PURCHASE", "采购部")
+  val TECHNOLOGY = DepartmentVal("TECHNOLOGY", "技术部")
+  val STORAGE = DepartmentVal("STORAGE", "仓库部")
+  val GENERALMANAGER = DepartmentVal("GENERALMANAGER", "总经办")
 
   implicit def valueToDepartment(v:Value): DepartmentVal = v.asInstanceOf[DepartmentVal]
 

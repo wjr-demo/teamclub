@@ -2,7 +2,69 @@
  * Created by wjr on 16-12-20.
  */
 define(['jquery'], function(){
-
+    //除法函数，用来得到精确的除法结果
+    //说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+    //调用：accDiv(arg1,arg2)
+    //返回值：arg1除以arg2的精确结果
+    function accDiv(arg1,arg2){
+        var t1=0,t2=0,r1,r2;
+        try{t1=arg1.toString().split(".")[1].length}catch(e){}
+        try{t2=arg2.toString().split(".")[1].length}catch(e){}
+        with(Math){
+            r1=Number(arg1.toString().replace(".",""));
+            r2=Number(arg2.toString().replace(".",""));
+            return (r1/r2)*pow(10,t2-t1);
+        }
+    }
+    //给Number类型增加一个div方法，调用起来更加方便。
+    Number.prototype.div = function (arg){
+        return accDiv(this, arg);
+    };
+    //乘法函数，用来得到精确的乘法结果
+    //说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+    //调用：accMul(arg1,arg2)
+    //返回值：arg1乘以arg2的精确结果
+    function accMul(arg1,arg2)
+    {
+        var m=0,s1=arg1.toString(),s2=arg2.toString();
+        try{m+=s1.split(".")[1].length}catch(e){}
+        try{m+=s2.split(".")[1].length}catch(e){}
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+    }
+    //给Number类型增加一个mul方法，调用起来更加方便。
+    Number.prototype.mul = function (arg){
+        return accMul(arg, this);
+    };
+    //加法函数，用来得到精确的加法结果
+    //说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+    //调用：accAdd(arg1,arg2)
+    //返回值：arg1加上arg2的精确结果
+    function accAdd(arg1,arg2){
+        var r1,r2,m;
+        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+        m=Math.pow(10,Math.max(r1,r2));
+        return (arg1*m+arg2*m)/m;
+    }
+    //给Number类型增加一个add方法，调用起来更加方便。
+    Number.prototype.add = function (arg){
+        return accAdd(arg,this);
+    }
+    //减法函数
+    function accSub(arg1,arg2){
+        var r1,r2,m,n;
+        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+        m=Math.pow(10,Math.max(r1,r2));
+        //last modify by deeka
+        //动态控制精度长度
+        n=(r1>=r2)?r1:r2;
+        return ((arg2*m-arg1*m)/m).toFixed(n);
+    }
+    ///给number类增加一个sub方法，调用起来更加方便
+    Number.prototype.sub = function (arg){
+        return accSub(arg,this);
+    }
 
     Number.prototype.padLeft = function(base,chr){
         var  len = (String(base || 10).length - String(this).length)+1;
@@ -225,5 +287,58 @@ define(['jquery'], function(){
             return true;
         }
     };
+    /**
+     * 金额千分位处理类
+     */
+    Func.NumUtils = function(_number){
+        var num = _number + "";
+        num = num.replace(new RegExp(",","g"),"");
+        // 正负号处理
+        var symble = "";
+        if(/^([-+]).*$/.test(num)) {
+            symble = num.replace(/^([-+]).*$/,"$1");
+            num = num.replace(/^([-+])(.*)$/,"$2");
+        }
+
+        if(/^[0-9]+(\.[0-9]+)?$/.test(num)) {
+            var num = num.replace(new RegExp("^[0]+","g"),"");
+            if(/^\./.test(num)) {
+                num = "0" + num;
+            }
+
+            var decimal = num.replace(/^[0-9]+(\.[0-9]+)?$/,"$1");
+            var integer= num.replace(/^([0-9]+)(\.[0-9]+)?$/,"$1");
+
+            var re=/(\d+)(\d{3})/;
+
+            //符号 + 小数点前的数值 + 小数点后的数值
+            var v = symble + integer + decimal;
+            v = v == '' ? '0' : v;
+            v = parseFloat(v).toFixed(2);
+            while(re.test(v)){
+                v = v.replace(re,"$1,$2");
+            }
+            this._value = v;
+        } else {
+            this._value = _number;
+        }
+    };
+    Func.NumUtils.prototype = {
+        getValue:function(){
+            return this._value;
+        }
+    };
+
+
+    var Department = window.Department = window.Department || {};
+    Department.ADMINISTRATOR = "ADMINISTRATOR" //行政部
+    Department.FINANCE = "FINANCE" //财务部
+    Department.BUSINESS = "BUSINESS" //商务部
+    Department.PRODUCER = "PRODUCER" //制造部
+    Department.PURCHASE = "PURCHASE" //采购部
+    Department.TECHNOLOGY = "TECHNOLOGY" //技术部
+    Department.STORAGE = "STORAGE"  //仓库部
+    Department.GENERALMANAGER = "GENERALMANAGER" //总经办
+
 })
 

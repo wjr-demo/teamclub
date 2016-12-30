@@ -4,6 +4,7 @@ import javax.persistence.{Version, Id, Entity}
 
 import play.db.ebean.Model
 import play.db.ebean.Model.Finder
+import play.libs.{Scala, Json}
 
 import scala.beans.BeanProperty
 
@@ -41,4 +42,15 @@ class AdminGlobalConfig extends Model {
 
 object AdminGlobalConfig {
   val finder = new Finder(classOf[Int], classOf[AdminGlobalConfig])
+
+  def getByKey[T](key: String, id: T) = {
+    val config = AdminGlobalConfig.finder.where().eq("keyCode", key).setMaxRows(1).findUnique()
+    val listMap = Json.fromJson(Json.parse(config.getValue), classOf[java.util.List[java.util.HashMap[T, String]]])
+    val result = Scala.toSeq(listMap).find( map => map.get("id") == id)
+    result match {
+      case Some(v) => v.get("name")
+      case None => ""
+    }
+  }
+
 }

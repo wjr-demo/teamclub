@@ -2,6 +2,7 @@ package controllers.backend
 
 import commons.Eithers
 import forms.backend.{Forms, FormMappers, AdminGlobalConfigForm}
+import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import play.libs.Json
 import plugin.backend.actions.Authenticated
@@ -42,6 +43,7 @@ object AdminGlobalConfigAction extends Controller {
 
   def jsList = Authenticated { implicit request =>
     val dict = Json.stringify(AdminGlobalConfigService.jsList)
+    Logger.info(dict)
     val scCurrent = Json.toJson(request.sess.appSubjectUser)
     val str =
       s"""

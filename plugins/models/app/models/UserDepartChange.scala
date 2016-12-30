@@ -40,6 +40,12 @@ class UserDepartChange extends Model{
 
   @BeanProperty
   var remark: String = _
+
+  def getDepartName: String = AppDepartment.finder.byId(departId).getDepartName
+
+  def getRoleName: String = AppRole.finder.byId(roleId).getRolename
+
+  def getCalcuStyleName: String = AdminGlobalConfig.getByKey("USER_PAY_STYLE", calcuStyle)
 }
 
 object UserDepartChange {

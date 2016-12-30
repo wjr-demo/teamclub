@@ -31,9 +31,9 @@ class PlayKaptcha (app: Application) extends Plugin {
   }
 
   /**
-   * Token expiration time in seconds, default is 12 hours
+   * Token expiration time in seconds, default is 10 minutes
    */
-  lazy val tokenExpiration= app.configuration.getInt("kaptcha.token.expiration").getOrElse(43200)
+  lazy val tokenExpiration= app.configuration.getInt("kaptcha.token.expiration").getOrElse(600)
 
   /**
    * Image type: png, jpg etc... default is png

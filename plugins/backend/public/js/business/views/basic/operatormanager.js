@@ -1,7 +1,7 @@
 /**
  * Created by wjr on 16-12-19.
  */
-define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
+define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchange'], function(Backbone, Component, md5, UserDepartChange){
     
     var prefix = '/backend';
 
@@ -191,16 +191,6 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '密码',
                     name: 'password'
                 },{
-                    title: '角色',
-                    name: 'roleType',
-                    type: 'popUp',
-                    viewOption: self.component.enumsPopUp['ROLELIST'],
-                },{
-                    title: '所属部门',
-                    name: 'deptid',
-                    type: 'popUp',
-                    viewOption: self.component.enumsPopUp['DEPTLIST'],
-                },{
                     title: '部门管理员',
                     name: 'isDeptAdmin',
                     type: 'checkbox'
@@ -269,12 +259,14 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                     title: '操作',
                     data: null,
                     render: function(){
+                        var btnWorkMove =  '<input type="button" value="职务委派" class="btn" name="workMove"/>';
                         var btnView =  '<input type="button" value="查看" class="btn" name="view"/>';
                         var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
                         var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
-                        return btnView + btnModify + btnDelete;
+                        return btnWorkMove + btnView + btnModify + btnDelete;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
+                        $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData));
                         $(td).find('input[name=view]').on('click', $.proxy(self.view, self, rowData));
                         $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
                         $(td).find('input[name=delete]').on('click', $.proxy(self.delete, self, rowData));
@@ -282,6 +274,12 @@ define(['backbone', 'component', 'md5'], function(Backbone, Component, md5){
                 }]
             };
             return tableParams;
+        },
+        workMove: function(d) {
+            this.tabs.addTab({
+                title: '职务委派',
+                content: new UserDepartChange(d, this).$el
+            })
         },
         searParams: function() {
             var self = this ;

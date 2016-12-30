@@ -8,7 +8,7 @@ import models.UserDepartChange
  * Created by zhangmeng on 16-12-29.
  */
 case class UserDepartChangeForm(id: Option[Int],
-                                changeDate: Option[Long],
+                                var changeDate: Option[Long],
                                 userId: Option[Int],
                                 departId: Option[Int],
                                 roleId: Option[Int],

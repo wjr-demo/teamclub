@@ -1,6 +1,9 @@
 package controllers.backend
 
-import commons.Eithers
+import java.util.Date
+
+import commons.{Libs, Eithers}
+import play.api.cache.Cache
 import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import services.backend.UserDepartChangeService
@@ -14,8 +17,8 @@ object UserDepartChangeAction extends Controller {
     userDepartChangeMapper.bindFromRequest().fold(
       error => Ok(Eithers.failure(error)),
       form => {
-        UserDepartChangeService.list
-        Ok
+        val resp = UserDepartChangeService.list(form)
+        Ok(Eithers.toJson(resp))
       }
     )
   }
@@ -23,8 +26,11 @@ object UserDepartChangeAction extends Controller {
     userDepartChangeMapper.bindFromRequest().fold(
       error => Ok(Eithers.failure(error)),
       form => {
-        UserDepartChangeService.add
-        Ok
+        form.changeDate = Some(new Date().getTime())
+        val resp = UserDepartChangeService.add(form)
+        import play.api.Play.current
+        form.userId map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
+        Ok(Eithers.toJson(resp))
       }
     )
   }
@@ -32,8 +38,8 @@ object UserDepartChangeAction extends Controller {
     userDepartChangeMapper.bindFromRequest().fold(
       error => Ok(Eithers.failure(error)),
       form => {
-        UserDepartChangeService.del
-        Ok
+        val resp = UserDepartChangeService.del(form)
+        Ok(Eithers.toJson(resp))
       }
     )
   }

@@ -37,9 +37,9 @@ object AdminGlobalConfigService {
 
   def jsList: JsonNode = {
     val list = AdminGlobalConfig.finder.findList()
-    val map = Maps.newHashMap[String,String]()
+    val map = Maps.newHashMap[String,JsonNode]()
     for(agc: AdminGlobalConfig <- Scala.toSeq(list)){
-      map.put(agc.getKeyCode, agc.getValue)
+      map.put(agc.getKeyCode, Json.parse(agc.getValue))
     }
     Json.toJson(map)
   }
