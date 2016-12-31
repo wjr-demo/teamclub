@@ -44,8 +44,24 @@ object Department extends Enumeration {
   }
 }
 
+object Permissions extends Enumeration {
+  case class PermissionVal(key: String, desc: String) extends Val(key)
+  val EXAMINE = PermissionVal("EXAMINE", "审核")
+
+  implicit def valueToPermissions(v:Value): PermissionVal = v.asInstanceOf[PermissionVal]
+
+  def getAll(): JsonNode = {
+    val list = Lists.newArrayList[ImmutableMap[String, String]]()
+    Permissions.values foreach{ p =>
+      val map = ImmutableMap.of("id", p.key, "name", p.desc)
+      list.add(map)
+    }
+    Json.toJson(list)
+  }
+}
+
 object EnumMain {
   def main(args: Array[String]): Unit = {
-    println(Department.getAll())
+    println(Permissions.getAll)
   }
 }

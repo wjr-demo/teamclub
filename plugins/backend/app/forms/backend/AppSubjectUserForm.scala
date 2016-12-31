@@ -33,7 +33,9 @@ case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
                                       computerNo: Option[String],
                                       computerPasswd: Option[String],
                                       computerConfig: Option[String],
-                                      remark: Option[String])
+                                      remark: Option[String],
+                                      awardRecord: Option[String],
+                                      breakRuleRecord: Option[String])
 
 case class AppSubjectUserForm(id: Option[Int],
                               username: Option[String],
@@ -103,6 +105,8 @@ case class AppSubjectUserForm(id: Option[Int],
       x.computerPasswd map { y => appSubjectUser.setComputerPasswd(y)}
       x.computerConfig map { y => appSubjectUser.setComputerConfig(y)}
       x.remark map { y => appSubjectUser.setRemark(y)}
+      x.awardRecord map { y => appSubjectUser.setAwardRecord(y)}
+      x.breakRuleRecord map { y => appSubjectUser.setBreakRuleRecord(y)}
     }
     appSubjectUser
   }

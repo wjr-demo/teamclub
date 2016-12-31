@@ -48,6 +48,7 @@ object FormMappers {
       "organNo" -> optional(text),
       "createdAt" -> optional(longNumber),
       "createdBy" -> optional(text),
+      "attachCode" -> optional(text),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(RoleManagerForm.apply)(RoleManagerForm.unapply)
@@ -93,7 +94,9 @@ object FormMappers {
         "computerNo" -> optional(text),
         "computerPasswd" -> optional(text),
         "computerConfig" -> optional(text),
-        "remark" -> optional(text)
+        "remark" -> optional(text),
+        "awardRecord"  -> optional(text),
+        "breakRuleRecord" -> optional(text)
       )(AppSubjectUserCompanyAbout.apply)(AppSubjectUserCompanyAbout.unapply)),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)

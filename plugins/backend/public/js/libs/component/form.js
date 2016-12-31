@@ -10,7 +10,8 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         'labelStyle': {'padding-top': '7px', 'text-align': 'right'},
         'row' : '<form role="form" class="form-inline" data-toggle="validator">',
         'singleClazz' : '',
-        'btnClazz': 'col-md-2'
+        'btnClazz': 'col-md-2',
+        'withHideBtn': true
 
     };
 
@@ -24,7 +25,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         formEle: _.template('<div class="form-group" style="min-width: 300px;">\
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="<%= divClz %>">\
-                <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
+                <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="<%= placeholder %>">\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
@@ -32,7 +33,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
             <div class="<%= divClz %>">\
                 <div class="input-group">\
-                    <input type="dtime" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
+                    <input type="dtime" class="form-control" style="background-color: #FFF" name="<%= name %>" id="<%= name %>" placeholder="">\
                     <span class="timeRemove input-group-addon"><i class="fa fa-remove"></i></span>\
                 </div>\
                 <div class="help-block with-errors"></div>\
@@ -76,6 +77,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <input type="button" />\
         </div>'),
         initialize: function (initParams, initD, addParam) {
+            this.renderSearchDataFunc = initParams['renderSearchData']
             var params = $.extend(true, {}, initParams);
             var self = this;
             this.initD = initD || {};
@@ -83,6 +85,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$searchBtn = undefined;
             this.addParam = addParam || {};
             this.factory = multiType[this.addParam['formType']] || {};
+            this.withHideBtn =  this.factory['withHideBtn']
             if(this.factory['row'] == undefined) {
                 this.$row = $('<form role="form" class="form-horizontal" data-toggle="validator">');
             } else {
@@ -92,6 +95,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var i = 0 ;
             var btnIndex = 0 ;
             var $tmp = $('<div class="row">')
+            var $moreFields = $('<div id="moreFields" style="display: none;"></div>')
+            var withMore = false;
+            var maxFields = 3;
+            params.fields = params.fields || {}
+            params.fields.length > maxFields ? withMore = true : withMore = false
             _.each(params.fields, function(param){
                 param['title'] = (param['title'] || '无题') + "：";
                 param['divClz'] = param['divClz'] || 'col-md-8';
@@ -99,8 +107,17 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     param['title'] += '<span style="color: red; vertical-align: sub;">*</span>'
                 }
                 param['type'] = param['type'] || 'text';
-                $tmp.append((self.geneSingle(i++, param)));
+                if(++i <= maxFields ) {
+                    $tmp.append((self.geneSingle(i, param)));
+                }else {
+                    if(self.withHideBtn) {
+                        $moreFields.append(self.geneSingle(i, param))
+                    }else {
+                        $tmp.append((self.geneSingle(i, param)));
+                    }
+                }
             });
+            $tmp.append($moreFields);
             self.$row.append($tmp);
             if(this.factory == undefined) {
                 self.$row.append($('<div class="row" style="height: 20px;">'))
@@ -114,6 +131,19 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 param['clazz'] = param.class;
                 $tmp.append(self.geneBtn(total, btnIndex++, param));
             });
+            if(withMore && this.withHideBtn)  {
+                var param = {}
+                param['title'] = '高级搜索'
+                param['id'] = 'toggleMore'
+                param['callback'] = function(){
+                    if(self.$('#moreFields').css('display') == 'inline') {
+                        self.$('#moreFields').css({'display': 'none'})
+                    }else {
+                        self.$('#moreFields').css({'display': 'inline'})
+                    }
+                }
+                $tmp.append(self.geneBtn(total + 1, btnIndex, param))
+            }
             self.$row.append($tmp);
         },
         hideEle: function(name) {
@@ -291,6 +321,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
                 }
             }else {
+                param['placeholder'] = param['placeholder'] || ''
                 var $formEle = $(this.formEle(param));
             }
             $formEle.addClass(clazz);

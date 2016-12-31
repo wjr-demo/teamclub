@@ -17,6 +17,7 @@ case class RoleManagerForm(id: Option[Int],
                            var organNo: Option[String],
                            var createdAt: Option[Long],
                            var createdBy: Option[String],
+                           attachCode: Option[String],
                            currentPage: Int,
                            pageSize: Int = 10) extends ToModel[AppRole]{
   def toModel(): AppRole = {
@@ -27,6 +28,7 @@ case class RoleManagerForm(id: Option[Int],
     organNo.map(model.setOrganNo)
     createdAt.map(v => model.setCreatedAt(new Date(v)))
     createdBy.map(model.setCreatedBy)
+    attachCode map model.setAttachCode
     model
   }
 

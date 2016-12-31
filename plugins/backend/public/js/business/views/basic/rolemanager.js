@@ -56,10 +56,19 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
             this.render();
         },
         render: function(){
+            var self = this ;
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.component
                 .appendPanel('', this.form.form())
+                .appendPanel('', "<div id='tipAttachCode'></div>")
                 .build();
+            var text = "编码字典： "
+            $.postJSON(prefix + '/rolemanager/attachcodes', {}, function(d){
+                _.each(d ,function(single) {
+                    text += single['name'] + ": " + single['id'] + " \t"
+                })
+                self.$('#tipAttachCode').text(text)
+            })
         },
         submit: function(e) {
             var self = this;
@@ -84,8 +93,13 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                     name: 'rolename',
                     required: true
                 },{
+                    title: '关联编码',
+                    name: 'attachCode',
+                    placeholder: '编码逗号隔开'
+                },{
                     title: '角色描述',
-                    name: 'description'
+                    name: 'description',
+                    type: 'textarea'
                 }],
                 btns: [{
                     title: '提交',

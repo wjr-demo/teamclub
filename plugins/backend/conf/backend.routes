@@ -18,6 +18,7 @@ POST	/treemanager/del	controllers.backend.TreeManagerAction.del
 POST	/rolemanager/list	controllers.backend.RoleManagerAction.list
 POST	/rolemanager/add	controllers.backend.RoleManagerAction.add
 POST	/rolemanager/del	controllers.backend.RoleManagerAction.del
+POST    /rolemanager/attachcodes    controllers.backend.RoleManagerAction.attachcodes
 
 #员工管理
 POST	/operatormanager/list	controllers.backend.OperatorManagerAction.list

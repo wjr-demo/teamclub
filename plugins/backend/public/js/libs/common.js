@@ -77,7 +77,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                 var val = that.attr('val');
                 val = val? val : that.val();
                 if(filterEmpty) {
-                    if(val != undefined && val != ""){
+                    if(val != undefined && val != ""  && val != "0"){
                         res[name] = val;
                     }
                 }else {

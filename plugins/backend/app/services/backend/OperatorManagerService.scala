@@ -1,5 +1,7 @@
 package services.backend
 
+import java.util.Date
+
 import com.avaje.ebean.ExpressionList
 import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AppSubjectUserForm
@@ -46,11 +48,15 @@ object OperatorManagerService {
 
   def expression(expr: ExpressionList[AppSubjectUser], form: AppSubjectUserForm): ExpressionList[AppSubjectUser] = {
     form.id.map(expr.eq("id", _))
+    form.realname.map(expr.eq("realname", _))
     form.appId.map(expr.eq("appId", _))
     form.organNo.map(expr.eq("organNo", _))
-    form.deptid.map(v => {
-      if(v != 0) expr.eq("deptid", v)
-    })
+    form.deptid.map(expr.eq("deptid", _))
+    form.appSubjectUserCompanyAbout.map { companyAbount =>
+      companyAbount.entryTime map { v =>
+        expr.eq("entryTime", new Date(v))
+      }
+    }
     expr
   }
 }

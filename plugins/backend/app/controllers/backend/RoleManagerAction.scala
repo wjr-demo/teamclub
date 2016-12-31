@@ -8,6 +8,8 @@ import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import services.backend.RoleManagerService
 import FormMappers._
+import com.google.common.base.Enums
+import enums.backend.Permissions
 
 /**
  * Created by zhangmeng on 16-12-19.
@@ -51,5 +53,9 @@ object RoleManagerAction extends Controller {
         Ok(Eithers.toJson(resp))
       }
     )
+  }
+
+  def attachcodes = Authenticated { implicit request =>
+    Ok(Eithers.toJson(Left(Permissions.getAll())))
   }
 }

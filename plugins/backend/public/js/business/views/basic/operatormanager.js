@@ -112,6 +112,14 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '备注',
                     name: 'remark',
                     type: 'textarea'
+                },{
+                    title: '奖励记录',
+                    name: 'awardRecord',
+                    type: 'textarea'
+                },{
+                    title: '违纪记录',
+                    name: 'breakRuleRecord',
+                    type: 'textarea'
                 }],
                 btns: [{
                     title: '提交',
@@ -260,6 +268,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     data: null,
                     render: function(){
                         var btnWorkMove =  '<input type="button" value="职务委派" class="btn" name="workMove"/>';
+                        var btnExamine = '<input type="button" value="审核" class="btn" name="examine"/>';
                         var btnView =  '<input type="button" value="查看" class="btn" name="view"/>';
                         var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
                         var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
@@ -267,6 +276,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
                         $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData));
+                        $(td).find('input[name=examine]').on('click', $.proxy(self.examine, self, rowData));
                         $(td).find('input[name=view]').on('click', $.proxy(self.view, self, rowData));
                         $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
                         $(td).find('input[name=delete]').on('click', $.proxy(self.delete, self, rowData));
@@ -274,6 +284,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 }]
             };
             return tableParams;
+        },
+        examine: function(d) {
+
         },
         workMove: function(d) {
             this.tabs.addTab({
@@ -285,13 +298,17 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this ;
             var searParams = {
                 fields:[{
-                    title: '用户名',
-                    name: 'username'
+                    title: '姓名',
+                    name: 'realname'
                 },{
                     title: '部门',
                     name: 'deptid',
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['DEPTLIST']
+                },{
+                    title: '入职时间',
+                    name: 'entryTime',
+                    type: 'date'
                 }],
                 btns: [{
                     title: '查询',
@@ -300,7 +317,16 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: '新增',
                     callback: $.proxy(self.modify, self, undefined)
-                }]
+                }],
+                renderSearchData: function(d){
+                    if(d['entryTime'] != undefined && d['entryTime'] != '0'){
+                        var companyAboutData = {}
+                        companyAboutData['entryTime'] = d['entryTime'];
+                        d['companyAbountData'] = companyAboutData
+                    }
+                    console.log(d)
+                    return d;
+                }
             };
             return searParams;
         },

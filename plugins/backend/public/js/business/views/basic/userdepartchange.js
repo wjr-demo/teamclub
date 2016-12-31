@@ -157,7 +157,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
             }
         },
         modify: function(d) {
-            var title = d == undefined ? '新增' : '修改';
+            var title = d == undefined ? '编辑' : '编辑';
             this.tabs.addTab({
                 title: title,
                 content: new ModifyView(d, this).$el

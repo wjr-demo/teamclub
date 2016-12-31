@@ -6,6 +6,7 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
         initialize:function(tableParams, formParams){
             this.$initTable = undefined;
             this.$initForm = undefined;
+            this.$rareForm = undefined;
             this.tableRef = undefined;
             this.tableParams = tableParams || {};
             this.formParams = formParams || {};
@@ -33,6 +34,7 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
             var self = this ;
             var reload = $.proxy(self.reload, self);
             var $form = new Form(params, {}, {'reload': reload, 'formType': 'searchForm'});
+            this.$rareForm = $form;
             $form.searchBtnRegister(reload)
             return $form.form();
         },
@@ -44,12 +46,17 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
         rebuildTable: function(){
             var self = this ;
             if(this.$initForm != undefined && this.tableParams.ajax != undefined){
+                this.tableParams.ajax.dataType = 'json';
+                this.tableParams.ajax.contentType = 'application/json'
                 this.tableParams.ajax.data = function(d){
                     var data = self.$initForm == undefined ? {} : self.$initForm.serializeJson(undefined, true);
                     delete d['columns'];
                     delete d['search'];
                     delete data['undefined']
                     $.extend(d, data);
+                    if(self.$rareForm.renderSearchDataFunc != undefined) {
+                        d =  self.$rareForm.renderSearchDataFunc(d)
+                    }
                     if(self.tableParams.ajax.extendData != undefined) {
                         $.extend(d, self.tableParams.ajax.extendData)
                     }
@@ -57,8 +64,8 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
                     d['pageSize'] = d['length']
                     delete d['start']
                     delete d['length']
+                    return JSON.stringify(d)
                 };
-                _.extend(this.tableParams)
             }
             this.tableRef = this.$initTable.nDataTable(this.tableParams);
         }
