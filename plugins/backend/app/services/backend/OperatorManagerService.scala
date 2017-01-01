@@ -57,6 +57,7 @@ object OperatorManagerService {
         expr.eq("entryTime", new Date(v))
       }
     }
+    form.examineStatus.map(expr.eq("examineStatus", _))
     expr
   }
 }

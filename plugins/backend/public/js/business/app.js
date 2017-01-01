@@ -37,6 +37,7 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
         },
         view404: Backbone.View.extend({
             initialize: function(err){
+                console.error(err)
                 this.$el.append($("<div>" + err.message  + "</div>"));
             }
         }),

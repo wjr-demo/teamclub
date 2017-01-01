@@ -127,11 +127,24 @@ define([
         $.postJSON(url, params, function(d){
             SC.judge(d, function(){
                 callback(d);
-                SC.Alert('', '保存成功');
+                SC.Alert('', '操作成功');
             }, function(){
                 SC.Alert('', d['message'])
             });
             return false;
         });
+    };
+    SC.SaveWithTip = function(tip, url, params, callback) {
+        SC.Confirm('提示',tip , function() {
+            $.postJSON(url, params, function(d){
+                SC.judge(d, function(){
+                    callback(d);
+                    SC.Alert('', '保存成功');
+                }, function(){
+                    SC.Alert('', d['message'])
+                });
+                return false;
+            });
+        })
     }
 })

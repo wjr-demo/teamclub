@@ -130,6 +130,12 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var breakRuleRecord: String = _ //违纪记录
 
+  @BeanProperty
+  var examineStatus: Int = _ //审核状态
+
+  @BeanProperty
+  var leaveTime: Date = _  //离职时间
+
   @Transient
   var roleName: String = _ //角色名称
 

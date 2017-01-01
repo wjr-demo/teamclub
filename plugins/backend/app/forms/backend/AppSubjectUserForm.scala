@@ -24,6 +24,7 @@ case class AppSubjectUserMoreForm(identifyNo: Option[String],
 case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
                                       positiveTime:Option[Long],
                                       expectedLeave: Option[Long],
+                                      leaveTime: Option[Long],
                                       comQqNum: Option[String],
                                       comQqPasswd: Option[String],
                                       comQqPermit: Option[String],
@@ -49,6 +50,7 @@ case class AppSubjectUserForm(id: Option[Int],
                               isDeptAdmin: Option[Boolean],
                               phone: Option[String],
                               telephone: Option[String],
+                              examineStatus: Option[Int],
                               appSubjectUserMore: Option[AppSubjectUserMoreForm],
                               appSubjectUserCompanyAbout: Option[AppSubjectUserCompanyAbout],
                               currentPage: Int,
@@ -70,6 +72,7 @@ case class AppSubjectUserForm(id: Option[Int],
     deptid map appSubjectUser.setDeptid
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
+    examineStatus map appSubjectUser.setExamineStatus
     appSubjectUserMore map { x =>
       x.identifyNo.map{ y =>  appSubjectUser.setIdentifyNo(y) }
       x.birthday map { y => {
@@ -95,6 +98,9 @@ case class AppSubjectUserForm(id: Option[Int],
       x.expectedLeave map { y => {
         if(y == 0) appSubjectUser.setExpectedLeave(null) else appSubjectUser.setExpectedLeave(new Date(y))
       }}
+      x.leaveTime map { y =>
+        if(y == 0) appSubjectUser.setLeaveTime(null) else appSubjectUser.setLeaveTime(new Date(y))
+      }
       x.comQqNum map { y => appSubjectUser.setComQqNum(y)}
       x.comQqPasswd map { y => appSubjectUser.setComQqPasswd(y)}
       x.comQqPermit map { y => appSubjectUser.setComQqPermit(y)}

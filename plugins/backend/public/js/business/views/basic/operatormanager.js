@@ -79,6 +79,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'expectedLeave',
                     type: 'date'
                 },{
+                    title: '离职时间',
+                    name: 'leaveTime',
+                    type: 'date'
+                },{
                     title: '企业qq帐号',
                     name: 'comQqNum'
                 },{
@@ -199,10 +203,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '密码',
                     name: 'password'
                 },{
-                    title: '部门管理员',
-                    name: 'isDeptAdmin',
-                    type: 'checkbox'
-                },{
                     title: '系统管理员',
                     name: 'isSysAdmin',
                     type: 'checkbox'
@@ -235,6 +235,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     url: prefix + '/operatormanager/list',
                     type: 'POST'
                 },
+                columnDefs: [{
+                    "targets": [ 4 ],
+                    "visible": SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE') ? true :  false
+                }],
                 columns: [{
                     title: "用户名",
                     data: "username",
@@ -247,9 +251,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: '所属部门',
                     data: 'deptName',
-                    render: function(d, x, fd) {
-                        return fd['isDeptAdmin'] ? d + "(部门管理员)" : d
-                    }
                 },{
                     title: '角色',
                     data: 'roleName'
@@ -266,32 +267,73 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: '操作',
                     data: null,
-                    render: function(){
+                    render: function(d){
                         var btnWorkMove =  '<input type="button" value="职务委派" class="btn" name="workMove"/>';
                         var btnExamine = '<input type="button" value="审核" class="btn" name="examine"/>';
+                        var btnUnExamine = '<input type="button" value="反审核" class="btn" name="unExamine"/>';
                         var btnView =  '<input type="button" value="查看" class="btn" name="view"/>';
                         var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
                         var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
-                        return btnWorkMove + btnView + btnModify + btnDelete;
+                        if(d['examineStatus'] == 1) {
+                            if(SC.current.role.attachCode != null && SC.current.role.attachCode.includes('EXAMINE')) {
+                                return btnWorkMove + btnUnExamine + btnView;
+                            }else {
+                                return btnWorkMove + btnView;
+                            }
+                        }else {
+                            if(SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE')) {
+                                return btnWorkMove + btnExamine + btnView + btnModify + btnDelete;
+                            } else {
+                                return btnWorkMove + btnView + btnModify + btnDelete;
+                            }
+                        }
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData));
-                        $(td).find('input[name=examine]').on('click', $.proxy(self.examine, self, rowData));
-                        $(td).find('input[name=view]').on('click', $.proxy(self.view, self, rowData));
-                        $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
-                        $(td).find('input[name=delete]').on('click', $.proxy(self.delete, self, rowData));
+                        if($(td).find('input[name=workMove]') != undefined) {
+                            var view = rowData['examineStatus'] == 1 ? true : false
+                            $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData, view));
+                        }
+                        if($(td).find('input[name=examine]') != undefined) {
+                            $(td).find('input[name=examine]').on('click', $.proxy(self.examine, self, rowData));
+                        }
+                        if($(td).find('input[name=unExamine]') != undefined) {
+                            $(td).find('input[name=unExamine]').on('click', $.proxy(self.unExamine, self, rowData));
+                        }
+                        if($(td).find('input[name=view]') != undefined) {
+                            $(td).find('input[name=view]').on('click', $.proxy(self.view, self, rowData));
+                        }
+                        if($(td).find('input[name=modify]') != undefined) {
+                            $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
+                        }
+                        if($(td).find('input[name=delete]') != undefined) {
+                            $(td).find('input[name=delete]').on('click', $.proxy(self.delete, self, rowData));
+                        }
                     }
                 }]
             };
             return tableParams;
         },
-        examine: function(d) {
-
+        unExamine: function(d) {
+            var self = this
+            d['examineStatus'] = 0
+            d['password'] = undefined
+            SC.Save(prefix + '/operatormanager/add', d, function(d) {
+                self.reload()
+            });
         },
-        workMove: function(d) {
+        examine: function(d) {
+            var self = this
+            d['examineStatus'] = 1
+            d['password'] = undefined
+            SC.Save(prefix + '/operatormanager/add', d, function(d) {
+                console.log(d);
+                self.reload()
+            });
+        },
+        workMove: function(d, view) {
             this.tabs.addTab({
                 title: '职务委派',
-                content: new UserDepartChange(d, this).$el
+                content: new UserDepartChange(d, this,  view).$el
             })
         },
         searParams: function() {
@@ -324,7 +366,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                         companyAboutData['entryTime'] = d['entryTime'];
                         d['companyAbountData'] = companyAboutData
                     }
-                    console.log(d)
+                    if(SC.current.deptAttachCode == Department.FINANCE) {
+                        d['examineStatus'] = 1
+                    }
                     return d;
                 }
             };

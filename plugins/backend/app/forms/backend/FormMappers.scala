@@ -68,6 +68,7 @@ object FormMappers {
       "isDeptAdmin" -> optional(boolean),
       "phone" -> optional(text),
       "telephone" -> optional(text),
+      "examineStatus" -> optional(number),
       "recordData" -> optional(mapping(
         "identifyNo" -> optional(text),
         "birthday" -> optional(longNumber),
@@ -85,6 +86,7 @@ object FormMappers {
         "entryTime" -> optional(longNumber),
         "positiveTime" -> optional(longNumber),
         "expectedLeave" -> optional(longNumber),
+        "leaveTime" -> optional(longNumber),
         "comQqNum" -> optional(text),
         "comQqPasswd" -> optional(text),
         "comQqPermit" -> optional(text),

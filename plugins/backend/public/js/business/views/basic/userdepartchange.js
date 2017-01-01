@@ -85,7 +85,8 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
 
     var view = Backbone.View.extend({
         tpl: '<div></div>',
-        initialize: function(d, parent){
+        initialize: function(d, parent, view){
+            this.view = view ;
             if(d !== undefined) {
                 this.initD = {'userId': d['id']}
             }
@@ -171,12 +172,16 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         searParams: function(){
             var self = this ;
-            var searParams = {
-                btns: [{
-                    title: '新增',
-                    callback: $.proxy(self.modify, self, self.initD)
-                }]
-            };
+            if(this.view == true) {
+                var searParams = {}
+            } else {
+                var searParams = {
+                    btns: [{
+                        title: '新增',
+                        callback: $.proxy(self.modify, self, self.initD)
+                    }]
+                };
+            }
             return searParams;
         }
     });
