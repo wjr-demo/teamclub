@@ -84,14 +84,14 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
         switchType: function(){
             var self = this ;
             if(this.params['type'] == 'Alert') {
-                var $closeBtn = $('<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>')
+                var $closeBtn = $('<button type="button" class="" data-dismiss="modal">关闭</button>')
                 $closeBtn.on('click', function(){
                     self.remove()
                 });
                 this.$el.find('.modal-footer').append($closeBtn)
             }else if(this.params['type'] == 'Confirm') {
-                var $confirmBtn = $('<button type="button" class="btn btn-primary">确认</button>')
-                var $closeBtn = $('<button type="button" class="btn btn-default">关闭</button>')
+                var $confirmBtn = $('<button type="button" class="">确认</button>')
+                var $closeBtn = $('<button type="button" class="">关闭</button>')
                 $confirmBtn.on('click', function(){
                     if($.isFunction(self.params['confirmFunc'])) {
                         self.params['confirmFunc']();
@@ -115,8 +115,8 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                     })
                 }
             }else if(this.params['type'] == 'OpenWinForm') {
-                var $confirmBtn = $('<button type="button" class="btn btn-primary">确认</button>')
-                var $closeBtn = $('<button type="button" class="btn btn-default">关闭</button>')
+                var $confirmBtn = $('<button type="button" class="">确认</button>')
+                var $closeBtn = $('<button type="button" class="">关闭</button>')
                 $confirmBtn.on('click', function(){
                     if($.isFunction(self.params['confirmFunc'])) {
                         self.params['confirmFunc']($.extend(_.clone(self.initD), self.$el.serializeJson()) , $.proxy(self.remove, self));

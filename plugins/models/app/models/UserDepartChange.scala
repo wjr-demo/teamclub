@@ -41,6 +41,33 @@ class UserDepartChange extends Model{
   @BeanProperty
   var remark: String = _
 
+  @BeanProperty
+  var comQqNum: String = _ //企业qq帐号
+
+  @BeanProperty
+  var comQqPasswd: String = _ //企业qq密码
+
+  @BeanProperty
+  var comQqPermit: String = _ //企业qq权限
+
+  @BeanProperty
+  var netIp: String = _ //上网IP
+
+  @BeanProperty
+  var netSpeed: String =_ //上网速度
+
+  @BeanProperty
+  var netPermit: String = _ //网络权限
+
+  @BeanProperty
+  var computerNo: String = _ //电脑编号
+
+  @BeanProperty
+  var computerPasswd: String = _ //电脑密码
+
+  @BeanProperty
+  var computerConfig: String = _ //电脑配置
+
   def getDepartName: String = AppDepartment.finder.byId(departId).getDepartName
 
   def getRoleName: String = AppRole.finder.byId(roleId).getRolename

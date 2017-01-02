@@ -49,7 +49,7 @@ define([
         genePanel: function($head, $body){
             var panel = $('<div class="panel panel-default"></div>');
             var panelHead = $('<div class="panel-heading"></div>');
-            var panelBody = $('<div class="panel-body" style="padding-top: 30px;"></div>');
+            var panelBody = $('<div class="panel-body"></div>');
             if($head != undefined && $head != ""){
                 panelHead.append($head);
                 panel.append(panelHead);
@@ -63,8 +63,13 @@ define([
         geneTextView: function(fields, data) {
             return new TextView(fields, data)
         },
-        appendPanel: function($head, $body){
+        appendPanel: function($head, $body, config){
+            config = config || {}
+            var panelStyle = config['panel'] || {}
+            var panelBodyStyle = config['panel-body'] || {}
             var $panel = this.genePanel($head, $body);
+            $panel.css(panelStyle)
+            $panel.find('.panel-body').css(panelBodyStyle)
             this.tmpContent.append($panel);
             return this;
         },

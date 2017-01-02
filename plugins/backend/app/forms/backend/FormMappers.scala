@@ -59,6 +59,7 @@ object FormMappers {
       "id" -> optional(number),
       "username" -> optional(text),
       "password" -> optional(text),
+      "gender" -> optional(number),
       "appId" -> optional(text),
       "roleType" -> optional(number),
       "organNo" -> optional(text),
@@ -168,6 +169,18 @@ object FormMappers {
       "wages" -> optional(number),
       "calcuStyle" -> optional(number),
       "remark" -> optional(text),
+      "userDepartChangeAnother" -> optional(mapping(
+        "comQqNum" -> optional(text),
+        "comQqPasswd" -> optional(text),
+        "comQqPermit" -> optional(text),
+        "netIp" -> optional(text),
+        "netSpeed" -> optional(text),
+        "netPermit" -> optional(text),
+        "computerNo" -> optional(text),
+        "computerPasswd" -> optional(text),
+        "computerConfig" -> optional(text),
+        "remark" -> optional(text)
+      )(UserDepartChangeAnother.apply)(UserDepartChangeAnother.unapply)),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
     )(UserDepartChangeForm.apply)(UserDepartChangeForm.unapply)

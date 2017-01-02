@@ -35,3 +35,61 @@
     color: #44b549;
     cursor: pointer;
 }
+
+/*.table-bordered {*/
+    /*border: 0px;*/
+/*}*/
+
+/*.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {*/
+    /*border: 0px;*/
+/*}*/
+/*.table-striped > tbody > tr:nth-of-type(odd) {*/
+    /*background-color: #FFF;*/
+/*}*/
+
+body {
+    font-size: 11px;
+}
+
+.form-control {
+    height: 30px;
+    border-radius: 0px;
+    font-size: 11px;
+}
+
+.form-group {
+    padding-left: 15px;
+}
+
+.input-group-addon {
+    padding: 0px 6px;
+    border-radius: 0px;
+    background-color: #FFF;
+}
+.fa-remove {
+    width: 1.28571429em;
+}
+label {
+    width: 80px;
+    text-align: left;
+}
+.form-value {
+    display: inline-block;
+    width:200px;
+}
+.form-inline .form-control {
+    width: inherit;
+}
+.btn {
+    padding: 1px 2px;
+    border-radius: 2px;
+    font-size: 12px;
+}
+.help-block {
+    display: table;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.panel-default {
+    border-color: #FFF;
+}

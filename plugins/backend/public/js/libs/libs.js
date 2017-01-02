@@ -108,6 +108,16 @@ define(['jquery'], function(){
 
     var Func = window.Func = window.Func || {};
 
+    Func.convertToFour = function(name) {
+        if(name.length < 2) {
+            return name
+        }else if(name.length == 2){
+            return name[0] + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + name[1];
+        }else if(name.length == 3){
+            return name[0] + '&nbsp;&nbsp;' + name[1] + '&nbsp;&nbsp;' +name[2];
+        }
+    }
+
     Func.DictUtils = function(_status,method,param){
         var self = this;
         if($.isPlainObject(_status)){

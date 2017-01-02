@@ -19,19 +19,36 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             'change #nativePlaceProv': 'changeProv'
         },
         render: function(){
+            var self = this;
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.recordForm = this.component.geneForm(this.recordFormParams(), this.d);
             this.companyAbountForm = this.component.geneForm(this.companyAbountFormParams(), this.d);
+            this.formElOne = this.form.form()
+            this.formElTwo = this.recordForm.form()
+            this.formElThree = this.companyAbountForm.form()
+            var config = {
+                'panel': {'margin-bottom': '0px'},
+                'panel-body' : {'padding': '0px 10px'},
+            }
+            var topConfig = {
+                'panel': {'margin-bottom': '0px', 'margin-top': '20px'},
+                'panel-body' : {'padding': '0px 10px'},
+            }
             this.component
-                .appendPanel('基本信息', this.form.form())
-                .appendPanel('档案信息', this.recordForm.form())
-                .appendPanel('相关信息', this.companyAbountForm.form())
+                .appendPanel(undefined, this.formElOne, topConfig)
+                .appendPanel(undefined, this.formElTwo, config)
+                .appendPanel(undefined, this.formElThree, config)
                 .build();
+            var $pic = $('<div style="top: 0px;height:100px; width: 70px; background-color: red; position: absolute">')
+            var el = this.$('#isSysAdmin').closest('.form-group')
+            setTimeout(function(){
+                var offset = el[0].offsetLeft + 180;
+                var left = offset + 'px';
+                $pic.css({'left': left})
+                self.formElOne.append($pic)
+            },500)
             if(this.type == 'view') {
                 this.component.setAsView();
-            }
-            if(this.isModify) {
-                this.form.hideEle('password');
             }
         },
         changeProv: function(){
@@ -53,15 +70,22 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             }else { //添加
                 if(json['password'] != undefined) json['password'] = md5(json['password'])
             }
-            var recordFormData = this.recordForm.serializeJ();
-            var companyAbountData = this.companyAbountForm.serializeJ();
-            json['recordData'] = recordFormData;
-            json['companyAbountData'] = companyAbountData;
-            SC.Save(prefix + '/operatormanager/add', json, function(d) {
-                self.parent.reload();
-                self.tabs.closeCurTab();
-            });
-            return false;
+            this.formElOne.validator('validate')
+            this.formElTwo.validator('validate')
+            this.formElThree.validator('validate')
+            if(this.$('.has-error').length > 0 ){
+                return false;
+            }else {
+                var recordFormData = this.recordForm.serializeJ();
+                var companyAbountData = this.companyAbountForm.serializeJ();
+                json['recordData'] = recordFormData;
+                json['companyAbountData'] = companyAbountData;
+                SC.Save(prefix + '/operatormanager/add', json, function(d) {
+                    self.parent.reload();
+                    self.tabs.closeCurTab();
+                });
+                return false;
+            }
         },
         companyAbountFormParams: function() {
             var self = this ;
@@ -83,51 +107,24 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'leaveTime',
                     type: 'date'
                 },{
-                    title: '企业qq帐号',
-                    name: 'comQqNum'
-                },{
-                    title: '企业qq密码',
-                    name: 'comQqPasswd'
-                },{
-                    title: '企业qq权限',
-                    name: 'comQqPermit',
-                    type: 'textarea'
-                },{
-                    title: '上网IP',
-                    name: 'netIp'
-                },{
-                    title: '上网速度',
-                    name: 'netSpeed'
-                },{
-                    title: '网络权限',
-                    name: 'netPermit',
-                    type: 'textarea'
-                },{
-                    title: '电脑编号',
-                    name:'computerNo'
-                },{
-                    title: '电脑密码',
-                    name: 'computerPasswd'
-                },{
-                    title: '电脑配置',
-                    name: 'computerConfig',
-                    type: 'textarea'
-                },{
-                    title: '备注',
-                    name: 'remark',
-                    type: 'textarea'
-                },{
                     title: '奖励记录',
                     name: 'awardRecord',
-                    type: 'textarea'
+                    type: 'textarea',
+                    formValue: {'width': '796px'},
                 },{
                     title: '违纪记录',
                     name: 'breakRuleRecord',
-                    type: 'textarea'
-                }],
+                    type: 'textarea',
+                    formValue: {'width': '796px'},
+                },{
+                    title: Func.convertToFour('备注'),
+                    name: 'remark',
+                    type: 'textarea',
+                    formValue: {'width': '796px'},
+                },],
                 btns: [{
                     title: '提交',
-                    class: 'btn-primary',
+                    class: '',
                     type: 'submit',
                     callback: $.proxy(self.submit, self)
                 }]
@@ -141,41 +138,20 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '身份证号',
                     name: 'identifyNo'
                 },{
-                    title: '生日',
+                    title: Func.convertToFour('生日'),
                     name: 'birthday',
-                    type: 'date'
-                },{
-                    title: '婚姻状态',
-                    name: 'marriageStatus',
-                    type: 'dropdown',
-                    data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                    type: 'date',
+                    formGroup: {'width': '500px'}
                 },{
                     title: '教育程度',
                     name: 'educationLevel',
                     type: 'dropdown',
                     data: Libs.Dicts['STUDY_LEVEL']
                 },{
-                    title: '籍贯-省',
-                    name: 'nativePlaceProv',
-                    type: 'dropdown',
-                    dataurl: prefix + '/adminareacode/list',
-                    params: {'parentCode': 0, 'all': true},
-                    mapper: {'id': 'id', 'name': 'areaName'}
-                },{
-                    title: '籍贯-市',
-                    name: 'nativePlaceCity',
-                    type: 'dropdown',
-                    dataurl: prefix + '/adminareacode/list',
-                    params: {'parentCode': self.d['nativePlaceProv'], 'all': true},
-                    mapper: {'id': 'id', 'name': 'areaName'}
-                },{
-                    title: '籍贯-详细',
-                    name: 'nativePlaceDetail',
-                    type: 'textarea'
-                },{
-                    title: '特长',
+                    title: Func.convertToFour('特长'),
                     name: 'strongPoint',
-                    type: 'textarea'
+                    type: 'text',
+                    formValue: {'width': '499px'},
                 },{
                     title: '亲属姓名',
                     name: 'familyName'
@@ -185,29 +161,103 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: '亲属号码',
                     name: 'familyPhone'
+                },{
+                    title: Func.convertToFour('籍贯'),
+                    name: 'nativePlaceProv',
+                    type: 'dropdown',
+                    formValue: {'width': '130px'},
+                    dataurl: prefix + '/adminareacode/list',
+                    params: {'parentCode': 0, 'all': true},
+                    mapper: {'id': 'id', 'name': 'areaName'}
+                },{
+                    title: '',
+                    name: 'nativePlaceCity',
+                    type: 'dropdown',
+                    formValue: {'width': '130px'},
+                    dataurl: prefix + '/adminareacode/list',
+                    params: {'parentCode': self.d['nativePlaceProv'], 'all': true},
+                    mapper: {'id': 'id', 'name': 'areaName'}
+                },{
+                    title: '',
+                    name: 'nativePlaceDetail',
+                    formValue: {'width': '500px'},
+                    type: 'text'
                 }]
             }
             return formParams;
         },
         formParams : function() {
             var self = this;
-            var formParams = {
-                fields:[{
-                    title: '用户名',
-                    name: 'username',
-                    required: true
-                },{
-                    title: '真实姓名',
-                    name: 'realname'
-                },{
-                    title: '密码',
-                    name: 'password'
-                },{
-                    title: '系统管理员',
-                    name: 'isSysAdmin',
-                    type: 'checkbox'
-                }]
-            };
+            if(self.isModify) {
+                var formParams = {
+                    fields:[{
+                        title: Func.convertToFour('姓名'),
+                        name: 'realname',
+                        formValue: {'width': '162px'},
+                    },{
+                        title: Func.convertToFour('性别'),
+                        name: 'gender',
+                        type: 'dropdown',
+                        formValue: {'width': '70px'},
+                        data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
+                    },{
+                        title: '婚姻状态',
+                        name: 'marriageStatus',
+                        type: 'dropdown',
+                        formValue: {'width': '70px'},
+                        formGroup: {'width': '500px'},
+                        data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                    },{
+                        title: '用&nbsp;&nbsp;户&nbsp;&nbsp;名',
+                        name: 'username',
+                        required: true
+                    },{
+                        title: '部门管理员',
+                        name: 'isDeptAdmin',
+                        type: 'checkbox',
+                        formValue: {'width': '90px'},
+                    },{
+                        title: '系统管理员',
+                        name: 'isSysAdmin',
+                        type: 'checkbox'
+                    }]
+                };
+            }else {
+                var formParams = {
+                    fields:[{
+                        title: Func.convertToFour('姓名'),
+                        name: 'realname',
+                        formValue: {'width': '162px'},
+                    },{
+                        title: Func.convertToFour('性别'),
+                        name: 'gender',
+                        type: 'dropdown',
+                        formValue: {'width': '70px'},
+                        data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
+                    },{
+                        title: '婚姻状态',
+                        name: 'marriageStatus',
+                        type: 'dropdown',
+                        formValue: {'width': '70px'},
+                        data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                    },{
+                        title: '系统管理员',
+                        name: 'isSysAdmin',
+                        type: 'checkbox'
+                    },{
+                        title: '用&nbsp;&nbsp;户&nbsp;&nbsp;名',
+                        name: 'username',
+                        required: true
+                    },{
+                        title: Func.convertToFour('密码'),
+                        name: 'password'
+                    },{
+                        title: '部门管理员',
+                        name: 'isDeptAdmin',
+                        type: 'checkbox'
+                    }]
+                };
+            }
             return formParams;
         }
     });
@@ -258,7 +308,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '修改密码',
                     data: null,
                     render: function(d){
-                        var btn = '<input type="button" class="btn" value="修改密码" name="modifyPwd" />';
+                        var btn = '<input type="button" value="修改密码" name="modifyPwd" />';
                         return btn;
                     },
                     createdCell: function(td, cellData, rowData, row, col){
@@ -268,12 +318,12 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '操作',
                     data: null,
                     render: function(d){
-                        var btnWorkMove =  '<input type="button" value="职务委派" class="btn" name="workMove"/>';
-                        var btnExamine = '<input type="button" value="审核" class="btn" name="examine"/>';
-                        var btnUnExamine = '<input type="button" value="反审核" class="btn" name="unExamine"/>';
-                        var btnView =  '<input type="button" value="查看" class="btn" name="view"/>';
-                        var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
-                        var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
+                        var btnWorkMove =  '<input type="button" value="职务委派" name="workMove"/>';
+                        var btnExamine = '<input type="button" value="审核" name="examine"/>';
+                        var btnUnExamine = '<input type="button" value="反审核" name="unExamine"/>';
+                        var btnView =  '<input type="button" value="查看" name="view"/>';
+                        var btnModify =  '<input type="button" value="修改" name="modify"/>';
+                        var btnDelete =  '<input type="button" value="删除" name="delete"/>';
                         if(d['examineStatus'] == 1) {
                             if(SC.current.role.attachCode != null && SC.current.role.attachCode.includes('EXAMINE')) {
                                 return btnWorkMove + btnUnExamine + btnView;
@@ -340,10 +390,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this ;
             var searParams = {
                 fields:[{
-                    title: '姓名',
+                    title: Func.convertToFour('姓名'),
                     name: 'realname'
                 },{
-                    title: '部门',
+                    title: Func.convertToFour('部门'),
                     name: 'deptid',
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['DEPTLIST']

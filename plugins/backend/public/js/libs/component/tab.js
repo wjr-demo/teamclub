@@ -13,7 +13,7 @@ define(['jquery','underscore','common'], function($, _) {
             _.each(params, function(d, idx) {
                 self.addTab(d);
             });
-            this.$full = $('<div class="row">');
+            this.$full = $('<div class="">');
             this.$full.append(this.$top);
             this.$full.append(this.$bottom);
         },

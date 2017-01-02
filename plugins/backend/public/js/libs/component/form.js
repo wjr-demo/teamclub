@@ -7,7 +7,7 @@
 define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], function($, _, a, b, PureTable) {
     var multiType = [];
     multiType['searchForm'] = {
-        'labelStyle': {'padding-top': '7px', 'text-align': 'right'},
+        'labelStyle' : {"text-align": "-webkit-center"},
         'row' : '<form role="form" class="form-inline" data-toggle="validator">',
         'singleClazz' : '',
         'btnClazz': 'col-md-2',
@@ -22,16 +22,16 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
 
     // groupClz  divClz
     var Form = Backbone.Base.extend({
-        formEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="<%= divClz %>">\
+        formEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
                 <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="<%= placeholder %>">\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
-        dateTimeEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="<%= divClz %>">\
+        dateTimeEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
                 <div class="input-group">\
                     <input type="dtime" class="form-control" style="background-color: #FFF" name="<%= name %>" id="<%= name %>" placeholder="">\
                     <span class="timeRemove input-group-addon"><i class="fa fa-remove"></i></span>\
@@ -39,32 +39,32 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
-        textAreaEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="col-md-8">\
+        textAreaEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
                 <textarea type="textarea" class="form-control" name="<%= name %>" id="<%= name %>" rows="3" placeholder=""　/>\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
-        checkBoxEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="col-md-8">\
-                <input type="checkbox" style="height: 34px;" name="<%= name %>" id="<%= name %>" placeholder="">\
+        checkBoxEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
+                <input type="checkbox" name="<%= name %>" id="<%= name %>" placeholder="">\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
-        selectEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="col-md-8">\
+        selectEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
                 <select name="<%= name %>" id="<%= name %>" class="form-control innerselect">\
                     <option value="0"></option>\
                 </select>\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
-        popUpEle: _.template('<div class="form-group" style="min-width: 300px;">\
-            <label for="<%= name %>" class="col-md-4 control-label"><%= title %></label>\
-            <div class="col-md-8">\
+        popUpEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
                 <div class="input-group">\
                     <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
                     <span class="popEdit input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>\
@@ -87,7 +87,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.factory = multiType[this.addParam['formType']] || {};
             this.withHideBtn =  this.factory['withHideBtn']
             if(this.factory['row'] == undefined) {
-                this.$row = $('<form role="form" class="form-horizontal" data-toggle="validator">');
+                this.$row = $('<form role="form" class="form-inline" data-toggle="validator">');
             } else {
                 this.$row = $(this.factory['row']);
             }
@@ -101,7 +101,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             params.fields = params.fields || {}
             params.fields.length > maxFields ? withMore = true : withMore = false
             _.each(params.fields, function(param){
-                param['title'] = (param['title'] || '无题') + "：";
+                param['title'] = (param['title'] == undefined || param['title'] == "") ? param['title'] : param['title'] + "："
                 param['divClz'] = param['divClz'] || 'col-md-8';
                 if(param['required'] == true) {
                     param['title'] += '<span style="color: red; vertical-align: sub;">*</span>'
@@ -124,9 +124,12 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             }
             params.btns = params.btns || [];
             var total = params.btns.length;
-            $tmp = $('<div class="row">')
+            if(Object.keys(this.addParam).length != 0) {
+                $tmp = $('<div class="row">')
+            }else {
+                $tmp = $('<div class="row" style="text-align: center">')
+            }
             _.each(params.btns, function(param){
-                param['title'] = param.title || '无题';
                 param['id'] = param.name ;
                 param['clazz'] = param.class;
                 $tmp.append(self.geneBtn(total, btnIndex++, param));
@@ -150,16 +153,18 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$('input[name='+ name +']').closest('.form-group').hide()
         },
         geneBtn: function(totalRow, i, param){
+            var btnClazz = ''
             if(totalRow == 1){
-                var btnClazz = 'col-md-2 col-md-offset-5'
+                // var btnClazz = 'col-md-2 col-md-offset-5'
             }else{
                 if(i % 2 == 0 ) {
-                    var btnClazz = 'col-md-2 col-md-offset-1'
+                    // var btnClazz = 'col-md-2 col-md-offset-1'
                 }else {
-                    var btnClazz = 'col-md-2 col-md-offset-3'
+                    // var btnClazz = 'col-md-2 col-md-offset-3'
                 }
             }
-            var clazz = this.factory.btnClazz != undefined ? this.factory.btnClazz : btnClazz;
+            // var clazz = this.factory.btnClazz != undefined ? this.factory.btnClazz : btnClazz;
+            var clazz = ''
             var $formgroupSuper = $('<div class="form-group"></div>');
             var $formgroupInner = $('<div></div>');
             $formgroupSuper.append($formgroupInner);
@@ -171,11 +176,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             }
             if(param['id'] !== undefined) $btn.attr("id", param['id']);
             $btn.val(param['title']);
-            $btn.addClass('btn');
+            // $btn.addClass('btn');
             if(param['clazz'] !== undefined){
-                $btn.addClass(param['clazz']);
+                // $btn.addClass(param['clazz']);
             }else {
-                $btn.addClass('btn-default');
+                // $btn.addClass('btn-default');
             }
             if(param['type'] == 'submit') {
                 this.$row.validator().on('submit', function(e) {
@@ -204,10 +209,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             }
             var self = this;
             if(self.factory['singleClazz'] !== undefined) {
-                var clazz  = self.factory['singleClazz'];
+                // var clazz  = self.factory['singleClazz'];
             }else {
-                var clazz = param['groupClz'] || 'col-md-6';
+                // var clazz = param['groupClz'] || 'col-md-6';
             }
+            var clazz = ""
             if(param['type'] == 'dropdown'){
                 var $formEle = $(this.selectEle(param))
                 var key = param['name']
@@ -269,6 +275,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $formEle.find('.popDel').on('click', delCallback)
             }else if(param['type'] == 'textarea'){
                 var $formEle = $(this.textAreaEle(param))
+                $formEle.find('label').css({"vertical-align": "top"})
             }else if(param['type'] == 'checkbox') {
                 var $formEle = $(this.checkBoxEle(param))
             }else if(param['type'] == 'date'){
@@ -344,6 +351,17 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $formEle.find('input').val(finalV)
                 this.seriFilterArray.push(param['name']);
             }
+            if(param['title'] == "") {
+                if($formEle.find('label') != undefined && $formEle.find('label').text() == "") {
+                    $formEle.find('label').css({'width': '0px'})
+                }
+            }
+            if(param['formValue'] != undefined) {
+                $formEle.find('.form-value').css(param['formValue'])
+            }
+            if(param['formGroup'] != undefined) {
+                $formEle.css(param['formGroup'])
+            }
             return $formEle;
         },
         initFileInput: function ($el, uploadUrl) {
@@ -377,6 +395,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(this.$searchBtn !== undefined) {
                 this.$searchBtn.on('click', func)
             }
+        },
+        validator: function(){
+            this.$row.validator();
         }
     });
     /***

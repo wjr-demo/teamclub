@@ -100,8 +100,8 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
-                        var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
+                        var btnModify =  '<input type="button" value="修改"  name="modify"/>';
+                        var btnDelete =  '<input type="button" value="删除" name="delete"/>';
                         return btnModify + btnDelete;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {

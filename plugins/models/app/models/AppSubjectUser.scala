@@ -136,6 +136,9 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var leaveTime: Date = _  //离职时间
 
+  @BeanProperty
+  var gender: Int = _ // 1 男 2 女
+
   @Transient
   var roleName: String = _ //角色名称
 

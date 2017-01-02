@@ -14,7 +14,8 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
     var prefix = "/backend"
 
     var ModifyView = Backbone.View.extend({
-        initialize: function(d, parent) {
+        initialize: function(d, parent, type) {
+            this.type = type ;
             this.d = d || {};
             this.parent = parent;
             this.tabs = parent.tabs;
@@ -22,20 +23,93 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
             this.render();
         },
         render: function(){
+            var config = {
+                'panel': {'margin-bottom': '0px'},
+                'panel-body' : {'padding': '0px 10px'},
+            }
+            var topConfig = {
+                'panel': {'margin-bottom': '0px', 'margin-top': '20px'},
+                'panel-body' : {'padding': '0px 10px'},
+            }
+
             this.form = this.component.geneForm(this.formParams(), this.d);
+            this.moreForm = this.component.geneForm(this.moreFormParams(), this.d)
+            this.formOne = this.form.form()
+            this.formTwo = this.moreForm.form()
             this.component
-                .appendPanel('', this.form.form())
+                .appendPanel(undefined, this.formOne, topConfig)
+                .appendPanel(undefined, this.formTwo, config)
                 .build();
+            if(this.type == 'view') {
+                this.component.setAsView();
+            }
         },
         submit: function(e) {
             var self = this;
-            var json = this.form.serializeJ();
-            json['wages']  != undefined ? json['wages'] = parseFloat(json['wages']).mul(100) : ""
-            SC.Save(prefix + '/userdepartchange/add',json , function(d){
-                self.parent.reload();
-                self.tabs.closeCurTab();
-            });
-            return false;
+            this.form.validator('validate')
+            this.moreForm.validator('validate')
+            if(this.$('.has-error').length > 0 ){
+                return false;
+            }else {
+                var json = this.form.serializeJ();
+                json['wages']  != undefined ? json['wages'] = parseFloat(json['wages']).mul(100) : ""
+                var moreD = this.moreForm.serializeJ();
+                json['userDepartChangeAnother'] = moreD;
+                SC.Save(prefix + '/userdepartchange/add',json , function(d){
+                    self.parent.reload();
+                    self.tabs.closeCurTab();
+                });
+                return false;
+            }
+        },
+        moreFormParams: function(){
+            var self = this ;
+            var formParams = {
+                fields: [{
+                    title: '企qq帐号',
+                    name: 'comQqNum'
+                },{
+                    title: '企qq密码',
+                    name: 'comQqPasswd'
+                },{
+                    title: '企qq权限',
+                    name: 'comQqPermit',
+                    type: 'text'
+                },{
+                    title: '上网地址',
+                    name: 'netIp'
+                },{
+                    title: '上网速度',
+                    name: 'netSpeed'
+                },{
+                    title: '网络权限',
+                    name: 'netPermit',
+                    type: 'text'
+                },{
+                    title: '电脑编号',
+                    name:'computerNo'
+                },{
+                    title: '电脑密码',
+                    name: 'computerPasswd'
+                },{
+                    title: '电脑配置',
+                    name: 'computerConfig',
+                    type: 'textarea',
+                    formValue: {'width': '796px'},
+                },{
+                    title: '备注',
+                    name: 'remark',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                }],
+                btns: [{
+                    title: '提交',
+                    class: 'btn-primary',
+                    type: 'submit',
+                    callback: $.proxy(self.submit, self)
+                }]
+            }
+            return formParams;
         },
         formParams : function() {
             var self = this;
@@ -67,16 +141,6 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     name: 'calcuStyle',
                     type: 'dropdown',
                     data: window.globalCfgDict.getTypeAll('USER_PAY_STYLE')
-                },{
-                    title: '备注',
-                    name: 'remark',
-                    type: 'textarea'
-                }],
-                btns: [{
-                    title: '提交',
-                    class: 'btn-primary',
-                    type: 'submit',
-                    callback: $.proxy(self.submit, self)
                 }]
             };
             return formParams;
@@ -137,17 +201,17 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                 },{
                     title: '计算方式',
                     data: 'calcuStyleName'
-                }/**,{
+                },{
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
-                        return btnModify ;
+                        var btnView =  '<input type="button" value="查看" name="view"/>';
+                        return btnView ;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData));
+                        $(td).find('input[name=view]').on('click', $.proxy(self.modify, self, rowData, 'view'));
                     }
-                }*/]
+                }]
             };
             return tableParams;
         },
@@ -157,11 +221,12 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                 this.parent.reload();
             }
         },
-        modify: function(d) {
+        modify: function(d, type) {
             var title = d == undefined ? '编辑' : '编辑';
+            title = type == 'view' ? '查看': title
             this.tabs.addTab({
                 title: title,
-                content: new ModifyView(d, this).$el
+                content: new ModifyView(d, this, type).$el
             })
         },
         delete: function(d) {

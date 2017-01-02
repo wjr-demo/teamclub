@@ -41,6 +41,7 @@ case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
 case class AppSubjectUserForm(id: Option[Int],
                               username: Option[String],
                               password: Option[String],
+                              gender: Option[Int],
                               var appId: Option[String],
                               roleType: Option[Int],
                               organNo: Option[String],
@@ -73,6 +74,7 @@ case class AppSubjectUserForm(id: Option[Int],
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
     examineStatus map appSubjectUser.setExamineStatus
+    gender map appSubjectUser.setGender
     appSubjectUserMore map { x =>
       x.identifyNo.map{ y =>  appSubjectUser.setIdentifyNo(y) }
       x.birthday map { y => {
