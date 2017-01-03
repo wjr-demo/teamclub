@@ -16,7 +16,7 @@
         <!-- Custom Fonts -->
         <link href="/assets/css/font-awesome.css" rel="stylesheet">
 
-        <link href="/assets/css/main.css" rel="stylesheet">
+        <!-- <link href="/assets/css/main.css" rel="stylesheet"> -->
 
 		<style>
 			body{
@@ -34,6 +34,7 @@
 		<script src="/assets/js/thrid/html5shiv.js"></script>
 		<script src="/assets/js/thrid/respond.min.js"></script>
     	<![endif]-->
+
 	</head>
 	<body>
 		<div class="container">
@@ -46,13 +47,13 @@
 						<div class="panel-body">
 							<form role="form">
 								<fieldset>
-									<div class="form-group">
+									<div class="form-group" style="padding-left: 0px;">
 										<input class="form-control" placeholder="用户名" name="username" id="username" type="text" autofocus="">
 									</div>
-									<div class="form-group">
+									<div class="form-group" style="padding-left: 0px;">
 										<input class="form-control" placeholder="密码" name="password" id="password" type="password" value="">
 									</div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="padding-left: 0px;">
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="captcha" placeholder="验证码" aria-describedby="basic-addon2">
                                             <span class="input-group-addon" style="border:0px; padding: 0px;" id="basic-addon2"><img id="imgCaptcha" style="height: 34px;"/></span>

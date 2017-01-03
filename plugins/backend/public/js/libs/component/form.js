@@ -29,6 +29,13 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
+        fileEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
+                <input type="file" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="<%= placeholder %>">\
+                <div class="help-block with-errors"></div>\
+            </div>\
+        </div>'),
         dateTimeEle: _.template('<div class="form-group">\
             <label for="<%= name %>" class=""><%= title %></label>\
             <div class="form-value">\
@@ -327,6 +334,8 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                     $elInput.attr('val', this.initD[param['name']])
                     $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
                 }
+            }else if(param['type'] == 'file') {
+                var $formEle = $(this.fileEle(param))
             }else {
                 param['placeholder'] = param['placeholder'] || ''
                 var $formEle = $(this.formEle(param));
@@ -340,7 +349,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $formEle.hide()
             }
             if(param['type'] == 'file') {
-                this.initFileInput($formEle.find('.form-control'), "/backend/upload")
+                this.initFileInput($formEle.find('.form-control'), "/backend/upload/file")
             }
             $formEle.find('label').css(self.factory['labelStyle'] || {})
             if(param['hideLabel'] == true) {
@@ -368,10 +377,46 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             $el.fileinput({
                 language: 'zh', //设置语言
                 uploadUrl: uploadUrl, //上传的地址
+                // allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+                //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+                uploadAsync: true, //默认异步上传
                 showUpload: true, //是否显示上传按钮
-                showCaption: true,//是否显示标题
+                showRemove : true, //显示移除按钮
+                showPreview : true, //是否显示预览
+                showCaption: false,//是否显示标题
                 browseClass: "btn btn-primary", //按钮样式
+                dropZoneEnabled: false,//是否显示拖拽区域
+                //minImageWidth: 50, //图片的最小宽度
+                //minImageHeight: 50,//图片的最小高度
+                //maxImageWidth: 1000,//图片的最大宽度
+                //maxImageHeight: 1000,//图片的最大高度
+                //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+                //minFileCount: 0,
+                maxFileCount: 10, //表示允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                validateInitialCount:true,
                 previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            });
+            $el.on('fileerror', function(event, data, msg) {
+                console.log(data.id);
+                console.log(data.index);
+                console.log(data.file);
+                console.log(data.reader);
+                console.log(data.files);
+                // get message
+                console.log(msg)
+            });
+            //异步上传返回结果处理
+            $el.on("fileuploaded", function (event, data, previewId, index) {
+                console.log(data.id);
+                console.log(data.index);
+                console.log(data.file);
+                console.log(data.reader);
+                console.log(data.files);
+                var obj = data.response;
+                console.log(obj)
+
             });
         },
         form: function(){

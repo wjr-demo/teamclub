@@ -20,6 +20,8 @@ lazy val root = project.in(file("."))
 lazy val base = project.in(file("plugins/base"))
   .settings(playScalaSettings: _*)
   .settings(playPlugin := true)
+  .dependsOn(root)
+  .aggregate(root)
 
 lazy val models = project.in(file("plugins/models"))
   .settings(playJavaSettings: _*)
@@ -41,6 +43,5 @@ lazy val tester = project.in(file("plugins/tester"))
   .settings(playJavaSettings ++ commonSetting: _*)
   .dependsOn(base, models)
   .aggregate(base, models)
-
 
 play.Project.playScalaSettings

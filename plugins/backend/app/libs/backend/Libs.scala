@@ -1,5 +1,8 @@
 package libs.backend
 
+import java.nio.ByteBuffer
+import java.util.UUID
+
 import commons.support.counter.Counter
 
 /**
@@ -11,4 +14,9 @@ object Libs {
     organNum.incr(1)
     15121000 + organNum.get
   }
+
+  def genePicId = {
+    UUID.randomUUID().toString
+  }
+
 }

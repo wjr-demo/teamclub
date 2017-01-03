@@ -52,3 +52,10 @@ POST	/appdepartment/keycode	controllers.backend.AppDepartmentAction.keycode
 POST	/adminareacode/list		controllers.backend.AdminAreaCodeAction.list
 POST	/adminareacode/add		controllers.backend.AdminAreaCodeAction.add
 POST	/adminareacode/del		controllers.backend.AdminAreaCodeAction.del
+
+#上传图片
+POST	/upload/file			controllers.backend.FileUploadAction.upload
+
+GET		/test					controllers.backend.TestAction.test
+
+GET  	/externalassets/*file   controllers.backend.ExterAssets.at(path="upload", file)

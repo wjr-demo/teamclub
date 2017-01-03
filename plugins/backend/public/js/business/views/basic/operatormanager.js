@@ -121,7 +121,11 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'remark',
                     type: 'textarea',
                     formValue: {'width': '796px'},
-                },],
+                },{
+                    title: '头像',
+                    name: 'id',
+                    type: 'file'
+                }],
                 btns: [{
                     title: '提交',
                     class: '',
