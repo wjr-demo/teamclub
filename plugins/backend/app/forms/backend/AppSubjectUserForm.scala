@@ -73,6 +73,8 @@ case class AppSubjectUserForm(id: Option[Int],
     deptid map appSubjectUser.setDeptid
     isSysAdmin map appSubjectUser.setIsSysAdmin
     isDeptAdmin map appSubjectUser.setIsDeptAdmin
+    phone map appSubjectUser.setPhone
+    telephone map appSubjectUser.setTelephone
     examineStatus map appSubjectUser.setExamineStatus
     gender map appSubjectUser.setGender
     appSubjectUserMore map { x =>

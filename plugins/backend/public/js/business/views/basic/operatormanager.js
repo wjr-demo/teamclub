@@ -39,14 +39,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 .appendPanel(undefined, this.formElTwo, config)
                 .appendPanel(undefined, this.formElThree, config)
                 .build();
-            var $pic = $('<div style="top: 0px;height:100px; width: 70px; background-color: red; position: absolute">')
-            var el = this.$('#isSysAdmin').closest('.form-group')
-            setTimeout(function(){
-                var offset = el[0].offsetLeft + 180;
-                var left = offset + 'px';
-                $pic.css({'left': left})
-                self.formElOne.append($pic)
-            },500)
             if(this.type == 'view') {
                 this.component.setAsView();
             }
@@ -140,8 +132,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: Func.convertToFour('生日'),
                     name: 'birthday',
-                    type: 'date',
-                    formGroup: {'width': '500px'}
+                    type: 'date'
+                },{
+                    title: '手机号码',
+                    name: 'telephone'
                 },{
                     title: '教育程度',
                     name: 'educationLevel',
