@@ -48,7 +48,7 @@
 /*}*/
 
 body {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .form-control {
@@ -81,7 +81,6 @@ label {
     width: inherit;
 }
 .btn {
-    padding: 1px 2px;
     border-radius: 2px;
     font-size: 12px;
 }
@@ -92,4 +91,22 @@ label {
 }
 .panel-default {
     border-color: #FFF;
+}
+.datetimepicker {
+    margin-top: 30px;
+}
+@media(min-width: 1366px) {
+    #wrapper {
+        margin:auto;
+        margin-top: 30px;
+        width: 1366px;
+        border: 1px solid aquamarine;
+    }
+}
+@media(max-width: 1366px) {
+    #wrapper {
+        margin:auto;
+        width: 1366px;
+        border: 1px solid aquamarine;
+    }
 }
