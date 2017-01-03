@@ -31,19 +31,11 @@ define([
             return this;
         },
         setAsView: function($el) {
-            var self = this;
-            setTimeout(function(){
-                var $el = $el == undefined ? self.owner.$el : $el
-                var el = $el[0]
-                var $viewE = $('<div class="viewer" style="z-index: 9999; position: absolute">')
-                $viewE.css('display', 'block')
-                $viewE.css('top', el.offsetTop + "px")
-                $viewE.css('left', el.offsetLeft + "px")
-                $viewE.css('width', el.offsetWidth + "px")
-                $viewE.css('height', el.offsetHeight + "px")
-                $el.append($viewE)
-                $el.find('.btn').hide();
-            }, 500)
+            this.owner.$el.find('input').attr("disabled","disabled");
+            this.owner.$el.find('select').attr("disabled","disabled");
+            this.owner.$el.find('textarea').attr("disabled","disabled");
+            this.owner.$el.find('input[type=submit]:not(.view)').hide()
+            this.owner.$el.find('input[type=button]:not(.view)').hide()
         },
         //生成面板
         genePanel: function($head, $body){

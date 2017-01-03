@@ -110,6 +110,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             _.each(params.fields, function(param){
                 param['title'] = (param['title'] == undefined || param['title'] == "") ? param['title'] : param['title'] + "："
                 param['divClz'] = param['divClz'] || 'col-md-8';
+                param['placeholder'] = param['placeholder'] || '';
                 if(param['required'] == true) {
                     param['title'] += '<span style="color: red; vertical-align: sub;">*</span>'
                 }

@@ -205,7 +205,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnView =  '<input type="button" value="查看" name="view"/>';
+                        var btnView =  '<input type="button" class="view" value="查看" name="view"/>';
                         return btnView ;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {

@@ -6,6 +6,7 @@ import com.avaje.ebean.ExpressionList
 import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AppSubjectUserForm
 import models.AppSubjectUser
+import plugin.backend.actions.XSession
 import plugins.ebean.Paging
 
 /**
@@ -19,25 +20,33 @@ object OperatorManagerService {
     Left(Paging.toPage(page).toJson)
   }
 
-  def add(form: AppSubjectUserForm): Either[ErrorCode, ErrorCode] = {
+  def add(form: AppSubjectUserForm, session: XSession): Either[ErrorCode, ErrorCode] = {
     val appSubjectUser = form.toModel()
     form.id.fold {
       if(AppSubjectUser.finder.where().eq("username", appSubjectUser.username).findRowCount() > 0) {
         Right(ErrorCodes.of("用户名重复"))
       } else {
+        appSubjectUser.setCreatedAt(new Date)
+        appSubjectUser.setCreatedBy(session.appSubjectUser.id.toString)
         appSubjectUser.save()
         Left(ErrorCodes.SUCCESS)
       }
     }{
-      v => appSubjectUser.update()
-      Left(ErrorCodes.SUCCESS)
+      v => {
+        appSubjectUser.setUpdatedAt(new Date)
+        appSubjectUser.setUpdatedBy(session.appSubjectUser.id.toString)
+        appSubjectUser.update()
+        Left(ErrorCodes.SUCCESS)
+      }
     }
   }
 
   def del(form: AppSubjectUserForm) = {
     form.id match {
       case Some(v) => {
-        AppSubjectUser.finder.byId(v).delete()
+        val appuser = AppSubjectUser.finder.byId(v)
+        appuser.setIsDelete(1)
+        appuser.update
         Left(ErrorCodes.SUCCESS)
       }
       case None => {
@@ -58,6 +67,7 @@ object OperatorManagerService {
       }
     }
     form.examineStatus.map(expr.eq("examineStatus", _))
+    expr.ne("isDelete", 1)
     expr
   }
 }

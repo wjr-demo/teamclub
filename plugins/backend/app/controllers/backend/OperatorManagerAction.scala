@@ -32,7 +32,7 @@ object OperatorManagerAction extends Controller{
       },
       form => {
         form.appId = Some(request.sess.appid)
-        val resp = OperatorManagerService.add(form)
+        val resp = OperatorManagerService.add(form, request.sess)
         form.id map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
         Ok(Eithers.toJson(resp))
       }

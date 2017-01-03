@@ -40,6 +40,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 .appendPanel(undefined, this.formElThree, config)
                 .build();
             if(this.type == 'view') {
+                this.$el.append(new UserDepartChange(this.d, this,  view).$el)
                 this.component.setAsView();
             }
         },
@@ -113,10 +114,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'remark',
                     type: 'textarea',
                     formValue: {'width': '796px'},
-                },{
-                    title: '头像',
-                    name: 'id',
-                    type: 'file'
                 }],
                 btns: [{
                     title: '提交',

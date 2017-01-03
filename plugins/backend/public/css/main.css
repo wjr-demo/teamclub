@@ -110,3 +110,6 @@ label {
         border: 1px solid aquamarine;
     }
 }
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #FFF
+}

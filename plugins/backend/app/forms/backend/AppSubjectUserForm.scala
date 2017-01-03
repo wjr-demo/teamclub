@@ -10,6 +10,7 @@ import play.api.libs.Crypto
  */
 
 case class AppSubjectUserMoreForm(identifyNo: Option[String],
+                                  telephone: Option[String],
                                   birthday: Option[Long],
                                   marriageStatus: Option[Int],
                                   educationLevel: Option[Int],
@@ -19,7 +20,8 @@ case class AppSubjectUserMoreForm(identifyNo: Option[String],
                                   nativePlaceDetail: Option[String],
                                   familyName: Option[String],
                                   familyRelation: Option[String],
-                                  familyPhone: Option[String])
+                                  familyPhone: Option[String]
+                                 )
 
 case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
                                       positiveTime:Option[Long],
@@ -82,6 +84,7 @@ case class AppSubjectUserForm(id: Option[Int],
       x.birthday map { y => {
          if(y == 0) appSubjectUser.setBirthday(null) else appSubjectUser.setBirthday(new Date(y))
       }}
+      x.telephone map { y => appSubjectUser.setTelephone(y)}
       x.marriageStatus map { y => appSubjectUser.setMarriageStatus(y)}
       x.educationLevel map { y => appSubjectUser.setEducationLevel(y)}
       x.strongPoint map { y => appSubjectUser.setStrongPoint(y)}

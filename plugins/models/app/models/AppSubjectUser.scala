@@ -139,6 +139,21 @@ class AppSubjectUser extends Model {
   @BeanProperty
   var gender: Int = _ // 1 男 2 女
 
+  @BeanProperty
+  var isDelete: Int = _
+
+  @BeanProperty
+  var createdAt: Date = _
+
+  @BeanProperty
+  var createdBy: String = _
+
+  @BeanProperty
+  var updatedAt: Date = _
+
+  @BeanProperty
+  var updatedBy: String = _
+
   @Transient
   var roleName: String = _ //角色名称
 
