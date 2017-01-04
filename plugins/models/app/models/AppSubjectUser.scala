@@ -181,6 +181,12 @@ class AppSubjectUser extends Model {
 
   def getRole: AppRole = AppRole.finder.byId(roleType)
 
+  def getUpdatedName: String =  try {
+    AppSubjectUser.finder.byId(updatedBy.toInt).getRealname
+  } catch {
+    case e: Exception => ""
+  }
+
 }
 object AppSubjectUser {
   val finder = new Finder(classOf[Int], classOf[AppSubjectUser])

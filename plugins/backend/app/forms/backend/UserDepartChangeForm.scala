@@ -27,6 +27,11 @@ case class UserDepartChangeForm(id: Option[Int],
                                 wages: Option[Int],
                                 calcuStyle: Option[Int],
                                 remark: Option[String],
+                                createdAt: Option[Long],
+                                createdBy: Option[String],
+                                updatedAt: Option[Long],
+                                updatedBy: Option[String],
+                                examineStatus: Option[Int],
                                 userDepartChangeAnother: Option[UserDepartChangeAnother],
                                 currentPage: Int,
                                 pageSize: Int = 10) extends ToModel[UserDepartChange]{
@@ -43,6 +48,11 @@ case class UserDepartChangeForm(id: Option[Int],
     wages map model.setWages
     calcuStyle map model.setCalcuStyle
     remark map model.setRemark
+    createdAt map { v => model.setCreatedAt(new Date(v)) }
+    createdBy map model.setCreatedBy
+    updatedAt map { v => model.setUpdatedAt(new Date(v)) }
+    updatedBy map model.setUpdatedBy
+    examineStatus map model.setExamineStatus
     userDepartChangeAnother map {
       x => {
         x.comQqNum map { y => model.setComQqNum(y)}

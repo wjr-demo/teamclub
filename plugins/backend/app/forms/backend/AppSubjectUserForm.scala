@@ -39,7 +39,8 @@ case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
                                       computerConfig: Option[String],
                                       remark: Option[String],
                                       awardRecord: Option[String],
-                                      breakRuleRecord: Option[String])
+                                      breakRuleRecord: Option[String],
+                                      seaBirthday: Option[String])
 
 case class AppSubjectUserForm(id: Option[Int],
                               username: Option[String],
@@ -47,7 +48,7 @@ case class AppSubjectUserForm(id: Option[Int],
                               gender: Option[Int],
                               var appId: Option[String],
                               roleType: Option[Int],
-                              organNo: Option[String],
+                              var organNo: Option[String],
                               realname: Option[String],
                               deptid: Option[Int],
                               isSysAdmin: Option[Boolean],

@@ -2,10 +2,13 @@ package services.backend
 
 import java.util.Date
 
-import com.avaje.ebean.ExpressionList
+import com.avaje.ebean.{Expr, ExpressionList}
+import com.fasterxml.jackson.databind.JsonNode
+import com.google.common.collect.ImmutableMap
 import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AppSubjectUserForm
 import models.AppSubjectUser
+import play.libs.Json
 import plugin.backend.actions.XSession
 import plugins.ebean.Paging
 
@@ -62,12 +65,19 @@ object OperatorManagerService {
     form.organNo.map(expr.eq("organNo", _))
     form.deptid.map(expr.eq("deptid", _))
     form.appSubjectUserCompanyAbout.map { companyAbount =>
-      companyAbount.entryTime map { v =>
-        expr.eq("entryTime", new Date(v))
+      companyAbount.seaBirthday map { v =>
+        expr.eq("month(birthday)", v)
       }
     }
     form.examineStatus.map(expr.eq("examineStatus", _))
     expr.ne("isDelete", 1)
     expr
+  }
+
+  def calcquitrate(sess: XSession): Either[JsonNode, ErrorCode] = {
+    val full = AppSubjectUser.finder.where().eq("organNo", sess.organNo).findRowCount()
+    val leave = AppSubjectUser.finder.where().eq("organNo", sess.organNo).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
+    val map = ImmutableMap.of("full", full, "leave", leave)
+    Left(Json.toJson(map))
   }
 }

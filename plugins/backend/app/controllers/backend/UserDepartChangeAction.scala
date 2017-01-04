@@ -27,7 +27,7 @@ object UserDepartChangeAction extends Controller {
       error => Ok(Eithers.failure(error)),
       form => {
         form.changeDate = Some(new Date().getTime())
-        val resp = UserDepartChangeService.add(form)
+        val resp = UserDepartChangeService.add(form, request.sess)
         import play.api.Play.current
         form.userId map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
         Ok(Eithers.toJson(resp))

@@ -204,16 +204,49 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                 },{
                     title: '操作',
                     data: null,
-                    render: function(){
+                    render: function(d){
+                        var btnExamine = '<input type="button" value="审核" name="examine"/>';
+                        var btnUnExamine = '<input type="button" value="反审核" name="unExamine"/>';
                         var btnView =  '<input type="button" class="view" value="查看" name="view"/>';
-                        return btnView ;
+                        var btnModify =  '<input type="button" class="view" value="编辑" name="modify"/>';
+                        if(d['examineStatus'] == 1) {
+                            if(SC.current.role.attachCode != null && SC.current.role.attachCode.includes('EXAMINE')) {
+                                return btnUnExamine + btnView;
+                            }else {
+                                return btnView;
+                            }
+                        }else {
+                            if(SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE')) {
+                                return btnExamine + btnView + btnModify;
+                            } else {
+                                return btnView + btnModify;
+                            }
+                        }
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).find('input[name=view]').on('click', $.proxy(self.modify, self, rowData, 'view'));
+                        if($(td).find('input[name=examine]') != undefined) {
+                            $(td).find('input[name=examine]').on('click', $.proxy(self.examine, self, rowData, 1));
+                        }
+                        if($(td).find('input[name=unExamine]') != undefined) {
+                            $(td).find('input[name=unExamine]').on('click', $.proxy(self.examine, self, rowData, 0));
+                        }
+                        if($(td).find('input[name=view]') != undefined) {
+                            $(td).find('input[name=view]').on('click', $.proxy(self.modify, self, rowData, 'view'));
+                        }
+                        if($(td).find('input[name=modify]') != undefined) {
+                            $(td).find('input[name=modify]').on('click', $.proxy(self.modify, self, rowData))
+                        }
                     }
                 }]
             };
             return tableParams;
+        },
+        examine: function(d, v) {
+            var self = this
+            d['examineStatus'] = v
+            SC.Save(prefix + '/userdepartchange/add', d, function(d) {
+                self.reload()
+            });
         },
         reload: function(){
             this.table.reload();

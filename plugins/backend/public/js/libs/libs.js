@@ -96,7 +96,15 @@ define(['jquery'], function(){
         ].join(ch)
         return dformat;
     };
-
+    Libs.formatDateToMonth = function(timestamp, ch) {
+        ch = ch || '-'
+        var d = new Date(timestamp);
+        var dformat = [
+            d.getFullYear(),
+            (d.getMonth() + 1).padLeft()
+        ].join(ch)
+        return dformat;
+    }
     Libs.tableLine = function(title, modify, proxy) {
         var $hd = $('<div class="data-hd">')
         var $hdi = $('<label class="data-hd-i">' +  title + '</label>')

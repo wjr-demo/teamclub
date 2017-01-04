@@ -68,6 +68,21 @@ class UserDepartChange extends Model{
   @BeanProperty
   var computerConfig: String = _ //电脑配置
 
+  @BeanProperty
+  var createdAt: Date = _
+
+  @BeanProperty
+  var createdBy: String = _
+
+  @BeanProperty
+  var updatedAt: Date = _
+
+  @BeanProperty
+  var updatedBy: String = _
+
+  @BeanProperty
+  var examineStatus: Int = _ //审核状态
+
   def getDepartName: String = AppDepartment.finder.byId(departId).getDepartName
 
   def getRoleName: String = AppRole.finder.byId(roleId).getRolename

@@ -24,6 +24,7 @@ POST    /rolemanager/attachcodes    controllers.backend.RoleManagerAction.attach
 POST	/operatormanager/list	controllers.backend.OperatorManagerAction.list
 POST	/operatormanager/add	controllers.backend.OperatorManagerAction.add
 POST	/operatormanager/del	controllers.backend.OperatorManagerAction.del
+POST   /operatormanager/calcquitrate  controllers.backend.OperatorManagerAction.calcquitrate
 
 #员工变动记录
 POST	/userdepartchange/list	controllers.backend.UserDepartChangeAction.list

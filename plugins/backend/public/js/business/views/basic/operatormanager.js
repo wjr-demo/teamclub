@@ -10,6 +10,13 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.type = type;
             this.isModify = d != undefined ;
             this.d = d || {};
+            this.tmpOrganNo = this.d['organNo'] || SC.current.organNo
+            if(this.d['username'] != undefined) {
+                var idx = this.d['username'].indexOf('@')
+                if(idx != -1) {
+                    this.d['username'] = this.d['username'].substr(0, idx)
+                }
+            }
             this.parent = parent;
             this.tabs = parent.tabs;
             this.component = new Component(this);
@@ -66,6 +73,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 json['password'] = undefined
             }else { //添加
                 if(json['password'] != undefined) json['password'] = md5(json['password'])
+            }
+            if(json['username'] != undefined && json['username'].trim() != "") {
+                json['username'] = json['username'] + '@' + self.tmpOrganNo
             }
             this.formElOne.validator('validate')
             this.formElTwo.validator('validate')
@@ -222,7 +232,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: Func.convertToFour('用户名'),
                     name: 'username',
-                    required: true
+                    required: true,
+                    type: 'combineTxt',
+                    combineTxt: '@' + self.tmpOrganNo
                 },{
                     title: Func.convertToFour('密码'),
                     name: 'password'
@@ -238,15 +250,23 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.render();
         },
         render: function() {
+            var self = this ;
             this.table = this.component.geneTable(this.tableParams(), this.searParams());
             this.tabs = this.component.geneTab([{
                 title: '员工管理',
-                content: this.component.genePanel(undefined, this.table.geneTable()),
+                content: this.component.genePanel('<div id="quitrate"></div>', this.table.geneTable()),
                 active: true
             }]);
             this.component
                 .appendNative(this.tabs.full())
                 .build();
+            $.postJSON(prefix + '/operatormanager/calcquitrate', {}, function(d) {
+                var full = d['full']
+                var leave = d['leave']
+                var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
+                console.log(rate)
+                self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate)
+            })
         },
         tableParams: function() {
             var self = this;
@@ -274,6 +294,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: '角色',
                     data: 'roleName'
+                },{
+                    title: '修改人',
+                    data: 'updatedName'
                 },{
                     title: '修改密码',
                     data: null,
@@ -369,9 +392,23 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['DEPTLIST']
                 },{
-                    title: '入职时间',
-                    name: 'entryTime',
-                    type: 'date'
+                    title: '生日',
+                    name: 'seaBirthday',
+                    type: 'dropdown',
+                    data: [
+                        {"id": '1', "name": '1月'},
+                        {'id': '2', 'name': '2月'},
+                        {'id': '3', 'name': '3月'},
+                        {'id': '4', 'name': '4月'},
+                        {'id': '5', 'name': '5月'},
+                        {'id': '6', 'name': '6月'},
+                        {'id': '7', 'name': '7月'},
+                        {'id': '8', 'name': '8月'},
+                        {'id': '9', 'name': '9月'},
+                        {'id': '10', 'name': '10月'},
+                        {'id': '11', 'name': '11月'},
+                        {'id': '12', 'name': '12月'}
+                    ]
                 }],
                 btns: [{
                     title: '查询',
@@ -382,11 +419,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     callback: $.proxy(self.modify, self, undefined)
                 }],
                 renderSearchData: function(d){
-                    if(d['entryTime'] != undefined && d['entryTime'] != '0'){
-                        var companyAboutData = {}
-                        companyAboutData['entryTime'] = d['entryTime'];
-                        d['companyAbountData'] = companyAboutData
-                    }
+                    var companyAboutData = {}
+                    companyAboutData['seaBirthday'] = d['seaBirthday']
+                    d['companyAbountData'] = companyAboutData
                     if(SC.current.deptAttachCode == Department.FINANCE) {
                         d['examineStatus'] = 1
                     }
@@ -396,7 +431,15 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             return searParams;
         },
         reload: function(){
+            var self = this ;
             this.table.reload();
+            $.postJSON(prefix + '/operatormanager/calcquitrate', {}, function(d) {
+                var full = d['full']
+                var leave = d['leave']
+                var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
+                console.log(rate)
+                self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate)
+            })
         },
         view: function(d) {
             this.tabs.addTab({

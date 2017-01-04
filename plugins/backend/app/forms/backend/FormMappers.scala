@@ -101,7 +101,8 @@ object FormMappers {
         "computerConfig" -> optional(text),
         "remark" -> optional(text),
         "awardRecord"  -> optional(text),
-        "breakRuleRecord" -> optional(text)
+        "breakRuleRecord" -> optional(text),
+        "seaBirthday" -> optional(text)
       )(AppSubjectUserCompanyAbout.apply)(AppSubjectUserCompanyAbout.unapply)),
       "currentPage" -> default(number, 0),
       "pageSize" -> default(number, defaultPageSize)
@@ -171,6 +172,11 @@ object FormMappers {
       "wages" -> optional(number),
       "calcuStyle" -> optional(number),
       "remark" -> optional(text),
+      "createdAt" -> optional(longNumber),
+      "createdBy" -> optional(text),
+      "updatedAt" -> optional(longNumber),
+      "updatedBy" -> optional(text),
+      "examineStatus" -> optional(number),
       "userDepartChangeAnother" -> optional(mapping(
         "comQqNum" -> optional(text),
         "comQqPasswd" -> optional(text),

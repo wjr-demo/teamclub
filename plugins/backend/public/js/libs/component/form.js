@@ -29,6 +29,16 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
+        combineEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
+                <div class="input-group">\
+                    <input type="text" class="form-control" style="background-color: #FFF" name="<%= name %>" id="<%= name %>" placeholder="">\
+                    <span class="input-group-addon"><%= combineTxt %></span>\
+                </div>\
+                <div class="help-block with-errors"></div>\
+            </div>\
+        </div>'),
         fileEle: _.template('<div class="form-group">\
             <label for="<%= name %>" class=""><%= title %></label>\
             <div class="form-value">\
@@ -283,6 +293,37 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             $formEle.find('.popDel').on('click', delCallback)
             return $formEle;
         },
+        monthFunc: function(param) {
+            var self = this ;
+            this.seriFilterArray.push(param['name']);
+            var $formEle = $(this.dateTimeEle(param));
+            var $elInput = $formEle.find('input');
+            var $elRemove = $formEle.find('.timeRemove');
+            $elRemove.on('click', function(){
+                $elInput.val('');
+                $elInput.attr('val', '0');
+            });
+            $elInput.on('change', function() {
+                var val = $elInput.val();
+                var timeV = new Date(Date.parse(val)).getTime()
+                $elInput.attr('val', timeV);
+            });
+            $elInput.attr('readonly', true)
+            $elInput.datetimepicker({
+                format: 'yyyy-mm',
+                language: 'zh-CN',
+                minView:'year',
+                startView: 'year',
+                maxView:'decade',
+                autoclose: true,
+                todayBtn: true
+            });
+            if(this.initD && this.initD[param['name']] != undefined) {
+                $elInput.attr('val', this.initD[param['name']])
+                $elInput.val(Libs.formatDateToMonth(new Date(this.initD[param['name']])))
+            }
+            return $formEle;
+        },
         dateFunc: function(param) {
             var self = this ;
             this.seriFilterArray.push(param['name']);
@@ -350,6 +391,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             })
             return $formEle;
         },
+        combineFunc: function(param) {
+            var $formEle = $(this.combineEle(param))
+            return $formEle;
+        },
         geneSingle: function(i, param){
             var self = this;
             if(param['el'] != undefined){
@@ -369,8 +414,12 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = this.dateFunc(param)
             }else if(param['type'] == 'datetime'){
                 var $formEle = this.dateTimeFunc(param)
+            }else if(param['type'] == 'month'){
+                var $formEle = this.monthFunc(param)
             }else if(param['type'] == 'file') {
                 var $formEle = this.fileFunc(param);
+            }else if(param['type'] == 'combineTxt'){
+                var $formEle = this.combineFunc(param)
             }else {
                 var $formEle = $(this.formEle(param));
             }

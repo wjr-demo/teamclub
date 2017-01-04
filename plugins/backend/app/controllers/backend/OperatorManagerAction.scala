@@ -32,6 +32,7 @@ object OperatorManagerAction extends Controller{
       },
       form => {
         form.appId = Some(request.sess.appid)
+        form.organNo = Some(request.sess.organNo)
         val resp = OperatorManagerService.add(form, request.sess)
         form.id map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
         Ok(Eithers.toJson(resp))
@@ -48,5 +49,10 @@ object OperatorManagerAction extends Controller{
         Ok(Eithers.toJson(resp))
       }
     )
+  }
+
+  def calcquitrate = Authenticated { implicit request =>
+    val resp = OperatorManagerService.calcquitrate(request.sess)
+    Ok(Eithers.toJson(resp))
   }
 }

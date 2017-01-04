@@ -1,11 +1,14 @@
 package services.backend
 
+import java.util.Date
+
 import com.avaje.ebean.{Ebean, ExpressionList}
 import com.fasterxml.jackson.databind.JsonNode
-import commons.{ErrorCodes, ErrorCode}
+import commons.{ErrorCode, ErrorCodes}
 import forms.backend.UserDepartChangeForm
 import models.{AppSubjectUser, UserDepartChange}
 import play.api.Logger
+import plugin.backend.actions.XSession
 import plugins.ebean.Paging
 
 /**
@@ -31,15 +34,19 @@ object UserDepartChangeService {
     }
   }
 
-  def add(form: UserDepartChangeForm): Either[ErrorCode, ErrorCode] = {
+  def add(form: UserDepartChangeForm, sess: XSession): Either[ErrorCode, ErrorCode] = {
     val model = form.toModel()
     val trans = Ebean.beginTransaction()
     try{
       form.id match {
         case Some(v) => {
+          model.setUpdatedAt(new Date)
+          model.setUpdatedBy(sess.appSubjectUser.id.toString)
           model.update
         }
         case None => {
+          model.setCreatedAt(new Date)
+          model.setCreatedBy(sess.appSubjectUser.id.toString)
           model.save
         }
       }
