@@ -250,13 +250,16 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         popUp: function(param){
             var self = this;
             var $formEle = $(this.popUpEle(param));
+            var $input = $formEle.find('input')
             var editCallback = function(v1, v2){
-                $formEle.find('input').attr('val',v1)
-                $formEle.find('input').val(v2)
+                $input.attr('val',v1)
+                $input.val(v2)
+                $input.trigger('change')
             }
             var delCallback = function(d) {
-                $formEle.find('input').attr('val', 0)
-                $formEle.find('input').val('')
+                $input.attr('val', 0)
+                $input.val('')
+                $input.trigger('change')
             }
             var viewOption = param['viewOption'] || {}
             if(this.initD && this.initD[param['name']] != undefined) {
