@@ -39,6 +39,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 .appendPanel(undefined, this.formElTwo, config)
                 .appendPanel(undefined, this.formElThree, config)
                 .build();
+            if(this.isModify) {
+                this.$('input[name=password]').val('')
+                this.$('input[name=password]').attr('disabled','disabled')
+            }
             if(this.type == 'view') {
                 this.$el.append(new UserDepartChange(this.d, this,  view).$el)
                 this.component.setAsView();
@@ -71,6 +75,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             }else {
                 var recordFormData = this.recordForm.serializeJ();
                 var companyAbountData = this.companyAbountForm.serializeJ();
+                recordFormData['avatar'] = json['avatar']
                 json['recordData'] = recordFormData;
                 json['companyAbountData'] = companyAbountData;
                 SC.Save(prefix + '/operatormanager/add', json, function(d) {
@@ -183,76 +188,46 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
         },
         formParams : function() {
             var self = this;
-            if(self.isModify) {
-                var formParams = {
-                    fields:[{
-                        title: Func.convertToFour('姓名'),
-                        name: 'realname',
-                        formValue: {'width': '162px'},
-                    },{
-                        title: Func.convertToFour('性别'),
-                        name: 'gender',
-                        type: 'dropdown',
-                        formValue: {'width': '70px'},
-                        data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
-                    },{
-                        title: '婚姻状态',
-                        name: 'marriageStatus',
-                        type: 'dropdown',
-                        formValue: {'width': '70px'},
-                        formGroup: {'width': '500px'},
-                        data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
-                    },{
-                        title: '用&nbsp;&nbsp;户&nbsp;&nbsp;名',
-                        name: 'username',
-                        required: true
-                    },{
-                        title: '部门管理员',
-                        name: 'isDeptAdmin',
-                        type: 'checkbox',
-                        formValue: {'width': '90px'},
-                    },{
-                        title: '系统管理员',
-                        name: 'isSysAdmin',
-                        type: 'checkbox'
-                    }]
-                };
-            }else {
-                var formParams = {
-                    fields:[{
-                        title: Func.convertToFour('姓名'),
-                        name: 'realname',
-                        formValue: {'width': '162px'},
-                    },{
-                        title: Func.convertToFour('性别'),
-                        name: 'gender',
-                        type: 'dropdown',
-                        formValue: {'width': '70px'},
-                        data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
-                    },{
-                        title: '婚姻状态',
-                        name: 'marriageStatus',
-                        type: 'dropdown',
-                        formValue: {'width': '70px'},
-                        data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
-                    },{
-                        title: '系统管理员',
-                        name: 'isSysAdmin',
-                        type: 'checkbox'
-                    },{
-                        title: '用&nbsp;&nbsp;户&nbsp;&nbsp;名',
-                        name: 'username',
-                        required: true
-                    },{
-                        title: Func.convertToFour('密码'),
-                        name: 'password'
-                    },{
-                        title: '部门管理员',
-                        name: 'isDeptAdmin',
-                        type: 'checkbox'
-                    }]
-                };
-            }
+            var formParams = {
+                fields:[{
+                    title: Func.convertToFour('头像'),
+                    name: 'avatar',
+                    type: 'file'
+                },{
+                    title: Func.convertToFour('姓名'),
+                    name: 'realname',
+                    formValue: {'width': '162px'},
+                },{
+                    title: Func.convertToFour('性别'),
+                    name: 'gender',
+                    type: 'dropdown',
+                    formValue: {'width': '70px'},
+                    data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
+                },{
+                    title: '婚姻状态',
+                    name: 'marriageStatus',
+                    type: 'dropdown',
+                    formValue: {'width': '70px'},
+                    data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                },{
+                    title: '系统管理员',
+                    name: 'isSysAdmin',
+                    type: 'checkbox',
+                    formValue: {'width': '50px'},
+                },{
+                    title: '部门管理员',
+                    name: 'isDeptAdmin',
+                    type: 'checkbox',
+                    formValue: {'width': '52px'},
+                },{
+                    title: Func.convertToFour('用户名'),
+                    name: 'username',
+                    required: true
+                },{
+                    title: Func.convertToFour('密码'),
+                    name: 'password'
+                }]
+            };
             return formParams;
         }
     });
@@ -334,6 +309,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                         }
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
+                        $(td).css({'width': '280px'})
                         if($(td).find('input[name=workMove]') != undefined) {
                             var view = rowData['examineStatus'] == 1 ? true : false
                             $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData, view));

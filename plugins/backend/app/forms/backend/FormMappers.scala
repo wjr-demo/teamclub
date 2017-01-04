@@ -71,6 +71,7 @@ object FormMappers {
       "telephone" -> optional(text),
       "examineStatus" -> optional(number),
       "recordData" -> optional(mapping(
+        "avatar" -> optional(text),
         "identifyNo" -> optional(text),
         "telephone" -> optional(text),
         "birthday" -> optional(longNumber),

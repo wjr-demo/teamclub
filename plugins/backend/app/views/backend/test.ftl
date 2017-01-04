@@ -11,12 +11,12 @@
         <script src="/assets/bower_components/bootstrap-fileinput/js/locales/zh.js"></script>
 	</head>
 	<body>
-    	<input type="file" name="uploadfile" id="uploadfile" multiple class="file-loading" src="/assets/files/27096d85-d186-4017-8dd4-23997a1da0cd.jpg"/>
+    	<input type="file" id="uploadfile" multiple class="file-loading" />
 	</body>
 	<script type="text/javascript">
         $("#uploadfile").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "/backend/upload/file", //上传的地址
+            uploadUrl: "http://localhost:9000/backend/upload/file", //上传的地址
 //            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
             uploadAsync: true, //默认异步上传
@@ -83,6 +83,7 @@
         $('#uploadfile').on('filepreupload', function(event, data, previewId, index) {
             var form = data.form, files = data.files, extra = data.extra,
                     response = data.response, reader = data.reader;
+            console.log('File pre upload triggered');
         });
     </script>
 

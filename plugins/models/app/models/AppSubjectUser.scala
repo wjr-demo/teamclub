@@ -20,6 +20,9 @@ class AppSubjectUser extends Model {
   var id: Int = _
 
   @BeanProperty
+  var avatar: String = _ //头像
+
+  @BeanProperty
   var username: String = _ //用户名
 
   @BeanProperty

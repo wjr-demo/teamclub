@@ -18,10 +18,11 @@ object FileUploadAction extends Controller {
     try {
       request.body.files.foreach { v =>
         val suffix = if (v.filename.indexOf(".") != -1 ) v.filename.substring(v.filename.indexOf(".") + 1) else ""
-        val path = s"public/files/${Libs.genePicId}.${suffix}"
+        val _path = s"files/${Libs.genePicId}.${suffix}"
+        val path = s"public/${_path}"
         Logger.info(s"save path is ${path}")
         v.ref.moveTo(new File(path))
-        map.put("filepath", path)
+        map.put("path", _path)
       }
       Ok(Json.stringify(Json.toJson(map)))
     } catch {

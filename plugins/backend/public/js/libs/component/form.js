@@ -32,7 +32,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         fileEle: _.template('<div class="form-group">\
             <label for="<%= name %>" class=""><%= title %></label>\
             <div class="form-value">\
-                <input type="file" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="<%= placeholder %>">\
+                <div class="input-group">\
+                    <input type="text" class="form-control" name="<%= name %>" disabled style="background-color: #FFF" id="<%= name %>" placeholder="">\
+                    <span class="input-group-addon clazzUpload" style="cursor: pointer;"><i class="fa fa-upload"></i></span>\
+                    <span class="input-group-addon clazzEye view" style="cursor: pointer;"><i class="fa fa-eye"></i></span>\
+                </div>\
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
@@ -41,7 +45,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <div class="form-value">\
                 <div class="input-group">\
                     <input type="dtime" class="form-control" style="background-color: #FFF" name="<%= name %>" id="<%= name %>" placeholder="">\
-                    <span class="timeRemove input-group-addon"><i class="fa fa-remove"></i></span>\
+                    <span class="timeRemove input-group-addon" style="cursor: pointer;"><i class="fa fa-remove"></i></span>\
                 </div>\
                 <div class="help-block with-errors"></div>\
             </div>\
@@ -74,8 +78,8 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <div class="form-value">\
                 <div class="input-group">\
                     <input type="<%= type %>" class="form-control" name="<%= name %>" id="<%= name %>" placeholder="">\
-                    <span class="popEdit input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>\
-                    <span class="popDel input-group-addon"><i class="fa fa-remove"></i></span>\
+                    <span class="popEdit input-group-addon" style="cursor: pointer;"><i class="fa fa-pencil fa-fw"></i></span>\
+                    <span class="popDel input-group-addon" style="cursor: pointer;"><i class="fa fa-remove"></i></span>\
                 </div>\
                 <div class="help-block with-errors"></div>\
             </div>\
@@ -211,146 +215,168 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             $formgroupInner.append($btn);
             return $formgroupSuper;
         },
-        geneSingle: function(i, param){
-            if(param['el'] != undefined){
-                return param['el'];
-            }
-            var self = this;
-            if(self.factory['singleClazz'] !== undefined) {
-                // var clazz  = self.factory['singleClazz'];
-            }else {
-                // var clazz = param['groupClz'] || 'col-md-6';
-            }
-            var clazz = ""
-            if(param['type'] == 'dropdown'){
-                var $formEle = $(this.selectEle(param))
-                var key = param['name']
-                var mapper = param['mapper'] || {}
-                if(param['dataurl'] != undefined) {
-                    $.postJSON(param['dataurl'], param['params'], function(d){
-                        d = d['data'] || d
-                        var idK = mapper['id'] || 'id'
-                        var idV = mapper['name'] || 'name'
-                        _.each(d, function(dd){
-                            if(self.initD[key] == dd[idK]) {
-                                var selected = "selected"
-                            } else {
-                                var selected = "" ;
-                            }
-                            $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd[idK]  + '">' + dd[idV] + '</option>')
-                        });
-                    })
-                }
-                if(param['data'] != undefined) {
-                    _.each(param['data'], function(dd){
-                        if(self.initD[key] == dd['id']) {
+        dropDown: function(param){
+            var self = this ;
+            var $formEle = $(this.selectEle(param))
+            var key = param['name']
+            var mapper = param['mapper'] || {}
+            if(param['dataurl'] != undefined) {
+                $.postJSON(param['dataurl'], param['params'], function(d){
+                    d = d['data'] || d
+                    var idK = mapper['id'] || 'id'
+                    var idV = mapper['name'] || 'name'
+                    _.each(d, function(dd){
+                        if(self.initD[key] == dd[idK]) {
                             var selected = "selected"
                         } else {
                             var selected = "" ;
                         }
-                        $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd['id']  + '">' + dd['name'] + '</option>')
+                        $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd[idK]  + '">' + dd[idV] + '</option>')
                     });
-                }
+                })
+            }
+            if(param['data'] != undefined) {
+                _.each(param['data'], function(dd){
+                    if(self.initD[key] == dd['id']) {
+                        var selected = "selected"
+                    } else {
+                        var selected = "" ;
+                    }
+                    $formEle.find('.innerselect').append('<option ' + selected + ' value="' + dd['id']  + '">' + dd['name'] + '</option>')
+                });
+            }
+            return $formEle;
+        },
+        popUp: function(param){
+            var self = this;
+            var $formEle = $(this.popUpEle(param));
+            var editCallback = function(v1, v2){
+                $formEle.find('input').attr('val',v1)
+                $formEle.find('input').val(v2)
+            }
+            var delCallback = function(d) {
+                $formEle.find('input').attr('val', 0)
+                $formEle.find('input').val('')
+            }
+            var viewOption = param['viewOption'] || {}
+            if(this.initD && this.initD[param['name']] != undefined) {
+                this.seriFilterArray.push(param['name']);
+                var key = viewOption['setField'];
+                var value = this.initD[param['name']];
+                var postParam = {}
+                postParam[key] = value;
+                $.postJSON(viewOption['url'], postParam, function(d) {
+                    if(d['data'].length < 1 ){
+                        console.log(param['name'] + '无渲染')
+                        editCallback(0, '')
+                        return false ;
+                    }else {
+                        editCallback(value, d['data'][0][viewOption['showField']])
+                    }
+                })
+            }
+            _.extend(viewOption, {'editCallback': editCallback})
+            $formEle.find('.popEdit').on('click', viewOption ,popFunc)
+            $formEle.find('.popDel').on('click', delCallback)
+            return $formEle;
+        },
+        dateFunc: function(param) {
+            var self = this ;
+            this.seriFilterArray.push(param['name']);
+            var $formEle = $(this.dateTimeEle(param));
+            var $elInput = $formEle.find('input');
+            var $elRemove = $formEle.find('.timeRemove');
+            $elRemove.on('click', function(){
+                $elInput.val('');
+                $elInput.attr('val', '0');
+            });
+            $elInput.on('change', function() {
+                var val = $elInput.val();
+                var timeV = new Date(Date.parse(val)).getTime()
+                $elInput.attr('val', timeV);
+            });
+            $elInput.attr('readonly', true)
+            $elInput.datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: 'zh-CN',
+                minView:'month',
+                maxView:'decade',
+                autoclose: true,
+                todayBtn: true
+            });
+            if(this.initD && this.initD[param['name']] != undefined) {
+                $elInput.attr('val', this.initD[param['name']])
+                $elInput.val(Libs.formatDateWith(new Date(this.initD[param['name']])))
+            }
+            return $formEle;
+        },
+        dateTimeFunc: function(param) {
+            var self = this ;
+            this.seriFilterArray.push(param['name']);
+            var $formEle = $(this.dateTimeEle(param));
+            var $elInput = $formEle.find('input');
+            $elInput.on('change', function() {
+                var val = $elInput.val();
+                var timeV = new Date(Date.parse(val)).getTime()
+                $elInput.attr('val', timeV);
+            });
+            $elInput.attr('readonly', true)
+            $elInput.datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language: 'zh-CN',
+                minView:'hour',
+                maxView:'decade',
+                autoclose: true,
+                todayBtn: true
+            });
+            if(this.initD && this.initD[param['name']] != undefined) {
+                $elInput.attr('val', this.initD[param['name']])
+                $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
+            }
+            return $formEle;
+        },
+        fileFunc: function(param){
+            var self = this;
+            var $formEle = $(this.fileEle(param))
+            var $input = $formEle.find('input')
+            $formEle.find('.clazzUpload').on('click', function(){
+                SC.PicWin($input)
+            })
+            $formEle.find('.clazzEye').on('click', function(){
+                SC.PicView($input)
+            })
+            return $formEle;
+        },
+        geneSingle: function(i, param){
+            var self = this;
+            if(param['el'] != undefined){
+                return param['el'];
+            }
+            param['placeholder'] = param['placeholder'] || ''
+            if(param['type'] == 'dropdown'){
+                var $formEle = this.dropDown(param);
             }else if(param['type'] == 'popUp'){
-                var $formEle = $(this.popUpEle(param));
-                var editCallback = function(v1, v2){
-                    $formEle.find('input').attr('val',v1)
-                    $formEle.find('input').val(v2)
-                }
-                var delCallback = function(d) {
-                    $formEle.find('input').attr('val', 0)
-                    $formEle.find('input').val('')
-                }
-                var viewOption = param['viewOption'] || {}
-                if(this.initD && this.initD[param['name']] != undefined) {
-                    this.seriFilterArray.push(param['name']);
-                    var key = viewOption['setField'];
-                    var value = this.initD[param['name']];
-                    var postParam = {}
-                    postParam[key] = value;
-                    $.postJSON(viewOption['url'], postParam, function(d) {
-                        if(d['data'].length < 1 ){
-                            console.log(param['name'] + '无渲染')
-                            editCallback(0, '')
-                            return false ;
-                        }else {
-                            editCallback(value, d['data'][0][viewOption['showField']])
-                        }
-                    })
-                }
-                _.extend(viewOption, {'editCallback': editCallback})
-                $formEle.find('.popEdit').on('click', viewOption ,popFunc)
-                $formEle.find('.popDel').on('click', delCallback)
+                var $formEle = this.popUp(param)
             }else if(param['type'] == 'textarea'){
                 var $formEle = $(this.textAreaEle(param))
                 $formEle.find('label').css({"vertical-align": "top"})
             }else if(param['type'] == 'checkbox') {
                 var $formEle = $(this.checkBoxEle(param))
             }else if(param['type'] == 'date'){
-                this.seriFilterArray.push(param['name']);
-                var $formEle = $(this.dateTimeEle(param));
-                var $elInput = $formEle.find('input');
-                var $elRemove = $formEle.find('.timeRemove');
-                $elRemove.on('click', function(){
-                    $elInput.val('');
-                    $elInput.attr('val', '0');
-                });
-                $elInput.on('change', function() {
-                    var val = $elInput.val();
-                    var timeV = new Date(Date.parse(val)).getTime()
-                    $elInput.attr('val', timeV);
-                });
-                $elInput.attr('readonly', true)
-                $elInput.datetimepicker({
-                    format: 'yyyy-mm-dd',
-                    language: 'zh-CN',
-                    minView:'month',
-                    maxView:'decade',
-                    autoclose: true,
-                    todayBtn: true
-                });
-                if(this.initD && this.initD[param['name']] != undefined) {
-                    $elInput.attr('val', this.initD[param['name']])
-                    $elInput.val(Libs.formatDateWith(new Date(this.initD[param['name']])))
-                }
+                var $formEle = this.dateFunc(param)
             }else if(param['type'] == 'datetime'){
-                this.seriFilterArray.push(param['name']);
-                var $formEle = $(this.dateTimeEle(param));
-                var $elInput = $formEle.find('input');
-                $elInput.on('change', function() {
-                    var val = $elInput.val();
-                    var timeV = new Date(Date.parse(val)).getTime()
-                    $elInput.attr('val', timeV);
-                });
-                $elInput.attr('readonly', true)
-                $elInput.datetimepicker({
-                    format: 'yyyy-mm-dd hh:ii',
-                    language: 'zh-CN',
-                    minView:'hour',
-                    maxView:'decade',
-                    autoclose: true,
-                    todayBtn: true
-                });
-                if(this.initD && this.initD[param['name']] != undefined) {
-                    $elInput.attr('val', this.initD[param['name']])
-                    $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
-                }
+                var $formEle = this.dateTimeFunc(param)
             }else if(param['type'] == 'file') {
-                var $formEle = $(this.fileEle(param))
+                var $formEle = this.fileFunc(param);
             }else {
-                param['placeholder'] = param['placeholder'] || ''
                 var $formEle = $(this.formEle(param));
             }
-            $formEle.addClass(clazz);
             if(param['required'] == true){
                 $formEle.find('.form-control').attr('required', true);
                 $formEle.find('.form-control').attr('data-error',"请输入")
             }
             if(param['hide'] == true) {
                 $formEle.hide()
-            }
-            if(param['type'] == 'file') {
-                this.initFileInput($formEle.find('.form-control'), "/backend/upload/file")
             }
             $formEle.find('label').css(self.factory['labelStyle'] || {})
             if(param['hideLabel'] == true) {
@@ -373,52 +399,6 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $formEle.css(param['formGroup'])
             }
             return $formEle;
-        },
-        initFileInput: function ($el, uploadUrl) {
-            $el.fileinput({
-                language: 'zh', //设置语言
-                uploadUrl: uploadUrl, //上传的地址
-                // allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
-                //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
-                uploadAsync: true, //默认异步上传
-                showUpload: true, //是否显示上传按钮
-                showRemove : true, //显示移除按钮
-                showPreview : true, //是否显示预览
-                showCaption: false,//是否显示标题
-                browseClass: "btn btn-primary", //按钮样式
-                dropZoneEnabled: false,//是否显示拖拽区域
-                //minImageWidth: 50, //图片的最小宽度
-                //minImageHeight: 50,//图片的最小高度
-                //maxImageWidth: 1000,//图片的最大宽度
-                //maxImageHeight: 1000,//图片的最大高度
-                //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
-                //minFileCount: 0,
-                maxFileCount: 10, //表示允许同时上传的最大文件个数
-                enctype: 'multipart/form-data',
-                validateInitialCount:true,
-                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-            });
-            $el.on('fileerror', function(event, data, msg) {
-                console.log(data.id);
-                console.log(data.index);
-                console.log(data.file);
-                console.log(data.reader);
-                console.log(data.files);
-                // get message
-                console.log(msg)
-            });
-            //异步上传返回结果处理
-            $el.on("fileuploaded", function (event, data, previewId, index) {
-                console.log(data.id);
-                console.log(data.index);
-                console.log(data.file);
-                console.log(data.reader);
-                console.log(data.files);
-                var obj = data.response;
-                console.log(obj)
-
-            });
         },
         form: function(){
             var $tmp = $('<div class="row col-md-12"></div>');

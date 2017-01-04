@@ -36,6 +36,7 @@ define([
             this.owner.$el.find('textarea').attr("disabled","disabled");
             this.owner.$el.find('input[type=submit]:not(.view)').hide()
             this.owner.$el.find('input[type=button]:not(.view)').hide()
+            this.owner.$el.find('span:not(.view)').unbind('click')
         },
         //生成面板
         genePanel: function($head, $body){

@@ -110,6 +110,11 @@ label {
         border: 1px solid aquamarine;
     }
 }
+@media (min-width: 768px) {
+    .form-inline .input-group {
+        width: 100%;
+    }
+}
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: #FFF
 }

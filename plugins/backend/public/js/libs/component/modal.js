@@ -57,6 +57,9 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             if(this.params['style'] !== undefined) {
                 this.$('.modal-dialog').css(this.params['style']);
             }
+            if(this.params['bodyStyle'] !== undefined) {
+                this.$('.modal-body').css(this.params['bodyStyle']);
+            }
         },
         renderView: function(){
             var self = this ;

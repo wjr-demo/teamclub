@@ -9,7 +9,8 @@ import play.api.libs.Crypto
  * Created by zhangmeng on 16-12-19.
  */
 
-case class AppSubjectUserMoreForm(identifyNo: Option[String],
+case class AppSubjectUserMoreForm(avatar: Option[String],
+                                  identifyNo: Option[String],
                                   telephone: Option[String],
                                   birthday: Option[Long],
                                   marriageStatus: Option[Int],
@@ -94,6 +95,7 @@ case class AppSubjectUserForm(id: Option[Int],
       x.familyName map { y => appSubjectUser.setFamilyName(y)}
       x.familyRelation map { y => appSubjectUser.setFamilyRelation(y)}
       x.familyPhone map { y => appSubjectUser.setFamilyPhone(y)}
+      x.avatar map { y => appSubjectUser.setAvatar(y)}
     }
     appSubjectUserCompanyAbout map { x =>
       x.entryTime map { y => {
