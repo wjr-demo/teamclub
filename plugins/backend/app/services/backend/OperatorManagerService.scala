@@ -75,8 +75,8 @@ object OperatorManagerService {
   }
 
   def calcquitrate(sess: XSession): Either[JsonNode, ErrorCode] = {
-    val full = AppSubjectUser.finder.where().eq("organNo", sess.organNo).findRowCount()
-    val leave = AppSubjectUser.finder.where().eq("organNo", sess.organNo).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
+    val full = AppSubjectUser.finder.where().eq("organNo", sess.organNo).ne("isDelete",1).findRowCount()
+    val leave = AppSubjectUser.finder.where().eq("organNo", sess.organNo).ne("isDelete",1).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
     val map = ImmutableMap.of("full", full, "leave", leave)
     Left(Json.toJson(map))
   }

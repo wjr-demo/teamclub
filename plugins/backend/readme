@@ -27,3 +27,8 @@ table {
     	extendData: {'userId': self.initD['id']}
     }
 }
+
+windows 部署{
+	Always Sync (文件同步)
+	Mysql 主从配置 (数据库作备份)
+}
