@@ -51,7 +51,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 this.$('input[name=password]').attr('disabled','disabled')
             }
             if(this.type == 'view') {
-                this.$el.append(new UserDepartChange(this.d, this,  view).$el)
+                this.$el.append(new UserDepartChange(this.d, this,  true).$el)
                 this.component.setAsView();
             }
         },
@@ -86,6 +86,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 var recordFormData = this.recordForm.serializeJ();
                 var companyAbountData = this.companyAbountForm.serializeJ();
                 recordFormData['avatar'] = json['avatar']
+                recordFormData['marriageStatus'] = json['marriageStatus']
                 json['recordData'] = recordFormData;
                 json['companyAbountData'] = companyAbountData;
                 SC.Save(prefix + '/operatormanager/add', json, function(d) {
@@ -233,6 +234,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: Func.convertToFour('用户名'),
                     name: 'username',
                     required: true,
+                    required: true,
                     type: 'combineTxt',
                     combineTxt: '@' + self.tmpOrganNo
                 },{
@@ -275,7 +277,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'POST'
                 },
                 columnDefs: [{
-                    "targets": [ 4 ],
+                    "targets": [ 5 ],
                     "visible": SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE') ? true :  false
                 }],
                 columns: [{
@@ -421,9 +423,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     var companyAboutData = {}
                     companyAboutData['seaBirthday'] = d['seaBirthday']
                     d['companyAbountData'] = companyAboutData
-                    if(SC.current.deptAttachCode == Department.FINANCE) {
-                        d['examineStatus'] = 1
-                    }
                     return d;
                 }
             };

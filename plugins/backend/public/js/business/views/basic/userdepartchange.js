@@ -72,19 +72,11 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '企qq密码',
                     name: 'comQqPasswd'
                 },{
-                    title: '企qq权限',
-                    name: 'comQqPermit',
-                    type: 'text'
-                },{
                     title: '上网地址',
                     name: 'netIp'
                 },{
                     title: '上网速度',
                     name: 'netSpeed'
-                },{
-                    title: '网络权限',
-                    name: 'netPermit',
-                    type: 'text'
                 },{
                     title: '电脑编号',
                     name:'computerNo'
@@ -92,10 +84,20 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '电脑密码',
                     name: 'computerPasswd'
                 },{
+                    title: '企qq权限',
+                    name: 'comQqPermit',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                },{
+                    title: '网络权限',
+                    name: 'netPermit',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                },{
                     title: '电脑配置',
                     name: 'computerConfig',
                     type: 'textarea',
-                    formValue: {'width': '796px'},
+                    formValue: {'width': '796px'}
                 },{
                     title: '备注',
                     name: 'remark',
@@ -150,7 +152,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
     var view = Backbone.View.extend({
         tpl: '<div></div>',
         initialize: function(d, parent, view){
-            this.view = view ;
+            this.isView = view ;
             if(d !== undefined) {
                 this.initD = {'userId': d['id']}
             }
@@ -208,7 +210,10 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                         var btnExamine = '<input type="button" value="审核" name="examine"/>';
                         var btnUnExamine = '<input type="button" value="反审核" name="unExamine"/>';
                         var btnView =  '<input type="button" class="view" value="查看" name="view"/>';
-                        var btnModify =  '<input type="button" class="view" value="编辑" name="modify"/>';
+                        var btnModify =  '<input type="button" value="编辑" name="modify"/>';
+                        if(self.isView) {
+                            return btnView;
+                        }
                         if(d['examineStatus'] == 1) {
                             if(SC.current.role.attachCode != null && SC.current.role.attachCode.includes('EXAMINE')) {
                                 return btnUnExamine + btnView;
@@ -270,7 +275,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         searParams: function(){
             var self = this ;
-            if(this.view == true) {
+            if(self.isView) {
                 var searParams = {}
             } else {
                 var searParams = {

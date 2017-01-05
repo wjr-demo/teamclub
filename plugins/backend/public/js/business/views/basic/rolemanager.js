@@ -90,7 +90,6 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                     name: 'attachCode',
                     type: 'multiCheckbox',
                     data: [{'id': 'EXAMINE', 'name': '审核'}, {'id': 'MODIFY', 'name': '修改'}]
-                    //placeholder: '编码逗号隔开'
                 },{
                     title: '角色描述',
                     name: 'description',

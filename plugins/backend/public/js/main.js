@@ -3,6 +3,7 @@
         baseUrl: '/assets',
         paths: {
             'jquery': 'bower_components/jquery/dist/jquery',
+            'jqueryPrint' : 'bower_components/jQuery.print/jQuery.print',
             'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
             'bootstrap-treeview': 'bower_components/bootstrap-treeview/dist/bootstrap-treeview.min',
             'metisMenu': 'bower_components/metisMenu/dist/metisMenu.min',
@@ -27,6 +28,7 @@
         },
         shim: {
             'bootstrap': ['jquery'],
+            'jqueryPrint': ['jquery'],
             'bootstrap-treeview': ['bootstrap'],
             'validator': ['jquery'],
             'metisMenu': ['jquery'],
@@ -42,8 +44,8 @@
             'dictList': ['js/libs/libs']
         }
     });
-    require(['jquery', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
-        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator', 'md5', 'datetimepicker', 'datetimepicker-ZH','dictList'], function(a, b, c, d, e, f, App) {
+    require(['jquery', 'jqueryPrint', 'underscore', 'backbone', 'common' , 'bootstrap',  'metisMenu', 'js/business/app',
+        'datatables', 'datatables.bootstrap', 'datatables.responsive', 'component', 'zh', 'validator', 'md5', 'datetimepicker', 'datetimepicker-ZH','dictList'], function(a, print, b, c, d, e, f, App) {
         App.init(function(){
             $('.nav-second-level li').on('click',function(e){
                 $('.nav-second-level li').children('a').removeClass('active');
