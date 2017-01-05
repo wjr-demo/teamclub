@@ -264,7 +264,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 var full = d['full']
                 var leave = d['leave']
                 var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
-                console.log(rate)
                 self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate)
             })
         },

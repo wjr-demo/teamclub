@@ -29,6 +29,11 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 <div class="help-block with-errors"></div>\
             </div>\
         </div>'),
+        multipleCheckBoxEle: _.template('<div class="form-group">\
+            <label for="<%= name %>" class=""><%= title %></label>\
+            <div class="form-value">\
+            </div>\
+        </div>'),
         combineEle: _.template('<div class="form-group">\
             <label for="<%= name %>" class=""><%= title %></label>\
             <div class="form-value">\
@@ -395,11 +400,30 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var $formEle = $(this.combineEle(param))
             return $formEle;
         },
+        multipleCheckboxFunc: function(param) {
+            this.seriFilterArray.push(param['name']);
+            var initD = this.initD[param['name']] || "";
+            var array = initD.split(',')
+            var $formEle = $(this.multipleCheckBoxEle(param))
+            var $formValue = $formEle.find('.form-value')
+            _.each(param.data, function(k, v) {
+                console.log(k)
+                console.log(v)
+                if(array.includes(k['id'])) {
+                    var checked = true
+                }else {
+                    var checked = false
+                }
+                $formValue.append('<label class="checkbox-inline"><input type="checkbox"' + (checked ? "checked" : "") + ' class="multi" name="' + param['name'] + '" value="' + k['id'] +  '">' + k['name'] + '</label>');
+            })
+            return $formEle
+        },
         geneSingle: function(i, param){
             var self = this;
             if(param['el'] != undefined){
                 return param['el'];
             }
+            param['title'] = param['title'] || ''
             param['placeholder'] = param['placeholder'] || ''
             if(param['type'] == 'dropdown'){
                 var $formEle = this.dropDown(param);
@@ -420,6 +444,8 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 var $formEle = this.fileFunc(param);
             }else if(param['type'] == 'combineTxt'){
                 var $formEle = this.combineFunc(param)
+            }else if(param['type'] == 'multiCheckbox') {
+                var $formEle = this.multipleCheckboxFunc(param)
             }else {
                 var $formEle = $(this.formEle(param));
             }

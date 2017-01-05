@@ -122,3 +122,7 @@ label {
 .panel-default > .panel-heading {
     background-color: #FFF;
 }
+
+input[type=checkbox] {
+    margin-top: 2px;
+}

@@ -60,10 +60,23 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
             $('input,select,textarea',self).each(function(){
                 var that = $(this);
                 var name = that.attr('name');
-                if(res.hasOwnProperty(name))return;
+                if(!$(this).hasClass('multi') && res.hasOwnProperty(name))return;
                 if(this.type && this.type == 'checkbox'){
-                    res[name] = this.checked;
-                    return;
+                    if($(this).hasClass('multi')) {
+                        if(this.checked) {
+                            res[name] = res[name] || ""
+                            if(res[name] == "") {
+                                res[name] = res[name] + $(this).val()
+                            }else {
+                                res[name] = res[name] + "," + $(this).val()
+                            }
+                        }
+                        return;
+                    }else {
+                        res[name] = this.checked;
+                        return;
+                    }
+
                 }
                 if(this.type && this.type == 'radio'){
                     $('input[name='+name+']').each(function(){

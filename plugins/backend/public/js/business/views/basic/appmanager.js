@@ -126,9 +126,9 @@ define(['backbone', 'component', 'js/business/views/basic/treemanager'], functio
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnManager =  '<input type="button" value="菜单配置" class="btn" name="treeManager"/>';
-                        var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
-                        var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
+                        var btnManager =  '<input type="button" value="菜单配置" name="treeManager"/>';
+                        var btnModify =  '<input type="button" value="修改" name="modify"/>';
+                        var btnDelete =  '<input type="button" value="删除" name="delete"/>';
                         return btnManager + btnModify + btnDelete;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
