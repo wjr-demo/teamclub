@@ -60,7 +60,7 @@ object OperatorManagerService {
 
   def expression(expr: ExpressionList[AppSubjectUser], form: AppSubjectUserForm): ExpressionList[AppSubjectUser] = {
     form.id.map(expr.eq("id", _))
-    form.realname.map(expr.eq("realname", _))
+    form.realname.map(v => expr.like("realname", "%" + v + "%"))
     form.appId.map(expr.eq("appId", _))
     form.organNo.map(expr.eq("organNo", _))
     form.deptid.map(expr.eq("deptid", _))
@@ -69,6 +69,15 @@ object OperatorManagerService {
         expr.eq("month(birthday)", v)
       }
     }
+    form.appSubjectUserMore.map { x =>
+      x.strongPoint map { y =>
+        expr.like("strongPoint", "%" + y + "%")
+      }
+      x.educationLevel map { y =>
+        expr.eq("educationLevel", y)
+      }
+    }
+    form.gender.map(expr.eq("gender", _))
     form.examineStatus.map(expr.eq("examineStatus", _))
     expr.ne("isDelete", 1)
     expr
@@ -77,7 +86,8 @@ object OperatorManagerService {
   def calcquitrate(sess: XSession): Either[JsonNode, ErrorCode] = {
     val full = AppSubjectUser.finder.where().eq("organNo", sess.organNo).findRowCount()
     val leave = AppSubjectUser.finder.where().eq("organNo", sess.organNo).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
-    val map = ImmutableMap.of("full", full, "leave", leave)
+    val unPositive = AppSubjectUser.finder.where().eq("organNo", sess.organNo).or(Expr.eq("positiveTime",null),Expr.eq("positiveTime", "")).findRowCount()
+    val map = ImmutableMap.of("full", full, "leave", leave, "unPositive", unPositive)
     Left(Json.toJson(map))
   }
 }

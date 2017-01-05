@@ -163,8 +163,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 param['callback'] = function(){
                     if(self.$('#moreFields').css('display') == 'inline') {
                         self.$('#moreFields').css({'display': 'none'})
+                        self.$('#toggleMore').val('高级搜索')
                     }else {
                         self.$('#moreFields').css({'display': 'inline'})
+                        self.$('#toggleMore').val('隐藏')
                     }
                 }
                 $tmp.append(self.geneBtn(total + 1, btnIndex, param))

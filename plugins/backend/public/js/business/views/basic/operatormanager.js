@@ -249,6 +249,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.component = new Component(this);
             this.render();
         },
+        events: {
+            'change #nativePlaceProv': 'changeProv'
+        },
         render: function() {
             var self = this ;
             this.table = this.component.geneTable(this.tableParams(), this.searParams());
@@ -260,13 +263,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.component
                 .appendNative(this.tabs.full())
                 .build();
-            $.postJSON(prefix + '/operatormanager/calcquitrate', {}, function(d) {
-                var full = d['full']
-                var leave = d['leave']
-                var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
-                console.log(rate)
-                self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate)
-            })
+            this.calcCompanyStatus()
         },
         tableParams: function() {
             var self = this;
@@ -409,6 +406,20 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                         {'id': '11', 'name': '11月'},
                         {'id': '12', 'name': '12月'}
                     ]
+                },{
+                    title: Func.convertToFour('性别'),
+                    name: 'gender',
+                    type: 'dropdown',
+                    data: [{"id": '1', "name": '男'}, {'id': '2', 'name': '女'}]
+                },{
+                    title: '教育程度',
+                    name: 'educationLevel',
+                    type: 'dropdown',
+                    data: Libs.Dicts['STUDY_LEVEL']
+                },{
+                    title: Func.convertToFour('特长'),
+                    name: 'strongPoint',
+                    type: 'text'
                 }],
                 btns: [{
                     title: '查询',
@@ -421,6 +432,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 renderSearchData: function(d){
                     var companyAboutData = {}
                     companyAboutData['seaBirthday'] = d['seaBirthday']
+                    var recordData = {}
+                    recordData['educationLevel'] = d['educationLevel']
+                    recordData['strongPoint'] = d['strongPoint']
+                    d['recordData'] = recordData;
                     d['companyAbountData'] = companyAboutData
                     if(SC.current.deptAttachCode == Department.FINANCE) {
                         d['examineStatus'] = 1
@@ -431,14 +446,18 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             return searParams;
         },
         reload: function(){
-            var self = this ;
             this.table.reload();
+            this.calcCompanyStatus()
+        },
+        calcCompanyStatus : function() {
+            var self = this ;
             $.postJSON(prefix + '/operatormanager/calcquitrate', {}, function(d) {
                 var full = d['full']
                 var leave = d['leave']
+                var unPositive = d['unPositive']
                 var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
                 console.log(rate)
-                self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate)
+                self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate + "  [员工总数为：" + full + " ，未转正人数为：" + unPositive + " ，离职人数为：" + leave + " ]")
             })
         },
         view: function(d) {
