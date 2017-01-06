@@ -198,7 +198,14 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
         },
         formParams : function() {
             var self = this;
+            var noAvatar = this.d['avatar'] == undefined || this.d['avatar'].trim() == ""
+            if(noAvatar) {
+                var avatar = "images/.default-avatar.jpg"
+            }else {
+                var avatar = this.d['avatar']
+            }
             var formParams = {
+                css: {"position": "relative"},
                 fields:[{
                     title: Func.convertToFour('头像'),
                     name: 'avatar',
@@ -238,6 +245,8 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: Func.convertToFour('密码'),
                     name: 'password'
+                }, {
+                    el: '<div style="height: 140px;width: 110px;position: absolute;top: 0px;right: -30px;"><img style="height:auto; width:110px;" src="/assets/' + avatar + '"></div>'
                 }]
             };
             return formParams;

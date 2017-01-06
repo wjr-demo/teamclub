@@ -106,7 +106,7 @@ label {
 @media(max-width: 1366px) {
     #wrapper {
         margin:auto;
-        width: 1366px;
+        width: 1340px;
         border: 1px solid aquamarine;
     }
 }

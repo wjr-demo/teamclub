@@ -114,6 +114,9 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.withHideBtn =  this.factory['withHideBtn']
             if(this.factory['row'] == undefined) {
                 this.$row = $('<form role="form" class="form-inline" data-toggle="validator">');
+                if(params['css'] != undefined) {
+                    this.$row.css(params['css'])
+                }
             } else {
                 this.$row = $(this.factory['row']);
             }
