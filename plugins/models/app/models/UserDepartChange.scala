@@ -83,9 +83,21 @@ class UserDepartChange extends Model{
   @BeanProperty
   var examineStatus: Int = _ //审核状态
 
-  def getDepartName: String = AppDepartment.finder.byId(departId).getDepartName
+  def getDepartName: String = {
+    try{
+      AppDepartment.finder.byId(departId).getDepartName
+    } catch {
+      case e: Exception => ""
+    }
+  }
 
-  def getRoleName: String = AppRole.finder.byId(roleId).getRolename
+  def getRoleName: String = {
+    try {
+      AppRole.finder.byId(roleId).getRolename
+    }catch {
+      case e: Exception => ""
+    }
+  }
 
   def getCalcuStyleName: String = AdminGlobalConfig.getByKey("USER_PAY_STYLE", calcuStyle)
 }
