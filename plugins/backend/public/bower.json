@@ -47,6 +47,7 @@
     "jquery.ui.touch-punch": "^0.3.0",
     "bootstrap-treeview": "^1.2.0",
     "JavaScript-MD5": "^2.6.0",
-    "smalot-bootstrap-datetimepicker": "^2.4.2"
+    "smalot-bootstrap-datetimepicker": "^2.4.2",
+    "jQuery.print": "^1.5.1"
   }
 }

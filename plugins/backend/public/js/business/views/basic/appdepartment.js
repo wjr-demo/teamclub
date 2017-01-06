@@ -48,7 +48,8 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                 },{
                     title: '部门描述',
                     name: 'departDesc',
-                    type: 'textarea'
+                    type: 'textarea',
+                    formValue: {'width': '500px'}
                 }],
                 btns: [{
                     title: '提交',

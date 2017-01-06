@@ -51,7 +51,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 this.$('input[name=password]').attr('disabled','disabled')
             }
             if(this.type == 'view') {
-                this.$el.append(new UserDepartChange(this.d, this,  view).$el)
+                this.$el.append(new UserDepartChange(this.d, this,  true).$el)
                 this.component.setAsView();
             }
         },
@@ -249,9 +249,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.component = new Component(this);
             this.render();
         },
-        events: {
-            'change #nativePlaceProv': 'changeProv'
-        },
         render: function() {
             var self = this ;
             this.table = this.component.geneTable(this.tableParams(), this.searParams());
@@ -273,7 +270,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'POST'
                 },
                 columnDefs: [{
-                    "targets": [ 4 ],
+                    "targets": [ 5 ],
                     "visible": SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE') ? true :  false
                 }],
                 columns: [{
@@ -437,9 +434,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     recordData['strongPoint'] = d['strongPoint']
                     d['recordData'] = recordData;
                     d['companyAbountData'] = companyAboutData
-                    if(SC.current.deptAttachCode == Department.FINANCE) {
-                        d['examineStatus'] = 1
-                    }
                     return d;
                 }
             };

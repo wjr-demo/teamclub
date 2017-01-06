@@ -62,13 +62,6 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                 .appendPanel('', this.form.form())
                 .appendPanel('', "<div id='tipAttachCode'></div>")
                 .build();
-            var text = "编码字典： "
-            $.postJSON(prefix + '/rolemanager/attachcodes', {}, function(d){
-                _.each(d ,function(single) {
-                    text += single['name'] + ": " + single['id'] + " \t"
-                })
-                self.$('#tipAttachCode').text(text)
-            })
         },
         submit: function(e) {
             var self = this;
@@ -95,11 +88,13 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                 },{
                     title: '关联编码',
                     name: 'attachCode',
-                    placeholder: '编码逗号隔开'
+                    type: 'multiCheckbox',
+                    data: [{'id': 'EXAMINE', 'name': '审核'}, {'id': 'MODIFY', 'name': '修改'}]
                 },{
                     title: '角色描述',
                     name: 'description',
-                    type: 'textarea'
+                    type: 'textarea',
+                    formValue: {'width': '500px'}
                 }],
                 btns: [{
                     title: '提交',
@@ -151,7 +146,7 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                     title: '关联菜单',
                     data: 'id',
                     render: function(d) {
-                        var btnAttachTree = '<input type="button" value="关联菜单" class="btn" name="attachTree"/>';
+                        var btnAttachTree = '<input type="button" value="关联菜单" name="attachTree"/>';
                         return btnAttachTree;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
@@ -161,8 +156,8 @@ define(['backbone', 'component', 'bootstrap-treeview'], function(Backbone, Compo
                     title: '操作',
                     data: null,
                     render: function(){
-                        var btnModify =  '<input type="button" value="修改" class="btn" name="modify"/>';
-                        var btnDelete =  '<input type="button" value="删除" class="btn" name="delete"/>';
+                        var btnModify =  '<input type="button" value="修改" name="modify"/>';
+                        var btnDelete =  '<input type="button" value="删除" name="delete"/>';
                         return btnModify + btnDelete;
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
