@@ -126,3 +126,16 @@ label {
 input[type=checkbox] {
     margin-top: 2px;
 }
+
+@media print {
+    #page-wrapper {
+        position: inherit;
+        margin: 0 0 0 0px;
+        padding: 0 30px;
+        border-left: 1px solid #e7e7e7;
+    }
+    @page {
+        size: A4 landscape;
+        margin: auto;
+    }
+}
