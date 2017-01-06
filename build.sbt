@@ -2,6 +2,9 @@ name := "platform"
 
 organization in ThisBuild := "com.zhangmeng"
 
+version in ThisBuild := "1.0.0"
+
+
 val commonSetting = Seq(
     unmanagedResources in Compile <<= (
       javaSource in Compile,
@@ -12,7 +15,9 @@ val commonSetting = Seq(
         IO.copyDirectory(app / "views", classes / "views", overwrite = true)
         resources
     },
-    generateReverseRouter := false
+    generateReverseRouter := false,
+    mappings in (Compile, packageDoc) := Seq(),
+    doc in Compile <<= target.map(_ / "none")
 )
 
 lazy val root = project.in(file("."))
@@ -24,7 +29,7 @@ lazy val base = project.in(file("plugins/base"))
   .aggregate(root)
 
 lazy val models = project.in(file("plugins/models"))
-  .settings(playJavaSettings: _*)
+  .settings(playJavaSettings ++ commonSetting: _*)
   .settings(playPlugin := true)
   .dependsOn(base)
   .aggregate(base)
