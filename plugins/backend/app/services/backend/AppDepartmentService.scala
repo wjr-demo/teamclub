@@ -42,7 +42,7 @@ object AppDepartmentService {
   def expression(expr: ExpressionList[AppDepartment], form:AppDepartmentForm)  = {
     form.id.map(expr.eq("id", _))
     form.appId.map(expr.eq("appId", _))
-    form.departName.map(expr.eq("departName", _))
+    form.departName.map { v => expr.like("departName", "%" + v + "%") }
     expr
   }
 }
