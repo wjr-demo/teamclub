@@ -72,7 +72,7 @@ define(['jquery'], function(){
     }
     var Libs = window.Libs = window.Libs || {};
     Libs.Dicts = {}
-    Libs.Dicts['STUDY_LEVEL'] = [{"id":1,"name":"小学"},{"id":2,"name":"初级中学"},{"id":3,"name":"高级中学"},{"id":4,"name":"大学专科"},{"id":5,"name":"大学本科"},{"id":6,"name":"硕士研究生"},{"id":7,"name":"博士研究生"}]
+    Libs.Dicts['STUDY_LEVEL'] = [{"id":1,"name":"小学"},{"id":2,"name":"初中"},{"id":3,"name":"高中"},{"id":4,"name":"中专"},{"id": 5, "name": "大专"},{"id":6,"name":"本科"},{"id":7,"name":"硕士"},{"id":8,"name":"博士"}]
 
     Libs.formatDate = function(timestamp) {
         var d = new Date(timestamp);

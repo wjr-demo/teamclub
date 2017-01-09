@@ -239,7 +239,6 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 },{
                     title: Func.convertToFour('用户名'),
                     name: 'username',
-                    required: true,
                     type: 'combineTxt',
                     combineTxt: '@' + self.tmpOrganNo
                 },{

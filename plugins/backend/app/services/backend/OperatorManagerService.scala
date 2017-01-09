@@ -26,7 +26,7 @@ object OperatorManagerService {
   def add(form: AppSubjectUserForm, session: XSession): Either[ErrorCode, ErrorCode] = {
     val appSubjectUser = form.toModel()
     form.id.fold {
-      if(AppSubjectUser.finder.where().eq("username", appSubjectUser.username).findRowCount() > 0) {
+      if(appSubjectUser.username != null && appSubjectUser.username.trim() != "" && AppSubjectUser.finder.where().eq("username", appSubjectUser.username).findRowCount() > 0) {
         Right(ErrorCodes.of("用户名重复"))
       } else {
         appSubjectUser.setCreatedAt(new Date)
