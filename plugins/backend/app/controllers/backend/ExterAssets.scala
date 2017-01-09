@@ -20,7 +20,7 @@ object ExterAssets extends Controller {
       }
 
       if (fileToServe.exists) {
-        Ok.sendFile(fileToServe, inline = true).withHeaders(CACHE_CONTROL -> "max-age=3600")
+        Ok.sendFile(fileToServe, fileName= _ => file).withHeaders(CACHE_CONTROL -> "max-age=3600")
       } else {
         NotFound
       }

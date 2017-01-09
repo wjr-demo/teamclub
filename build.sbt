@@ -1,3 +1,5 @@
+import sbt.Keys._
+
 name := "platform"
 
 organization in ThisBuild := "com.zhangmeng"
@@ -25,8 +27,6 @@ lazy val root = project.in(file("."))
 lazy val base = project.in(file("plugins/base"))
   .settings(playScalaSettings: _*)
   .settings(playPlugin := true)
-  .dependsOn(root)
-  .aggregate(root)
 
 lazy val models = project.in(file("plugins/models"))
   .settings(playJavaSettings ++ commonSetting: _*)

@@ -3,12 +3,11 @@ package controllers.backend
 import java.io.File
 import java.util
 
-import commons.Eithers
 import libs.backend.Libs
-import play.api.Logger
+import play.api.Play.current
 import play.api.mvc.{Action, Controller}
+import play.api.{Logger, Play}
 import play.libs.Json
-
 /**
  * Created by zhangmeng on 17-1-3.
  */
@@ -19,9 +18,9 @@ object FileUploadAction extends Controller {
       request.body.files.foreach { v =>
         val suffix = if (v.filename.indexOf(".") != -1 ) v.filename.substring(v.filename.indexOf(".") + 1) else ""
         val _path = s"files/${Libs.genePicId}.${suffix}"
-        val path = s"public/${_path}"
+        val path = s"/public/${_path}"
         Logger.info(s"save path is ${path}")
-        v.ref.moveTo(new File(path))
+        v.ref.moveTo(new File(Play.application.path.getAbsolutePath + path))
         map.put("path", _path)
       }
       Ok(Json.stringify(Json.toJson(map)))
