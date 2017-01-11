@@ -6,6 +6,7 @@ import org.junit.Test;
 import play.libs.F;
 import play.libs.Json;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -14,9 +15,6 @@ import java.util.List;
 public class TTest {
     @Test
     public void BaseTest(){
-        List list = Lists.newArrayList();
-        list.add(ImmutableMap.of("id", "select", "name", "select"));
-        list.add(ImmutableMap.of("id", "text", "name", "text"));
-        System.out.println(Json.toJson(list));
+        System.out.println(new File("G:\\dongkaiyue-1.0.0\\public").exists());
     }
 }

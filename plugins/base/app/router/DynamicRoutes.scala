@@ -36,7 +36,7 @@ object DynamicRoutes extends Router.Routes{
   lazy val defaultRoutes: PartialFunction[RequestHeader, Handler] = {
     case controllers_Assets_at(params) => {
       call(Param[String]("path", Right("/public")), params.fromPath[String]("file", None)) { (path, file) =>
-        invokeHandler(controllers.base.Assets.at(path, file), HandlerDef(this, "controllers.base.Assets", "at", Seq(classOf[String], classOf[String]), "GET", """ Map static resources from the /public folder to the /assets URL path""", prefix + """assets/$file<.+>"""))
+        invokeHandler(controllers.Assets.at(path, file), HandlerDef(this, "controllers.Assets", "at", Seq(classOf[String], classOf[String]), "GET", """ Map static resources from the /public folder to the /assets URL path""", prefix + """assets/$file<.+>"""))
       }
     }
   }

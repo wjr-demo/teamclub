@@ -19,13 +19,14 @@ val commonSetting = Seq(
     },
     generateReverseRouter := false,
     mappings in (Compile, packageDoc) := Seq(),
-    doc in Compile <<= target.map(_ / "none")
+    doc in Compile <<= target.map(_ / "none"),
+    baseDirectory in run := file("F:\\Project\\teamclub"  )
 )
 
 lazy val root = project.in(file("."))
 
 lazy val base = project.in(file("plugins/base"))
-  .settings(playScalaSettings: _*)
+  .settings(playScalaSettings ++ commonSetting: _*)
   .settings(playPlugin := true)
 
 lazy val models = project.in(file("plugins/models"))

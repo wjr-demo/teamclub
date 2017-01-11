@@ -18,9 +18,9 @@ object FileUploadAction extends Controller {
       request.body.files.foreach { v =>
         val suffix = if (v.filename.indexOf(".") != -1 ) v.filename.substring(v.filename.indexOf(".") + 1) else ""
         val _path = s"files/${Libs.genePicId}.${suffix}"
-        val path = s"/public/${_path}"
+        val path = Play.application.path.getAbsolutePath + s"/public/${_path}"
         Logger.info(s"save path is ${path}")
-        v.ref.moveTo(new File(Play.application.path.getAbsolutePath + path))
+        v.ref.moveTo(new File(path))
         map.put("path", _path)
       }
       Ok(Json.stringify(Json.toJson(map)))

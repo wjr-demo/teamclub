@@ -58,5 +58,3 @@ POST	/adminareacode/del		controllers.backend.AdminAreaCodeAction.del
 POST	/upload/file			controllers.backend.FileUploadAction.upload
 
 GET		/test					controllers.backend.TestAction.test
-
-GET  	/externalassets/*file   controllers.base.ExterAssets.at(path="upload", file)
