@@ -59,4 +59,4 @@ POST	/upload/file			controllers.backend.FileUploadAction.upload
 
 GET		/test					controllers.backend.TestAction.test
 
-GET  	/externalassets/*file   controllers.backend.ExterAssets.at(path="upload", file)
+GET  	/externalassets/*file   controllers.base.ExterAssets.at(path="upload", file)

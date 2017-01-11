@@ -124,3 +124,7 @@ object Government {
   }
 }
 
+object ZXC extends App {
+  println(Option(null))
+}
+
