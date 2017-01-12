@@ -26,14 +26,12 @@ object OperatorManagerService {
   def add(form: AppSubjectUserForm, session: XSession): Either[ErrorCode, ErrorCode] = {
     val appSubjectUser = form.toModel()
     form.id.fold {
-      if(appSubjectUser.username != null && appSubjectUser.username.trim() != "" && AppSubjectUser.finder.where().eq("username", appSubjectUser.username).findRowCount() > 0) {
-        Right(ErrorCodes.of("用户名重复"))
-      } else {
-        appSubjectUser.setCreatedAt(new Date)
-        appSubjectUser.setCreatedBy(session.appSubjectUser.id.toString)
-        appSubjectUser.save()
-        Left(ErrorCodes.SUCCESS)
-      }
+      appSubjectUser.setCreatedAt(new Date)
+      appSubjectUser.setCreatedBy(session.appSubjectUser.id.toString)
+      appSubjectUser.setUpdatedAt(new Date)
+      appSubjectUser.setCreatedBy(session.appSubjectUser.id.toString)
+      appSubjectUser.save()
+      Left(ErrorCodes.SUCCESS)
     }{
       v => {
         appSubjectUser.setUpdatedAt(new Date)
@@ -76,6 +74,9 @@ object OperatorManagerService {
       x.educationLevel map { y =>
         expr.eq("educationLevel", y)
       }
+      x.marriageStatus map { y =>
+        expr.eq("marriageStatus", y)
+      }
     }
     form.gender.map(expr.eq("gender", _))
     form.examineStatus.map(expr.eq("examineStatus", _))
@@ -84,9 +85,9 @@ object OperatorManagerService {
   }
 
   def calcquitrate(sess: XSession): Either[JsonNode, ErrorCode] = {
-    val full = AppSubjectUser.finder.where().eq("organNo", sess.organNo).findRowCount()
-    val leave = AppSubjectUser.finder.where().eq("organNo", sess.organNo).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
-    val unPositive = AppSubjectUser.finder.where().eq("organNo", sess.organNo).or(Expr.eq("positiveTime",null),Expr.eq("positiveTime", "")).findRowCount()
+    val full = AppSubjectUser.finder.where().ne("isDelete", 1).eq("organNo", sess.organNo).findRowCount()
+    val leave = AppSubjectUser.finder.where().ne("isDelete", 1).eq("organNo", sess.organNo).and(Expr.ne("leaveTime", null), Expr.ne("leaveTime", "")).findRowCount()
+    val unPositive = AppSubjectUser.finder.where().ne("isDelete", 1).eq("organNo", sess.organNo).or(Expr.eq("positiveTime",null),Expr.eq("positiveTime", "")).findRowCount()
     val map = ImmutableMap.of("full", full, "leave", leave, "unPositive", unPositive)
     Left(Json.toJson(map))
   }

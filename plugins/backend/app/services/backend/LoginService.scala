@@ -23,7 +23,11 @@ import java.util.Map
   }
 
   def loginInvoke(username: String, password: String): F.Either[String, ErrorCode] = {
-    val appSubjectUser: AppSubjectUser = AppSubjectUser.finder.where.eq("username", username).eq("appId", appid).setMaxRows(1).findUnique
+    val appSubjectUser = if(username.indexOf("@") == -1) {
+      AppSubjectUser.finder.where.like("username", username + "@%").eq("appId", appid).findUnique
+    }else {
+      AppSubjectUser.finder.where.eq("username", username).eq("appId", appid).findUnique
+    }
     if (appSubjectUser != null) {
       if(appSubjectUser.password != null && appSubjectUser.password == Crypto.encryptAES(password)) {
         val resp = Crypto.encryptAES("HELLO" + appSubjectUser.getId)

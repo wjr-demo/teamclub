@@ -48,7 +48,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 .build();
             if(this.isModify) {
                 this.$('input[name=password]').val('')
-                this.$('input[name=password]').attr('disabled','disabled')
+                //this.$('input[name=password]').attr('disabled','disabled')
             }
             if(this.type == 'view') {
                 this.$el.append(new UserDepartChange(this.d, this,  true).$el)
@@ -70,9 +70,17 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this;
             var json = this.form.serializeJ();
             if(this.isModify) { //修改
-                json['password'] = undefined
+                if(json['password'] == undefined || json['password'].trim() == "" ) {
+                    json['password'] = undefined;
+                }else {
+                    json['password'] = md5(json['password']);
+                }
             }else { //添加
-                if(json['password'] != undefined) json['password'] = md5(json['password'])
+                if(json['password'] != undefined && json['password'].trim() != "") {
+                    json['password'] = md5(json['password'])
+                }else {
+                    json['password'] = undefined;
+                }
             }
             if(json['username'] != undefined && json['username'].trim() != "") {
                 json['username'] = json['username'] + '@' + self.tmpOrganNo
@@ -85,7 +93,8 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             }else {
                 var recordFormData = this.recordForm.serializeJ();
                 var companyAbountData = this.companyAbountForm.serializeJ();
-                recordFormData['avatar'] = json['avatar']
+                recordFormData['avatar'] = json['avatar'];
+                recordFormData['dorm'] = companyAbountData['dorm'];
                 json['recordData'] = recordFormData;
                 json['companyAbountData'] = companyAbountData;
                 SC.Save(prefix + '/operatormanager/add', json, function(d) {
@@ -114,6 +123,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '离职时间',
                     name: 'leaveTime',
                     type: 'date'
+                },{
+                    title : Func.convertToFour('宿舍'),
+                    name: 'dorm'
                 },{
                     title: '奖励记录',
                     name: 'awardRecord',
@@ -200,7 +212,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this;
             var noAvatar = this.d['avatar'] == undefined || this.d['avatar'].trim() == ""
             if(noAvatar) {
-                var avatar = "images/.default-avatar.jpg"
+                var avatar = "images/default-avatar.jpg"
             }else {
                 var avatar = this.d['avatar']
             }
@@ -214,6 +226,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: Func.convertToFour('姓名'),
                     name: 'realname',
                     formValue: {'width': '162px'},
+                    required: true
                 },{
                     title: Func.convertToFour('性别'),
                     name: 'gender',
@@ -278,42 +291,27 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'POST'
                 },
                 columnDefs: [{
-                    "targets": [ 5 ],
-                    "visible": SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE') ? true :  false
+                    //"targets": [ 5 ],
+                    //"visible": SC.current.role.attachCode !=null && SC.current.role.attachCode.includes('EXAMINE') ? true :  false
                 }],
                 columns: [{
-                    title: "用户名",
-                    data: "username",
-                    render: function(d, x, fd) {
-                        return fd['isSysAdmin'] ? d + "(系统管理员)" : d ;
-                    }
-                },{
                     title: "真实姓名",
                     data: "realname"
                 },{
                     title: '所属部门',
-                    data: 'deptName',
+                    render: function(d, x, fd) {
+                        return fd['department']['departName'];
+                    }
                 },{
                     title: '角色',
-                    data: 'roleName'
-                },{
-                    title: '修改人',
-                    data: 'updatedName'
-                },{
-                    title: '修改密码',
-                    data: null,
-                    render: function(d){
-                        var btn = '<input type="button" value="修改密码" name="modifyPwd" />';
-                        return btn;
-                    },
-                    createdCell: function(td, cellData, rowData, row, col){
-                        $(td).find('input[name=modifyPwd]').on('click', $.proxy(self.changePwd, self, rowData))
+                    render: function(d, x, fd) {
+                        return fd['role']['rolename'];
                     }
                 },{
                     title: '操作',
                     data: null,
                     render: function(d){
-                        var btnWorkMove =  '<input type="button" value="职务委派" name="workMove"/>';
+                        var btnWorkMove =  '<input type="button" value="委派" name="workMove"/>';
                         var btnExamine = '<input type="button" value="审核" name="examine"/>';
                         var btnUnExamine = '<input type="button" value="反审核" name="unExamine"/>';
                         var btnView =  '<input type="button" value="查看" name="view"/>';
@@ -394,7 +392,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'popUp',
                     viewOption: self.component.enumsPopUp['DEPTLIST']
                 },{
-                    title: '生日',
+                    title: Func.convertToFour('生日'),
                     name: 'seaBirthday',
                     type: 'dropdown',
                     data: [
@@ -425,6 +423,11 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: Func.convertToFour('特长'),
                     name: 'strongPoint',
                     type: 'text'
+                },{
+                    title: '婚姻状态',
+                    name: 'marriageStatus',
+                    type: 'dropdown',
+                    data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
                 }],
                 btns: [{
                     title: '查询',
@@ -440,6 +443,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     var recordData = {}
                     recordData['educationLevel'] = d['educationLevel']
                     recordData['strongPoint'] = d['strongPoint']
+                    recordData['marriageStatus'] = d['marriageStatus']
                     d['recordData'] = recordData;
                     d['companyAbountData'] = companyAboutData
                     return d;

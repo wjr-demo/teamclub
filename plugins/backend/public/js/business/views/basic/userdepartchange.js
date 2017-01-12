@@ -186,6 +186,9 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                         return Libs.formatDate(d);
                     }
                 },{
+                    title: '修改人',
+                    data: 'updatedName'
+                },{
                     title: '所属部门',
                     data: 'departName'
                 },{
@@ -248,8 +251,10 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         examine: function(d, v) {
             var self = this
-            d['examineStatus'] = v
-            SC.Save(prefix + '/userdepartchange/add', d, function(d) {
+            var postJ = {}
+            postJ['id'] = d['id']
+            postJ['examineStatus'] = v
+            SC.Save(prefix + '/userdepartchange/add', postJ, function(d) {
                 self.reload()
             });
         },

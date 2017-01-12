@@ -99,6 +99,12 @@ class UserDepartChange extends Model{
     }
   }
 
+  def getUpdatedName: String =  try {
+    AppSubjectUser.finder.byId(updatedBy.toInt).getRealname
+  } catch {
+    case e: Exception => ""
+  }
+
   def getCalcuStyleName: String = AdminGlobalConfig.getByKey("USER_PAY_STYLE", calcuStyle)
 }
 

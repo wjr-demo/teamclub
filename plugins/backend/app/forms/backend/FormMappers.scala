@@ -83,7 +83,8 @@ object FormMappers {
         "nativePlaceDetail" -> optional(text),
         "familyName" -> optional(text),
         "familyRelation" -> optional(text),
-        "familyPhone" -> optional(text)
+        "familyPhone" -> optional(text),
+        "dorm" -> optional(text)
       )(AppSubjectUserMoreForm.apply)(AppSubjectUserMoreForm.unapply)),
       "companyAbountData" -> optional(mapping(
         "entryTime" -> optional(longNumber),

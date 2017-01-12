@@ -9,6 +9,8 @@ import play.api.libs.Crypto
  * Created by zhangmeng on 16-12-19.
  */
 
+case class AppSubjectUserSearForm(workState: Option[Int], leaveDateStart: Option[Long], leaveDateEnd: Option[Long])
+
 case class AppSubjectUserMoreForm(avatar: Option[String],
                                   identifyNo: Option[String],
                                   telephone: Option[String],
@@ -21,7 +23,8 @@ case class AppSubjectUserMoreForm(avatar: Option[String],
                                   nativePlaceDetail: Option[String],
                                   familyName: Option[String],
                                   familyRelation: Option[String],
-                                  familyPhone: Option[String]
+                                  familyPhone: Option[String],
+                                  dorm: Option[String]
                                  )
 
 case class AppSubjectUserCompanyAbout(entryTime: Option[Long],
@@ -97,6 +100,7 @@ case class AppSubjectUserForm(id: Option[Int],
       x.familyRelation map { y => appSubjectUser.setFamilyRelation(y)}
       x.familyPhone map { y => appSubjectUser.setFamilyPhone(y)}
       x.avatar map { y => appSubjectUser.setAvatar(y)}
+      x.dorm map { y => appSubjectUser.setDorm(y)}
     }
     appSubjectUserCompanyAbout map { x =>
       x.entryTime map { y => {

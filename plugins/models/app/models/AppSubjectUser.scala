@@ -143,6 +143,9 @@ class AppSubjectUser extends Model {
   var gender: Int = _ // 1 男 2 女
 
   @BeanProperty
+  var dorm: String = _ //宿舍
+
+  @BeanProperty
   var isDelete: Int = _
 
   @BeanProperty
@@ -169,17 +172,15 @@ class AppSubjectUser extends Model {
   @Transient
   var deptName: String = _ //部门名称
 
-  def getRoleAttachCode: String =  if(roleType != 0) AppRole.finder.byId(roleType).getAttachCode else ""
+  def getDepartment: AppDepartment = {
+    val depart = AppDepartment.finder.byId(deptid)
+    if(depart == null) new AppDepartment() else depart
+  }
 
-  def getRoleName: String = if(roleType != 0) AppRole.finder.byId(roleType).getRolename else ""
-
-  def getDeptAttachCode: String = if(deptid != 0) AppDepartment.finder.byId(deptid).getAttachCode else ""
-
-  def getDeptName: String = if(deptid != 0)  AppDepartment.finder.byId(deptid).getDepartName else ""
-
-  def getDepartment: AppDepartment = AppDepartment.finder.byId(deptid)
-
-  def getRole: AppRole = AppRole.finder.byId(roleType)
+  def getRole: AppRole = {
+    val role = AppRole.finder.byId(roleType)
+    if(role == null) new AppRole() else role
+  }
 
   def getUpdatedName: String =  try {
     AppSubjectUser.finder.byId(updatedBy.toInt).getRealname

@@ -1,14 +1,14 @@
 package controllers.backend
 
 import commons.{Eithers, Libs}
+import forms.backend.FormMappers._
 import models.AppSubjectUser
+import org.apache.commons.lang3.StringUtils
+import play.api.Play.current
 import play.api.cache.Cache
 import play.api.mvc.Controller
 import plugin.backend.actions.Authenticated
 import services.backend.OperatorManagerService
-import forms.backend.FormMappers._
-import play.api.Logger
-import play.api.Play.current
 
 /**
  * Created by zhangmeng on 16-12-19.
@@ -34,17 +34,17 @@ object OperatorManagerAction extends Controller{
       form => {
         form.appId = Some(request.sess.appid)
         form.organNo = Some(request.sess.organNo)
-        form.username match {
-          case Some(v) if(v.trim() != "" && v.indexOf("@") == -1) =>  {
-            Logger.warn(s"username is ${v}, 不符合规则")
-            Ok((Eithers.failure("username 规则错误")))
-          };
-          case _ => {
-            val resp = OperatorManagerService.add(form, request.sess)
-            form.id map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
-            Ok(Eithers.toJson(resp))
+        if(form.username.isDefined) {
+          val username = form.username.get
+          if(StringUtils.isNotBlank(username)) {
+            if(AppSubjectUser.finder.where().like("username", username + "@%").findRowCount() > 0) {
+              Ok(Eithers.failure("用户名已存在"))
+            }
           }
         }
+        val resp = OperatorManagerService.add(form, request.sess)
+        form.id map { v => Cache.remove(Libs.CachePrefix.LOGIN + v) }
+        Ok(Eithers.toJson(resp))
       }
     )
   }

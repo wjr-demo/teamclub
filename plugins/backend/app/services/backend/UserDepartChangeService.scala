@@ -47,6 +47,8 @@ object UserDepartChangeService {
         case None => {
           model.setCreatedAt(new Date)
           model.setCreatedBy(sess.appSubjectUser.id.toString)
+          model.setUpdatedAt(new Date)
+          model.setUpdatedBy(sess.appSubjectUser.id.toString)
           model.save
         }
       }
