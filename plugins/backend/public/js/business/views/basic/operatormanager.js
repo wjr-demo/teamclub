@@ -519,6 +519,11 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'marriageStatus',
                     type: 'dropdown',
                     data: [{"id":"1","name":"未婚"},{"id":"2","name":"已婚"}]
+                },{
+                    title: '在职状态',
+                    name: 'workState',
+                    type: 'dropdown',
+                    data: [{"id":"1", name:"在职"}, {"id": "2", "name": "离职"}, {"id": "3", "name": "未转正"}]
                 }],
                 btns: [{
                     title: '查询',
@@ -536,7 +541,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     recordData['strongPoint'] = d['strongPoint']
                     recordData['marriageStatus'] = d['marriageStatus']
                     d['recordData'] = recordData;
-                    d['companyAbountData'] = companyAboutData
+                    d['companyAbountData'] = companyAboutData;
+                    var searForm = {};
+                    searForm['workState'] = d['workState'];
+                    d['recordData']['searForm'] = searForm;
                     return d;
                 }
             };

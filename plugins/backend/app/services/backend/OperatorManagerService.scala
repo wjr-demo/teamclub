@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap
 import commons.{ErrorCode, ErrorCodes}
 import forms.backend.AppSubjectUserForm
 import models.AppSubjectUser
+import play.api.Logger
 import play.libs.Json
 import plugin.backend.actions.XSession
 import plugins.ebean.Paging
@@ -76,6 +77,19 @@ object OperatorManagerService {
       }
       x.marriageStatus map { y =>
         expr.eq("marriageStatus", y)
+      }
+      x.searForm map { y =>
+        y.workState match {
+          case Some(1) => {
+            expr.eq("leaveTime", null)
+          }
+          case Some(2) => {
+            expr.ne("leaveTime", null)
+          }
+          case Some(3) => {
+            expr.eq("leaveTime", null).eq("positiveTime", null)
+          }
+        }
       }
     }
     form.gender.map(expr.eq("gender", _))

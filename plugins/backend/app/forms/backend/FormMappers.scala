@@ -84,7 +84,10 @@ object FormMappers {
         "familyName" -> optional(text),
         "familyRelation" -> optional(text),
         "familyPhone" -> optional(text),
-        "dorm" -> optional(text)
+        "dorm" -> optional(text),
+        "searForm" -> optional(mapping(
+          "workState" -> optional(number)
+        )(AppSubjectUserSearForm.apply)(AppSubjectUserSearForm.unapply))
       )(AppSubjectUserMoreForm.apply)(AppSubjectUserMoreForm.unapply)),
       "companyAbountData" -> optional(mapping(
         "entryTime" -> optional(longNumber),

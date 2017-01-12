@@ -83,7 +83,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <label for="<%= name %>" class=""><%= title %></label>\
             <div class="form-value">\
                 <select name="<%= name %>" id="<%= name %>" class="form-control innerselect">\
-                    <option value="0"></option>\
+                    <option value="0">全部</option>\
                 </select>\
                 <div class="help-block with-errors"></div>\
             </div>\
