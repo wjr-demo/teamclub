@@ -154,10 +154,12 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             }
             params.btns = params.btns || [];
             var total = params.btns.length;
-            if(Object.keys(this.addParam).length != 0) {
-                $tmp = $('<div class="row">')
-            }else {
-                $tmp = $('<div class="row" style="text-align: center">')
+            if(total > 0 ){
+                if(Object.keys(this.addParam).length != 0) {
+                    $tmp = $('<div class="row">')
+                }else {
+                    $tmp = $('<div class="row" style="text-align: center">')
+                }
             }
             _.each(params.btns, function(param){
                 param['id'] = param.name ;

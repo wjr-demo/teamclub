@@ -30,6 +30,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.form = this.component.geneForm(this.formParams(), this.d);
             this.recordForm = this.component.geneForm(this.recordFormParams(), this.d);
             this.companyAbountForm = this.component.geneForm(this.companyAbountFormParams(), this.d);
+
+            this.departChangeForm = this.component.geneForm(this.departChangeFormParams(), this.d['departChange'])
+            this.departChangeMoreForm = this.component.geneForm(this.departChangeMoreFormParams(), this.d['departChange'])
+
             this.formElOne = this.form.form()
             this.formElTwo = this.recordForm.form()
             this.formElThree = this.companyAbountForm.form()
@@ -41,11 +45,17 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 'panel': {'margin-bottom': '0px', 'margin-top': '20px'},
                 'panel-body' : {'padding': '0px 10px'},
             }
-            this.component
+            var panel = this.component
                 .appendPanel(undefined, this.formElOne, topConfig)
                 .appendPanel(undefined, this.formElTwo, config)
-                .appendPanel(undefined, this.formElThree, config)
-                .build();
+                .appendPanel(undefined, this.formElThree, config);
+            if(this.type == 'view') {
+                this.formElFour = this.departChangeForm.form()
+                this.formElFive = this.departChangeMoreForm.form()
+                panel.appendPanel(undefined, this.formElFour, config)
+                panel.appendPanel(undefined, this.formElFive, config)
+            }
+            panel.build();
             if(this.isModify) {
                 this.$('input[name=password]').val('')
                 //this.$('input[name=password]').attr('disabled','disabled')
@@ -104,6 +114,85 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                 return false;
             }
         },
+        departChangeMoreFormParams: function(){
+            var self = this ;
+            var formParams = {
+                fields: [{
+                    title: '企qq帐号',
+                    name: 'comQqNum'
+                },{
+                    title: '企qq密码',
+                    name: 'comQqPasswd'
+                },{
+                    title: '上网地址',
+                    name: 'netIp'
+                },{
+                    title: '上网速度',
+                    name: 'netSpeed'
+                },{
+                    title: '电脑编号',
+                    name:'computerNo'
+                },{
+                    title: '电脑密码',
+                    name: 'computerPasswd'
+                },{
+                    title: '企qq权限',
+                    name: 'comQqPermit',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                },{
+                    title: '网络权限',
+                    name: 'netPermit',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                },{
+                    title: '电脑配置',
+                    name: 'computerConfig',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                },{
+                    title: Func.convertToFour('备注'),
+                    name: 'remark',
+                    type: 'textarea',
+                    formValue: {'width': '796px'}
+                }]
+            }
+            return formParams;
+        },
+        departChangeFormParams : function() {
+            var self = this;
+            var formParams = {
+                fields:[{
+                    title: '所属部门',
+                    name: 'departId',
+                    type: 'popUp',
+                    viewOption: self.component.enumsPopUp['DEPTLIST'],
+                    required: true
+                },{
+                    title: '所属角色',
+                    name: 'roleId',
+                    type: 'popUp',
+                    viewOption: self.component.enumsPopUp['ROLELIST'],
+                    required: true
+                },{
+                    title: '公司座机',
+                    name: 'phone'
+                },{
+                    title: '综合工资',
+                    name: 'wages',
+                    callback: function(d) {
+                        d == undefined ? d = 0 : d
+                        return d.div(100)
+                    }
+                },{
+                    title: '计算方式',
+                    name: 'calcuStyle',
+                    type: 'dropdown',
+                    data: window.globalCfgDict.getTypeAll('USER_PAY_STYLE')
+                }]
+            };
+            return formParams;
+        },
         companyAbountFormParams: function() {
             var self = this ;
             var formParams = {
@@ -141,8 +230,10 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     name: 'remark',
                     type: 'textarea',
                     formValue: {'width': '796px'},
-                }],
-                btns: [{
+                }]
+            }
+            if(this.type != 'view') {
+                formParams['btns'] = [{
                     title: '提交',
                     class: '',
                     type: 'submit',

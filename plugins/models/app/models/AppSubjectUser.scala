@@ -182,6 +182,11 @@ class AppSubjectUser extends Model {
     if(role == null) new AppRole() else role
   }
 
+  def getDepartChange: UserDepartChange = {
+    val departChange = UserDepartChange.finder.where().eq("userId", id).orderBy("changeDate desc").setMaxRows(1).findUnique();
+    if(departChange == null) new UserDepartChange() else departChange
+  }
+
   def getUpdatedName: String =  try {
     AppSubjectUser.finder.byId(updatedBy.toInt).getRealname
   } catch {

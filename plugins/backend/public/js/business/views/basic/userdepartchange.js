@@ -99,12 +99,14 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     type: 'textarea',
                     formValue: {'width': '796px'}
                 },{
-                    title: '备注',
+                    title: Func.convertToFour('备注'),
                     name: 'remark',
                     type: 'textarea',
                     formValue: {'width': '796px'}
-                }],
-                btns: [{
+                }]
+            }
+            if(this.type != 'view') {
+                formParams['btns'] = [{
                     title: '提交',
                     class: 'btn-primary',
                     type: 'submit',
