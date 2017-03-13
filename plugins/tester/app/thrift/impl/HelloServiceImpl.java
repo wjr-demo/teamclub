@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class HelloServiceImpl implements HelloWordService.Iface{
     @Override
-    public String doAction(Request request) throws RequestException, org.apache.thrift.TException {
+    public String doAction(Request request) throws org.apache.thrift.TException {
         System.out.println("Get request: " + request);
         if(StringUtils.isBlank(request.getName()) || request.getType() == null) {
             throw new RequestException();

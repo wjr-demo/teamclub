@@ -103,16 +103,16 @@
 			$(function(){
 				var loadCaptcha = function(){
                     $.postJSON('/login/captcha', {}, function(d) {
-                        $('#imgCaptcha').attr('src', d['captcha'])
+                        $('#imgCaptcha').attr('src', d['captcha']);
                         $('#imgCaptcha').attr('token', d['token'])
                     })
-				}
+				};
 				loadCaptcha();
 				$('#imgCaptcha').on('click', function() {
                     loadCaptcha();
-				})
+				});
                 var showTip = function(msg) {
-                    $('#tipMessage').text(msg)
+                    $('#tipMessage').text(msg);
                     $('#tip').show();
                 };
                 var hideTip = function() {
@@ -125,7 +125,7 @@
                         $('#login').trigger('click')
                     }
                 };
-				$('#password').on('keypress', enterPress)
+				$('#password').on('keypress', enterPress);
                 $('#closeBtn').on('click', function(){
                     hideTip()
                 });
@@ -139,7 +139,7 @@
 					d['token'] = $('#imgCaptcha').attr('token');
 					$.postJSON('/login/loginInvoke', d, function(d){
 						if(d['status'] != 0) {
-							loadCaptcha()
+							loadCaptcha();
                             showTip(d['message'])
 						} else {
                             window.location.href = "/backend/index"

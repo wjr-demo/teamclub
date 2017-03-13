@@ -10,9 +10,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.type = type;
             this.isModify = d != undefined ;
             this.d = d || {};
-            this.tmpOrganNo = this.d['organNo'] || SC.current.organNo
+            this.tmpOrganNo = this.d['organNo'] || SC.current.organNo;
             if(this.d['username'] != undefined) {
-                var idx = this.d['username'].indexOf('@')
+                var idx = this.d['username'].indexOf('@');
                 if(idx != -1) {
                     this.d['username'] = this.d['username'].substr(0, idx)
                 }
@@ -31,37 +31,37 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             this.recordForm = this.component.geneForm(this.recordFormParams(), this.d);
             this.companyAbountForm = this.component.geneForm(this.companyAbountFormParams(), this.d);
 
-            this.departChangeForm = this.component.geneForm(this.departChangeFormParams(), this.d['departChange'])
-            this.departChangeMoreForm = this.component.geneForm(this.departChangeMoreFormParams(), this.d['departChange'])
+            this.departChangeForm = this.component.geneForm(this.departChangeFormParams(), this.d['departChange']);
+            this.departChangeMoreForm = this.component.geneForm(this.departChangeMoreFormParams(), this.d['departChange']);
 
-            this.formElOne = this.form.form()
-            this.formElTwo = this.recordForm.form()
-            this.formElThree = this.companyAbountForm.form()
+            this.formElOne = this.form.form();
+            this.formElTwo = this.recordForm.form();
+            this.formElThree = this.companyAbountForm.form();
             var config = {
                 'panel': {'margin-bottom': '0px'},
                 'panel-body' : {'padding': '0px 10px'},
-            }
+            };
             var topConfig = {
                 'panel': {'margin-bottom': '0px', 'margin-top': '20px'},
                 'panel-body' : {'padding': '0px 10px'},
-            }
+            };
             var panel = this.component
                 .appendPanel(undefined, this.formElOne, topConfig)
                 .appendPanel(undefined, this.formElTwo, config)
                 .appendPanel(undefined, this.formElThree, config);
             if(this.type == 'view') {
-                this.formElFour = this.departChangeForm.form()
-                this.formElFive = this.departChangeMoreForm.form()
-                panel.appendPanel(undefined, this.formElFour, config)
+                this.formElFour = this.departChangeForm.form();
+                this.formElFive = this.departChangeMoreForm.form();
+                panel.appendPanel(undefined, this.formElFour, config);
                 panel.appendPanel(undefined, this.formElFive, config)
             }
             panel.build();
             if(this.isModify) {
-                this.$('input[name=password]').val('')
+                this.$('input[name=password]').val('');
                 //this.$('input[name=password]').attr('disabled','disabled')
             }
             if(this.type == 'view') {
-                this.$el.append(new UserDepartChange(this.d, this,  true).$el)
+                this.$el.append(new UserDepartChange(this.d, this,  true).$el);
                 this.component.setAsView();
             }
         },
@@ -69,7 +69,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this ;
             var nativeProvV = this.$('#nativePlaceProv').val();
             var params = {'parentCode': nativeProvV, 'all': true};
-            this.$('#nativePlaceCity').find('option').remove().end().append('<option>')
+            this.$('#nativePlaceCity').find('option').remove().end().append('<option>');
             $.postJSON(prefix + '/adminareacode/list',params, function(d){
                 _.each(d, function(single){
                     self.$('#nativePlaceCity').append('<option value="' + single['id'] +  '">' + single['areaName'] + '</option>')
@@ -95,9 +95,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             if(json['username'] != undefined && json['username'].trim() != "") {
                 json['username'] = json['username'] + '@' + self.tmpOrganNo
             }
-            this.formElOne.validator('validate')
-            this.formElTwo.validator('validate')
-            this.formElThree.validator('validate')
+            this.formElOne.validator('validate');
+            this.formElTwo.validator('validate');
+            this.formElThree.validator('validate');
             if(this.$('.has-error').length > 0 ){
                 return false;
             }else {
@@ -156,7 +156,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'textarea',
                     formValue: {'width': '796px'}
                 }]
-            }
+            };
             return formParams;
         },
         departChangeFormParams : function() {
@@ -181,7 +181,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     title: '综合工资',
                     name: 'wages',
                     callback: function(d) {
-                        d == undefined ? d = 0 : d
+                        d == undefined ? d = 0 : d;
                         return d.div(100)
                     }
                 },{
@@ -231,7 +231,7 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     type: 'textarea',
                     formValue: {'width': '796px'},
                 }]
-            }
+            };
             if(this.type != 'view') {
                 formParams['btns'] = [{
                     title: '提交',
@@ -296,12 +296,12 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     formValue: {'width': '500px'},
                     type: 'text'
                 }]
-            }
+            };
             return formParams;
         },
         formParams : function() {
             var self = this;
-            var noAvatar = this.d['avatar'] == undefined || this.d['avatar'].trim() == ""
+            var noAvatar = this.d['avatar'] == undefined || this.d['avatar'].trim() == "";
             if(noAvatar) {
                 var avatar = "images/default-avatar.jpg"
             }else {
@@ -423,9 +423,9 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                         }
                     },
                     createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).css({'width': '280px'})
+                        $(td).css({'width': '280px'});
                         if($(td).find('input[name=workMove]') != undefined) {
-                            var view = rowData['examineStatus'] == 1 ? true : false
+                            var view = rowData['examineStatus'] == 1 ? true : false;
                             $(td).find('input[name=workMove]').on('click', $.proxy(self.workMove, self, rowData, view));
                         }
                         if($(td).find('input[name=examine]') != undefined) {
@@ -449,17 +449,17 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             return tableParams;
         },
         unExamine: function(d) {
-            var self = this
-            d['examineStatus'] = 0
-            d['password'] = undefined
+            var self = this;
+            d['examineStatus'] = 0;
+            d['password'] = undefined;
             SC.Save(prefix + '/operatormanager/add', d, function(d) {
                 self.reload()
             });
         },
         examine: function(d) {
-            var self = this
-            d['examineStatus'] = 1
-            d['password'] = undefined
+            var self = this;
+            d['examineStatus'] = 1;
+            d['password'] = undefined;
             SC.Save(prefix + '/operatormanager/add', d, function(d) {
                 console.log(d);
                 self.reload()
@@ -534,12 +534,12 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
                     callback: $.proxy(self.modify, self, undefined)
                 }],
                 renderSearchData: function(d){
-                    var companyAboutData = {}
-                    companyAboutData['seaBirthday'] = d['seaBirthday']
-                    var recordData = {}
-                    recordData['educationLevel'] = d['educationLevel']
-                    recordData['strongPoint'] = d['strongPoint']
-                    recordData['marriageStatus'] = d['marriageStatus']
+                    var companyAboutData = {};
+                    companyAboutData['seaBirthday'] = d['seaBirthday'];
+                    var recordData = {};
+                    recordData['educationLevel'] = d['educationLevel'];
+                    recordData['strongPoint'] = d['strongPoint'];
+                    recordData['marriageStatus'] = d['marriageStatus'];
                     d['recordData'] = recordData;
                     d['companyAbountData'] = companyAboutData;
                     var searForm = {};
@@ -557,11 +557,11 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
         calcCompanyStatus : function() {
             var self = this ;
             $.postJSON(prefix + '/operatormanager/calcquitrate', {}, function(d) {
-                var full = d['full']
-                var leave = d['leave']
-                var unPositive = d['unPositive']
-                var rate = (Math.round(leave / full * 10000) / 100.00 + "%")
-                console.log(rate)
+                var full = d['full'];
+                var leave = d['leave'];
+                var unPositive = d['unPositive'];
+                var rate = (Math.round(leave / full * 10000) / 100.00 + "%");
+                console.log(rate);
                 self.tabs.$full.find('#quitrate').text('当前员工离职率为：' + rate + "  [员工总数为：" + full + " ，未转正人数为：" + unPositive + " ，离职人数为：" + leave + " ]")
             })
         },
@@ -588,14 +588,14 @@ define(['backbone', 'component', 'md5', 'js/business/views/basic/userdepartchang
             var self = this ;
             var params = {};
             var cloneD = _.clone(d);
-            cloneD['password'] = undefined
+            cloneD['password'] = undefined;
             params['winform'] = this.component.geneForm(this.formParams(), cloneD);
             params['callback'] = function(){
                 self.reload();
             };
             params['url'] = prefix + '/operatormanager/add';
             params['initData'] = d;
-            params['prefixDataHandler'] = function(d) { d['password'] = md5(d['password']); return d ;}
+            params['prefixDataHandler'] = function(d) { d['password'] = md5(d['password']); return d ;};
             SC.OpenWinForm(params);
         },
         formParams: function() {

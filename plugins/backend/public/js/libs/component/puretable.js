@@ -22,8 +22,8 @@ define(['jquery','underscore','common'], function($, _, Common) {
                 if(self.events['dblclick'] != undefined) {
                     self.events['dblclick'](data);
                 }
-            })
-            var reload = $.proxy(self.reload, self)
+            });
+            var reload = $.proxy(self.reload, self);
             if( this.$additionForm !== undefined) {
                 this.$additionForm.searchBtnRegister(reload)
             }
@@ -41,11 +41,11 @@ define(['jquery','underscore','common'], function($, _, Common) {
                 }
                 delete d['columns'];
                 delete d['search'];
-                delete data['undefined']
+                delete data['undefined'];
                 $.extend(d, data);
-                d['currentPage'] = d['start'] / d['length']
-                d['pageSize'] = d['length']
-                delete d['start']
+                d['currentPage'] = d['start'] / d['length'];
+                d['pageSize'] = d['length'];
+                delete d['start'];
                 delete d['length']
             };
             this.tableRef = this.$initTable.nDataTable(this.tableParams);
@@ -61,4 +61,4 @@ define(['jquery','underscore','common'], function($, _, Common) {
         }
     });
     return PureTable;
-})
+});

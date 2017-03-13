@@ -20,7 +20,7 @@ define(['jquery','underscore','common'], function($, _) {
             var array = [];
             _.each(this.fields, function(v, k){
                 var title = v['title'] + "：";
-                var value = self.initD[v['field']] || ''
+                var value = self.initD[v['field']] || '';
                 array.push(self.textEle({"k": title, "v": value}))
             });
             var i = 0 ;

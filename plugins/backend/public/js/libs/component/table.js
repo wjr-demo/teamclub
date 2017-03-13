@@ -19,7 +19,7 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
             var $full = $('<div>');
             if(this.$initForm != undefined){
                 $full.append(this.$initForm);
-            };
+            }
             if(this.$initTable != undefined){
                 $full.append(this.$initTable);
             }
@@ -35,7 +35,7 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
             var reload = $.proxy(self.reload, self);
             var $form = new Form(params, {}, {'reload': reload, 'formType': 'searchForm'});
             this.$rareForm = $form;
-            $form.searchBtnRegister(reload)
+            $form.searchBtnRegister(reload);
             return $form.form();
         },
         reload: function(){
@@ -47,12 +47,12 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
             var self = this ;
             if(this.$initForm != undefined && this.tableParams.ajax != undefined){
                 this.tableParams.ajax.dataType = 'json';
-                this.tableParams.ajax.contentType = 'application/json'
+                this.tableParams.ajax.contentType = 'application/json';
                 this.tableParams.ajax.data = function(d){
                     var data = self.$initForm == undefined ? {} : self.$initForm.serializeJson(undefined, true);
                     delete d['columns'];
                     delete d['search'];
-                    delete data['undefined']
+                    delete data['undefined'];
                     $.extend(d, data);
                     if(self.$rareForm.renderSearchDataFunc != undefined) {
                         d =  self.$rareForm.renderSearchDataFunc(d)
@@ -60,10 +60,10 @@ define(['jquery','underscore','common', 'js/libs/component/form'], function($, _
                     if(self.tableParams.ajax.extendData != undefined) {
                         $.extend(d, self.tableParams.ajax.extendData)
                     }
-                    d['currentPage'] = d['start'] / d['length']
-                    d['pageSize'] = d['length']
-                    delete d['start']
-                    delete d['length']
+                    d['currentPage'] = d['start'] / d['length'];
+                    d['pageSize'] = d['length'];
+                    delete d['start'];
+                    delete d['length'];
                     return JSON.stringify(d)
                 };
             }

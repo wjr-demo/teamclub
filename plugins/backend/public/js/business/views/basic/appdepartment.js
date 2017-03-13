@@ -8,7 +8,7 @@
  * Created by wjr on 16-7-20.
  */
 define(['backbone', 'component'], function(Backbone, Component, Dash){
-    var prefix = "/backend"
+    var prefix = "/backend";
 
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent) {

@@ -62,7 +62,7 @@
             }
             if(!assigned) {
                 var lia = $($('#leftbar li a')[0]);
-                var href = lia['href']
+                var href = lia['href'];
                 if(href != undefined) {
                     window.location.href= window.location.href + href;
                 }

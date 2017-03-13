@@ -11,7 +11,7 @@
  * Created by wjr on 16-7-20.
  */
 define(['backbone', 'component'], function(Backbone, Component, Dash){
-    var prefix = "/backend"
+    var prefix = "/backend";
 
     var ModifyView = Backbone.View.extend({
         initialize: function(d, parent, type) {
@@ -26,16 +26,16 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
             var config = {
                 'panel': {'margin-bottom': '0px'},
                 'panel-body' : {'padding': '0px 10px'},
-            }
+            };
             var topConfig = {
                 'panel': {'margin-bottom': '0px', 'margin-top': '20px'},
                 'panel-body' : {'padding': '0px 10px'},
-            }
+            };
 
             this.form = this.component.geneForm(this.formParams(), this.d);
-            this.moreForm = this.component.geneForm(this.moreFormParams(), this.d)
-            this.formOne = this.form.form()
-            this.formTwo = this.moreForm.form()
+            this.moreForm = this.component.geneForm(this.moreFormParams(), this.d);
+            this.formOne = this.form.form();
+            this.formTwo = this.moreForm.form();
             this.component
                 .appendPanel(undefined, this.formOne, topConfig)
                 .appendPanel(undefined, this.formTwo, config)
@@ -46,13 +46,13 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         submit: function(e) {
             var self = this;
-            this.form.validator('validate')
-            this.moreForm.validator('validate')
+            this.form.validator('validate');
+            this.moreForm.validator('validate');
             if(this.$('.has-error').length > 0 ){
                 return false;
             }else {
                 var json = this.form.serializeJ();
-                json['wages']  != undefined ? json['wages'] = parseFloat(json['wages']).mul(100) : ""
+                json['wages']  != undefined ? json['wages'] = parseFloat(json['wages']).mul(100) : "";
                 var moreD = this.moreForm.serializeJ();
                 json['userDepartChangeAnother'] = moreD;
                 SC.Save(prefix + '/userdepartchange/add',json , function(d){
@@ -104,7 +104,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     type: 'textarea',
                     formValue: {'width': '796px'}
                 }]
-            }
+            };
             if(this.type != 'view') {
                 formParams['btns'] = [{
                     title: '提交',
@@ -137,7 +137,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
                     title: '综合工资',
                     name: 'wages',
                     callback: function(d) {
-                        d == undefined ? d = 0 : d
+                        d == undefined ? d = 0 : d;
                         return d.div(100)
                     }
                 },{
@@ -252,10 +252,10 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
             return tableParams;
         },
         examine: function(d, v) {
-            var self = this
-            var postJ = {}
-            postJ['id'] = d['id']
-            postJ['examineStatus'] = v
+            var self = this;
+            var postJ = {};
+            postJ['id'] = d['id'];
+            postJ['examineStatus'] = v;
             SC.Save(prefix + '/userdepartchange/add', postJ, function(d) {
                 self.reload()
             });
@@ -268,7 +268,7 @@ define(['backbone', 'component'], function(Backbone, Component, Dash){
         },
         modify: function(d, type) {
             var title = d == undefined ? '编辑' : '编辑';
-            title = type == 'view' ? '查看': title
+            title = type == 'view' ? '查看': title;
             this.tabs.addTab({
                 title: title,
                 content: new ModifyView(d, this, type).$el

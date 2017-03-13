@@ -19,8 +19,7 @@ val commonSetting = Seq(
     },
     generateReverseRouter := false,
     mappings in (Compile, packageDoc) := Seq(),
-    doc in Compile <<= target.map(_ / "none"),
-    baseDirectory in run := file("F:\\Project\\teamclub"  )
+    doc in Compile <<= target.map(_ / "none")
 )
 
 lazy val root = project.in(file("."))

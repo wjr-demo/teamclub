@@ -79,14 +79,14 @@ define(['backbone', 'component'], function(Backbone, Component) {
 
         },
         clickInvoke: function(e) {
-            $('#left ul li a').removeClass('hovered')
-            $(e.currentTarget).children('a').addClass('hovered')
+            $('#left ul li a').removeClass('hovered');
+            $(e.currentTarget).children('a').addClass('hovered');
             return false;
         },
         geneTree: function(array, $menu){
             var s = this;
             _.each(array, function(single) {
-                var $ele = $('<li><a href="javascript:void(0)" id="tree_' + single['id'] + '">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
+                var $ele = $('<li><a href="javascript:void(0)" id="tree_' + single['id'] + '">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>');
                 if(single['nodes'].length > 0) {
                     $ele.find('span').show();
                     var $ul = $('<ul class="nav nav-second-level collapse"></ul>');
@@ -105,11 +105,11 @@ define(['backbone', 'component'], function(Backbone, Component) {
             self.$('#left').empty();
             var postD = {'appId': this.initD['appid']};
             $.postJSON(prefix + '/treemanager/list', postD, function(d){
-                var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px; width: 100%;"></ul>')
-                self.geneTree(d, $menu)
+                var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px; width: 100%;"></ul>');
+                self.geneTree(d, $menu);
                 $menu.metisMenu();
                 var panelLeft = self.component
-                    .genePanel('菜单列表', $menu)
+                    .genePanel('菜单列表', $menu);
                 self.$('#left').append(panelLeft)
             });
         },
@@ -166,4 +166,4 @@ define(['backbone', 'component'], function(Backbone, Component) {
         }
     });
     return view;
-})
+});

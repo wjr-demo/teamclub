@@ -16,7 +16,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
     };
 
     var convertUrl = function(search) {
-        search = search.substring(search.indexOf('?')).substring(1)
+        search = search.substring(search.indexOf('?')).substring(1);
         return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
     };
 
@@ -103,7 +103,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             <input type="button" />\
         </div>'),
         initialize: function (initParams, initD, addParam) {
-            this.renderSearchDataFunc = initParams['renderSearchData']
+            this.renderSearchDataFunc = initParams['renderSearchData'];
             var params = $.extend(true, {}, initParams);
             var self = this;
             this.initD = initD || {};
@@ -111,7 +111,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$searchBtn = undefined;
             this.addParam = addParam || {};
             this.factory = multiType[this.addParam['formType']] || {};
-            this.withHideBtn =  this.factory['withHideBtn']
+            this.withHideBtn =  this.factory['withHideBtn'];
             if(this.factory['row'] == undefined) {
                 this.$row = $('<form role="form" class="form-inline" data-toggle="validator">');
                 if(params['css'] != undefined) {
@@ -123,14 +123,14 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$el = this.$row;
             var i = 0 ;
             var btnIndex = 0 ;
-            var $tmp = $('<div class="row">')
-            var $moreFields = $('<div id="moreFields" style="display: none;"></div>')
+            var $tmp = $('<div class="row">');
+            var $moreFields = $('<div id="moreFields" style="display: none;"></div>');
             var withMore = false;
             var maxFields = 3;
-            params.fields = params.fields || {}
-            params.fields.length > maxFields ? withMore = true : withMore = false
+            params.fields = params.fields || {};
+            params.fields.length > maxFields ? withMore = true : withMore = false;
             _.each(params.fields, function(param){
-                param['title'] = (param['title'] == undefined || param['title'] == "") ? param['title'] : param['title'] + "："
+                param['title'] = (param['title'] == undefined || param['title'] == "") ? param['title'] : param['title'] + "：";
                 param['divClz'] = param['divClz'] || 'col-md-8';
                 param['placeholder'] = param['placeholder'] || '';
                 if(param['required'] == true) {
@@ -167,18 +167,18 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 $tmp.append(self.geneBtn(total, btnIndex++, param));
             });
             if(withMore && this.withHideBtn)  {
-                var param = {}
-                param['title'] = '高级搜索'
-                param['id'] = 'toggleMore'
+                var param = {};
+                param['title'] = '高级搜索';
+                param['id'] = 'toggleMore';
                 param['callback'] = function(){
                     if(self.$('#moreFields').css('display') == 'inline') {
-                        self.$('#moreFields').css({'display': 'none'})
+                        self.$('#moreFields').css({'display': 'none'});
                         self.$('#toggleMore').val('高级搜索')
                     }else {
-                        self.$('#moreFields').css({'display': 'inline'})
+                        self.$('#moreFields').css({'display': 'inline'});
                         self.$('#toggleMore').val('隐藏')
                     }
-                }
+                };
                 $tmp.append(self.geneBtn(total + 1, btnIndex, param))
             }
             self.$row.append($tmp);
@@ -187,7 +187,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             this.$('input[name='+ name +']').closest('.form-group').hide()
         },
         geneBtn: function(totalRow, i, param){
-            var btnClazz = ''
+            var btnClazz = '';
             if(totalRow == 1){
                 // var btnClazz = 'col-md-2 col-md-offset-5'
             }else{
@@ -198,7 +198,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 }
             }
             // var clazz = this.factory.btnClazz != undefined ? this.factory.btnClazz : btnClazz;
-            var clazz = ''
+            var clazz = '';
             var $formgroupSuper = $('<div class="form-group"></div>');
             var $formgroupInner = $('<div></div>');
             $formgroupSuper.append($formgroupInner);
@@ -239,14 +239,14 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         },
         dropDown: function(param){
             var self = this ;
-            var $formEle = $(this.selectEle(param))
-            var key = param['name']
-            var mapper = param['mapper'] || {}
+            var $formEle = $(this.selectEle(param));
+            var key = param['name'];
+            var mapper = param['mapper'] || {};
             if(param['dataurl'] != undefined) {
                 $.postJSON(param['dataurl'], param['params'], function(d){
-                    d = d['data'] || d
-                    var idK = mapper['id'] || 'id'
-                    var idV = mapper['name'] || 'name'
+                    d = d['data'] || d;
+                    var idK = mapper['id'] || 'id';
+                    var idV = mapper['name'] || 'name';
                     _.each(d, function(dd){
                         if(self.initD[key] == dd[idK]) {
                             var selected = "selected"
@@ -272,37 +272,37 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
         popUp: function(param){
             var self = this;
             var $formEle = $(this.popUpEle(param));
-            var $input = $formEle.find('input')
+            var $input = $formEle.find('input');
             var editCallback = function(v1, v2){
-                $input.attr('val',v1)
-                $input.val(v2)
+                $input.attr('val',v1);
+                $input.val(v2);
                 $input.trigger('change')
-            }
+            };
             var delCallback = function(d) {
-                $input.attr('val', 0)
-                $input.val('')
+                $input.attr('val', 0);
+                $input.val('');
                 $input.trigger('change')
-            }
-            var viewOption = param['viewOption'] || {}
+            };
+            var viewOption = param['viewOption'] || {};
             if(this.initD && this.initD[param['name']] != undefined) {
                 this.seriFilterArray.push(param['name']);
                 var key = viewOption['setField'];
                 var value = this.initD[param['name']];
-                var postParam = {}
+                var postParam = {};
                 postParam[key] = value;
                 $.postJSON(viewOption['url'], postParam, function(d) {
                     if(d['data'].length < 1 ){
-                        console.log(param['name'] + '无渲染')
-                        editCallback(0, '')
+                        console.log(param['name'] + '无渲染');
+                        editCallback(0, '');
                         return false ;
                     }else {
                         editCallback(value, d['data'][0][viewOption['showField']])
                     }
                 })
             }
-            _.extend(viewOption, {'editCallback': editCallback})
-            $formEle.find('.popEdit').on('click', viewOption ,popFunc)
-            $formEle.find('.popDel').on('click', delCallback)
+            _.extend(viewOption, {'editCallback': editCallback});
+            $formEle.find('.popEdit').on('click', viewOption ,popFunc);
+            $formEle.find('.popDel').on('click', delCallback);
             return $formEle;
         },
         monthFunc: function(param) {
@@ -317,10 +317,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             });
             $elInput.on('change', function() {
                 var val = $elInput.val();
-                var timeV = new Date(Date.parse(val)).getTime()
+                var timeV = new Date(Date.parse(val)).getTime();
                 $elInput.attr('val', timeV);
             });
-            $elInput.attr('readonly', true)
+            $elInput.attr('readonly', true);
             $elInput.datetimepicker({
                 format: 'yyyy-mm',
                 language: 'zh-CN',
@@ -331,7 +331,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 todayBtn: true
             });
             if(this.initD && this.initD[param['name']] != undefined) {
-                $elInput.attr('val', this.initD[param['name']])
+                $elInput.attr('val', this.initD[param['name']]);
                 $elInput.val(Libs.formatDateToMonth(new Date(this.initD[param['name']])))
             }
             return $formEle;
@@ -348,10 +348,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             });
             $elInput.on('change', function() {
                 var val = $elInput.val();
-                var timeV = new Date(Date.parse(val)).getTime()
+                var timeV = new Date(Date.parse(val)).getTime();
                 $elInput.attr('val', timeV);
             });
-            $elInput.attr('readonly', true)
+            $elInput.attr('readonly', true);
             $elInput.datetimepicker({
                 format: 'yyyy-mm-dd',
                 language: 'zh-CN',
@@ -361,7 +361,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 todayBtn: true
             });
             if(this.initD && this.initD[param['name']] != undefined) {
-                $elInput.attr('val', this.initD[param['name']])
+                $elInput.attr('val', this.initD[param['name']]);
                 $elInput.val(Libs.formatDateWith(new Date(this.initD[param['name']])))
             }
             return $formEle;
@@ -373,10 +373,10 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             var $elInput = $formEle.find('input');
             $elInput.on('change', function() {
                 var val = $elInput.val();
-                var timeV = new Date(Date.parse(val)).getTime()
+                var timeV = new Date(Date.parse(val)).getTime();
                 $elInput.attr('val', timeV);
             });
-            $elInput.attr('readonly', true)
+            $elInput.attr('readonly', true);
             $elInput.datetimepicker({
                 format: 'yyyy-mm-dd hh:ii',
                 language: 'zh-CN',
@@ -386,43 +386,43 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 todayBtn: true
             });
             if(this.initD && this.initD[param['name']] != undefined) {
-                $elInput.attr('val', this.initD[param['name']])
+                $elInput.attr('val', this.initD[param['name']]);
                 $elInput.val(Libs.formatDate(new Date(this.initD[param['name']])))
             }
             return $formEle;
         },
         fileFunc: function(param){
             var self = this;
-            var $formEle = $(this.fileEle(param))
-            var $input = $formEle.find('input')
+            var $formEle = $(this.fileEle(param));
+            var $input = $formEle.find('input');
             $formEle.find('.clazzUpload').on('click', function(){
                 SC.PicWin($input)
-            })
+            });
             $formEle.find('.clazzEye').on('click', function(){
                 SC.PicView($input)
-            })
+            });
             return $formEle;
         },
         combineFunc: function(param) {
-            var $formEle = $(this.combineEle(param))
+            var $formEle = $(this.combineEle(param));
             return $formEle;
         },
         multipleCheckboxFunc: function(param) {
             this.seriFilterArray.push(param['name']);
             var initD = this.initD[param['name']] || "";
-            var array = initD.split(',')
-            var $formEle = $(this.multipleCheckBoxEle(param))
-            var $formValue = $formEle.find('.form-value')
+            var array = initD.split(',');
+            var $formEle = $(this.multipleCheckBoxEle(param));
+            var $formValue = $formEle.find('.form-value');
             _.each(param.data, function(k, v) {
-                console.log(k)
-                console.log(v)
+                console.log(k);
+                console.log(v);
                 if(array.includes(k['id'])) {
                     var checked = true
                 }else {
                     var checked = false
                 }
                 $formValue.append('<label class="checkbox-inline"><input type="checkbox"' + (checked ? "checked" : "") + ' class="multi" name="' + param['name'] + '" value="' + k['id'] +  '">' + k['name'] + '</label>');
-            })
+            });
             return $formEle
         },
         geneSingle: function(i, param){
@@ -430,14 +430,14 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(param['el'] != undefined){
                 return param['el'];
             }
-            param['title'] = param['title'] || ''
-            param['placeholder'] = param['placeholder'] || ''
+            param['title'] = param['title'] || '';
+            param['placeholder'] = param['placeholder'] || '';
             if(param['type'] == 'dropdown'){
                 var $formEle = this.dropDown(param);
             }else if(param['type'] == 'popUp'){
                 var $formEle = this.popUp(param)
             }else if(param['type'] == 'textarea'){
-                var $formEle = $(this.textAreaEle(param))
+                var $formEle = $(this.textAreaEle(param));
                 $formEle.find('label').css({"vertical-align": "top"})
             }else if(param['type'] == 'checkbox') {
                 var $formEle = $(this.checkBoxEle(param))
@@ -463,13 +463,13 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
             if(param['hide'] == true) {
                 $formEle.hide()
             }
-            $formEle.find('label').css(self.factory['labelStyle'] || {})
+            $formEle.find('label').css(self.factory['labelStyle'] || {});
             if(param['hideLabel'] == true) {
                 $formEle.find('label').hide();
             }
             if(param['callback'] != undefined) {
-                var finalV = param['callback'](this.initD[param['name']])
-                $formEle.find('input').val(finalV)
+                var finalV = param['callback'](this.initD[param['name']]);
+                $formEle.find('input').val(finalV);
                 this.seriFilterArray.push(param['name']);
             }
             if(param['title'] == "") {
@@ -544,7 +544,7 @@ define(['jquery','underscore','common', 'zh', 'js/libs/component/puretable'], fu
                 }
             };
             var $full = $('<div>');
-            var $form = new Form(formParams, {}, {'formType': 'searchForm'})
+            var $form = new Form(formParams, {}, {'formType': 'searchForm'});
             var $table = new PureTable(tableParam, events, $form);
             $full.append($form.form());
             $full.append($table.geneTable());

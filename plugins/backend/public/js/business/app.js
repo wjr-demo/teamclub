@@ -15,7 +15,7 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
         geneTree: function(array, $menu){
             var s = this;
             _.each(array, function(single) {
-                var $ele = $('<li><a href="#'+ single['module'] +'">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>')
+                var $ele = $('<li><a href="#'+ single['module'] +'">'+ single['text'] +'<span style="display:none;" class="fa arrow"></span></a></li>');
                 if(single['nodes'].length > 0) {
                     $ele.find('span').show();
                     var $ul = $('<ul class="nav nav-second-level collapse"></ul>');
@@ -28,16 +28,16 @@ define(['backbone', 'jquery', 'common'], function(Backbone, $){
         render: function(){
             var self = this;
             $.postJSON('/backend/treemanager/list', {}, function(d){
-                var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px;"></ul>')
-                self.geneTree(d, $menu)
+                var $menu = $('<ul class="nav sidebar" style="position: relative;margin-top: 0px;"></ul>');
+                self.geneTree(d, $menu);
                 $menu.metisMenu();
-                $('#leftbar').append($menu)
+                $('#leftbar').append($menu);
                 self.callback();
             });
         },
         view404: Backbone.View.extend({
             initialize: function(err){
-                console.error(err)
+                console.error(err);
                 this.$el.append($("<div>" + err.message  + "</div>"));
             }
         }),

@@ -64,7 +64,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                 if(this.type && this.type == 'checkbox'){
                     if($(this).hasClass('multi')) {
                         if(this.checked) {
-                            res[name] = res[name] || ""
+                            res[name] = res[name] || "";
                             if(res[name] == "") {
                                 res[name] = res[name] + $(this).val()
                             }else {
@@ -96,7 +96,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
                 }else {
                     if(val != undefined){
                         var type = that.attr('type');
-                        if((type == 'text' ||  type == 'textarea')&& val == "") val = " "
+                        if((type == 'text' ||  type == 'textarea')&& val == "") val = " ";
                         res[name] = val;
                     }
                 }
@@ -109,7 +109,7 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
         }
     };
     $.postJSON = function(url,data,s,e){
-        data = data || {}
+        data = data || {};
         if($.isFunction(data)){
             e = s;
             s = data;
@@ -125,14 +125,14 @@ define(['jquery', 'backbone', 'underscore', 'js/libs/stack', 'js/libs/lru'],func
             dataType: "json",
             success:s,
             error:function(e) {
-                console.log(e)
+                console.log(e);
                 alert(e.statusText)
             }
         });
     };
     Backbone.Base = function(){
         this.cid = _.uniqueId('base');
-        this.$el =  $('<div>')
+        this.$el =  $('<div>');
         this.initialize.apply(this, arguments);
     };
     _.extend(Backbone.Base.prototype, {}, {

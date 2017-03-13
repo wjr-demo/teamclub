@@ -57,7 +57,7 @@ define(['jquery','underscore','common'], function($, _) {
             if(idx.indexOf('#tab') != -1) idx = idx.substring(4);
             if(idx.indexOf('tab') != -1) idx = idx.substring(3);
             _.each(this.tabs, function(v, k){
-                var ik = k.substring(3)
+                var ik = k.substring(3);
                 if(parseInt(ik) > parseInt(idx)){
                     v.remove();
                     var _index = self.idxArr.indexOf(k);
@@ -68,7 +68,7 @@ define(['jquery','underscore','common'], function($, _) {
                 }
             });
             _.each(this.contents, function(v, k){
-                var ik = k.substring(3)
+                var ik = k.substring(3);
                 if(parseInt(ik) > parseInt(idx)){
                     v.remove();
                     delete self.contents[k];

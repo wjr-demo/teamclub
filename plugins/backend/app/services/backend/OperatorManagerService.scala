@@ -89,6 +89,7 @@ object OperatorManagerService {
           case Some(3) => {
             expr.eq("leaveTime", null).eq("positiveTime", null)
           }
+          case _ => ???
         }
       }
     }

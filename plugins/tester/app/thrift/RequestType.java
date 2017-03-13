@@ -17,7 +17,7 @@ public enum RequestType implements org.apache.thrift.TEnum {
 
   private final int value;
 
-  private RequestType(int value) {
+  RequestType(int value) {
     this.value = value;
   }
 

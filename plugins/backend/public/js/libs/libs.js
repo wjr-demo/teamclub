@@ -49,7 +49,7 @@ define(['jquery'], function(){
     //给Number类型增加一个add方法，调用起来更加方便。
     Number.prototype.add = function (arg){
         return accAdd(arg,this);
-    }
+    };
     //减法函数
     function accSub(arg1,arg2){
         var r1,r2,m,n;
@@ -64,15 +64,15 @@ define(['jquery'], function(){
     ///给number类增加一个sub方法，调用起来更加方便
     Number.prototype.sub = function (arg){
         return accSub(arg,this);
-    }
+    };
 
     Number.prototype.padLeft = function(base,chr){
         var  len = (String(base || 10).length - String(this).length)+1;
         return len > 0? new Array(len).join(chr || '0')+this : this;
-    }
+    };
     var Libs = window.Libs = window.Libs || {};
-    Libs.Dicts = {}
-    Libs.Dicts['STUDY_LEVEL'] = [{"id":1,"name":"小学"},{"id":2,"name":"初中"},{"id":3,"name":"高中"},{"id":4,"name":"中专"},{"id": 5, "name": "大专"},{"id":6,"name":"本科"},{"id":7,"name":"硕士"},{"id":8,"name":"博士"}]
+    Libs.Dicts = {};
+    Libs.Dicts['STUDY_LEVEL'] = [{"id":1,"name":"小学"},{"id":2,"name":"初中"},{"id":3,"name":"高中"},{"id":4,"name":"中专"},{"id": 5, "name": "大专"},{"id":6,"name":"本科"},{"id":7,"name":"硕士"},{"id":8,"name":"博士"}];
 
     Libs.formatDate = function(timestamp) {
         var d = new Date(timestamp);
@@ -87,30 +87,30 @@ define(['jquery'], function(){
         return dformat;
     };
     Libs.formatDateWith = function(timestamp, ch) {
-        ch = ch || '-'
+        ch = ch || '-';
         var d = new Date(timestamp);
         var dformat = [
             d.getFullYear(),
             (d.getMonth()+1).padLeft(),
             d.getDate().padLeft()
-        ].join(ch)
+        ].join(ch);
         return dformat;
     };
     Libs.formatDateToMonth = function(timestamp, ch) {
-        ch = ch || '-'
+        ch = ch || '-';
         var d = new Date(timestamp);
         var dformat = [
             d.getFullYear(),
             (d.getMonth() + 1).padLeft()
-        ].join(ch)
+        ].join(ch);
         return dformat;
-    }
+    };
     Libs.tableLine = function(title, modify, proxy) {
-        var $hd = $('<div class="data-hd">')
-        var $hdi = $('<label class="data-hd-i">' +  title + '</label>')
-        var $hda = $('<label class="data-hd-a">[ ' + modify + ' ]</label>')
-        $hda.on('click', proxy)
-        $hd.append($hdi).append($hda)
+        var $hd = $('<div class="data-hd">');
+        var $hdi = $('<label class="data-hd-i">' +  title + '</label>');
+        var $hda = $('<label class="data-hd-a">[ ' + modify + ' ]</label>');
+        $hda.on('click', proxy);
+        $hd.append($hdi).append($hda);
         return $hd;
     };
 
@@ -124,7 +124,7 @@ define(['jquery'], function(){
         }else if(name.length == 3){
             return name[0] + '&nbsp;&nbsp;' + name[1] + '&nbsp;&nbsp;' +name[2];
         }
-    }
+    };
 
     Func.DictUtils = function(_status,method,param){
         var self = this;
@@ -349,14 +349,14 @@ define(['jquery'], function(){
 
 
     var Department = window.Department = window.Department || {};
-    Department.ADMINISTRATOR = "ADMINISTRATOR" //行政部
-    Department.FINANCE = "FINANCE" //财务部
-    Department.BUSINESS = "BUSINESS" //商务部
-    Department.PRODUCER = "PRODUCER" //制造部
-    Department.PURCHASE = "PURCHASE" //采购部
-    Department.TECHNOLOGY = "TECHNOLOGY" //技术部
-    Department.STORAGE = "STORAGE"  //仓库部
-    Department.GENERALMANAGER = "GENERALMANAGER" //总经办
+    Department.ADMINISTRATOR = "ADMINISTRATOR"; //行政部
+    Department.FINANCE = "FINANCE"; //财务部
+    Department.BUSINESS = "BUSINESS"; //商务部
+    Department.PRODUCER = "PRODUCER"; //制造部
+    Department.PURCHASE = "PURCHASE"; //采购部
+    Department.TECHNOLOGY = "TECHNOLOGY"; //技术部
+    Department.STORAGE = "STORAGE";  //仓库部
+    Department.GENERALMANAGER = "GENERALMANAGER"; //总经办
 
-})
+});
 

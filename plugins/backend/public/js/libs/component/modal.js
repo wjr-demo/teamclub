@@ -30,7 +30,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
         initialize:function(params){
             this.params = params ;
             this.initD = params['initData'] || {};
-            this.$el = $('<div class="modal fade in" tabindex="-1" role="dialog" style="display: block; padding-top: 10%">')
+            this.$el = $('<div class="modal fade in" tabindex="-1" role="dialog" style="display: block; padding-top: 10%">');
             this.render()
         },
         render: function() {
@@ -43,7 +43,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             this.switchType();
 
             this.$('.modal-dialog').draggable();
-            this.$('.modal-dialog').css({'top': '0px', 'left': '0px'})
+            this.$('.modal-dialog').css({'top': '0px', 'left': '0px'});
             this.$('.modal-content').resizable({
                 minHeight: 300,
                 minWidth: 300
@@ -71,7 +71,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
             }
             if(this.params['body'] !== undefined) {
                 if($.isFunction(this.params['body'])) {
-                    var func = this.params['body']
+                    var func = this.params['body'];
                     this.$el.find('.modal-body').append(func({
                         'close': $.proxy(self.remove, self)
                     }))
@@ -87,14 +87,14 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
         switchType: function(){
             var self = this ;
             if(this.params['type'] == 'Alert') {
-                var $closeBtn = $('<button type="button" class="" data-dismiss="modal">关闭</button>')
+                var $closeBtn = $('<button type="button" class="" data-dismiss="modal">关闭</button>');
                 $closeBtn.on('click', function(){
                     self.remove()
                 });
                 this.$el.find('.modal-footer').append($closeBtn)
             }else if(this.params['type'] == 'Confirm') {
-                var $confirmBtn = $('<button type="button" class="">确认</button>')
-                var $closeBtn = $('<button type="button" class="">关闭</button>')
+                var $confirmBtn = $('<button type="button" class="">确认</button>');
+                var $closeBtn = $('<button type="button" class="">关闭</button>');
                 $confirmBtn.on('click', function(){
                     if($.isFunction(self.params['confirmFunc'])) {
                         self.params['confirmFunc']();
@@ -104,7 +104,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                 $closeBtn.on('click', function(){
                     self.remove()
                 });
-                this.$el.find('.modal-footer').append($confirmBtn)
+                this.$el.find('.modal-footer').append($confirmBtn);
                 this.$el.find('.modal-footer').append($closeBtn)
             }else if(this.params['type'] == 'MultiBtn') {
                 if(this.params['btns'] !== undefined) {
@@ -118,8 +118,8 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                     })
                 }
             }else if(this.params['type'] == 'OpenWinForm') {
-                var $confirmBtn = $('<button type="button" class="">确认</button>')
-                var $closeBtn = $('<button type="button" class="">关闭</button>')
+                var $confirmBtn = $('<button type="button" class="">确认</button>');
+                var $closeBtn = $('<button type="button" class="">关闭</button>');
                 $confirmBtn.on('click', function(){
                     if($.isFunction(self.params['confirmFunc'])) {
                         self.params['confirmFunc']($.extend(_.clone(self.initD), self.$el.serializeJson()) , $.proxy(self.remove, self));
@@ -128,7 +128,7 @@ define(['jquery','underscore','common', 'jquery/ui'], function($, _, Common, jqu
                 $closeBtn.on('click', function(){
                     self.remove()
                 });
-                this.$el.find('.modal-footer').append($confirmBtn)
+                this.$el.find('.modal-footer').append($confirmBtn);
                 this.$el.find('.modal-footer').append($closeBtn)
             }
         },

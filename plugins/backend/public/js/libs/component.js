@@ -34,8 +34,8 @@ define([
             this.owner.$el.find('input').attr("disabled","disabled");
             this.owner.$el.find('select').attr("disabled","disabled");
             this.owner.$el.find('textarea').attr("disabled","disabled");
-            this.owner.$el.find('input[type=submit]:not(.view)').hide()
-            this.owner.$el.find('input[type=button]:not(.view)').hide()
+            this.owner.$el.find('input[type=submit]:not(.view)').hide();
+            this.owner.$el.find('input[type=button]:not(.view)').hide();
             this.owner.$el.find('span:not(.view)').unbind('click')
         },
         //生成面板
@@ -57,12 +57,12 @@ define([
             return new TextView(fields, data)
         },
         appendPanel: function($head, $body, config){
-            config = config || {}
-            var panelStyle = config['panel'] || {}
-            var panelBodyStyle = config['panel-body'] || {}
+            config = config || {};
+            var panelStyle = config['panel'] || {};
+            var panelBodyStyle = config['panel-body'] || {};
             var $panel = this.genePanel($head, $body);
-            $panel.css(panelStyle)
-            $panel.find('.panel-body').css(panelBodyStyle)
+            $panel.css(panelStyle);
+            $panel.find('.panel-body').css(panelBodyStyle);
             this.tmpContent.append($panel);
             return this;
         },

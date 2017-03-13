@@ -18,9 +18,9 @@ define([
     */
     SC.OpenWin = function(params){
         params = params || {} ;
-        params.modelStyle = params.modelStyle || {}
-        params.bodyStyle = params.bodyStyle || {}
-        var style = $.extend({'width': '800px', 'top': '-135px'},params.modelStyle)
+        params.modelStyle = params.modelStyle || {};
+        params.bodyStyle = params.bodyStyle || {};
+        var style = $.extend({'width': '800px', 'top': '-135px'},params.modelStyle);
         $('body').append((new Modal({
             'type': params.type ,
             'title': params.title || '提示',
@@ -73,12 +73,12 @@ define([
             'needMove': true
         });
         $('body').append((modal.$el))
-    }
+    };
 
     SC.PicView = function($originEl){
-        var src= "/assets/" + $originEl.val()
-        var $el = $('<img>')
-        $el.attr('src', src)
+        var src= "/assets/" + $originEl.val();
+        var $el = $('<img>');
+        $el.attr('src', src);
         $('body').append((new Modal({
             'type': 'Pic',
             'title': '文件查看',
@@ -86,17 +86,17 @@ define([
             'needMove': true,
             'bodyStyle': {'min-height': '300px'}
         }).$el))
-    }
+    };
 
     SC.PicWin = function($originEl) {
-        var $el = $('<input type="file" multiple class="file-loading" />')
+        var $el = $('<input type="file" multiple class="file-loading" />');
         $('body').append((new Modal({
             'type': 'Pic',
             'title': '文件上传',
             'body': $el,
             'needMove': true,
             'bodyStyle': {'min-height': '300px'}
-        }).$el))
+        }).$el));
         $el.fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/backend/upload/file", //上传的地址
@@ -139,11 +139,11 @@ define([
             console.log(data.reader);
             console.log(data.files);
             var obj = data.response;
-            console.log(obj)
+            console.log(obj);
             $originEl.val(obj['path'])
 
         });
-    }
+    };
 
 
     SC.Alert = function(title, content, clazz) {
@@ -153,7 +153,7 @@ define([
             'title': title || '提示',
             'body': content
         }).$el))
-    }
+    };
     SC.Confirm = function(title, content, confirmFunc, clazz) {
         $('body').append((new Modal({
             'type': 'Confirm',
@@ -222,4 +222,4 @@ define([
             });
         })
     }
-})
+});

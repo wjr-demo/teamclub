@@ -2,7 +2,7 @@
  * Created by wjr on 16-12-16.
  */
 define(function(){
-    var enumsPopUp = {}
+    var enumsPopUp = {};
     /***
      * 应用列表
      * @type {{url: string, columns: *[], fields: *[], setField: string, showField: string}}
@@ -28,7 +28,7 @@ define(function(){
         }],
         setField: 'appid',
         showField: 'appname'
-    }
+    };
     /***
      * 角色列表
      * @type {{url: string, columns: *[], setField: string, showField: string}}
@@ -44,7 +44,7 @@ define(function(){
         }],
         setField: 'id',
         showField: 'rolename'
-    }
+    };
 
     /*** 部门管理 */
     enumsPopUp['DEPTLIST'] = {
@@ -55,6 +55,6 @@ define(function(){
         }],
         setField: 'id',
         showField: 'departName'
-    }
+    };
     return enumsPopUp
-})
+});

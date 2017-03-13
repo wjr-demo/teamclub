@@ -2,7 +2,7 @@ define([], function(){
     function Stack() {
         this.top = null;
         this.size = 0;
-    };
+    }
     Stack.prototype = {
         constructor: Stack,
         push: function (data) {
